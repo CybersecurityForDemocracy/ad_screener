@@ -6,12 +6,19 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "date-fns": "^2.11.0",
     "react": "^16.13.0",
+    "react-bootstrap": "^1.0.0",
+    "react-date-range": "^1.0.3",
+    "react-datepicker": "^2.14.1",
     "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "react-select": "^3.1.0"
   },
   "scripts": {
-    "start": "HOST=0.0.0.0 PORT=8080 react-scripts start",
+    "start": "HOST=0.0.0.0 PORT=8080 DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -30,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^2.5.0"
   }
 }

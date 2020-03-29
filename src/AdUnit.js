@@ -1,27 +1,37 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
-export default class AdUnit extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            funding_entity: 'Funding Entity',
-            url: 'https://3jbq2ynuxa-flywheel.netdna-ssl.com/wp-content/uploads/2017/05/Autopilot.png',
-            spend: '0-99 USD',
-            impressions: '1000-5000',
-            ad_lib_url: 'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&impression_search_field=has_impressions_lifetime&view_all_page_id=153080620724'
-        }
-    }
-    rc
-    render() {
-        return (
-            <div style={{background: '#ffffff' , width: '40%', margin: '.5em', padding: '.5em'}}>
-                <h1>{this.state.funding_entity}</h1>
-                <img src={this.state.url} style={{width: '80%'}}/>
-                <p>Spend: {this.state.spend}</p>
-                <p>Impressions: {this.state.impressions}</p>
-                <a href={this.state.ad_lib_url}>Ad Library Link</a>
-            </div>
-        )
-    }
+const AdUnit = params => {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    return (
+        <li style={{ background: '#ffffff', margin: '.5em', padding: '.5em' }}>
+            <h1>{params.ad.funding_entity}</h1>
+            <img alt={params.ad.image_bucket_path} src={params.ad.image_bucket_path} style={{ width: '80%' }} />
+            <p>Spend: {params.ad.spend}</p>
+            <p>Impressions: {params.ad.impressions}</p>
+            <a href={params.ad.snapshot_url}>Ad Library Link</a>
+            <Button variant="primary" onClick={handleShow}>
+                Ad Details
+            </Button>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Ad Spend</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{JSON.stringify(params.ad.demo_impression_results)}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+          </Button>
+                </Modal.Footer>
+            </Modal>
+
+        </li>
+    )
 }
+
+export default AdUnit;

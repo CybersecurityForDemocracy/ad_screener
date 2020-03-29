@@ -15,13 +15,36 @@
 
 .App-header {
   background-color: #e4e4e4;
-  min-height: 100vh;
+  /* min-iheight: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: #292929;
+}
+
+.App-filter-selector {
+  height: 100%;
+  width: 32%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  left: 0;
+  background-color: rgb(177, 177, 177);
+}
+
+.App-ad-pane {
+  height: 100%;
+  /* width: 50%; */
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+  left: 32%;
 }
 
 .App-link {
