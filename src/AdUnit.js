@@ -14,7 +14,7 @@ const AdUnit = params => {
             <img alt={params.ad.image_bucket_path} src={params.ad.image_bucket_path} style={{ width: '80%' }} />
             <p>Spend: {params.ad.spend}</p>
             <p>Impressions: {params.ad.impressions}</p>
-            <a href={params.ad.snapshot_url}>Ad Library Link</a>
+            <a href={params.ad.snapshot_url} target="_blank" rel="noopener noreferrer" >Ad Library Link</a>
             <Button variant="primary" onClick={handleShow}>
                 Ad Details
             </Button>
