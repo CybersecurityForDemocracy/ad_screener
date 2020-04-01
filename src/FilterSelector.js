@@ -8,7 +8,7 @@ const FilterSelector = params => {
   };
   console.log(params.option)
   return (
-    <div>
+    <div className="filter-selector">
       {params.title}
       <Select
         value={params.option.selectedOption}

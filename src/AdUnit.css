@@ -1,0 +1,33 @@
+.ad-container{ 
+    background: #ffffff; 
+    margin: .2%;
+    padding: .2%; 
+    width: 24%;
+    min-width: 400px;
+    float: left ;
+    border: solid;
+    border-color: cornflowerblue;
+    border-radius: 1%;
+    border-width: 1px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.ad-image-container{
+    width: auto;
+    height: auto;
+    margin: 2%;
+    border :solid;
+    border-color: black;
+    border-width: 1px;
+    overflow: hidden;
+    }
+
+img{
+    margin-top:2%;
+    max-width: 100%;
+    height: auto;
+   }
+
+  

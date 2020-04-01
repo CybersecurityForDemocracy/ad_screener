@@ -20,31 +20,37 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
   color: #292929;
 }
 
 .App-filter-selector {
-  height: 100%;
-  width: 32%;
-  position: fixed;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 10%;
+  width: 100%;
   z-index: 1;
   top: 0;
-  overflow-x: hidden;
-  padding-top: 20px;
   left: 0;
   background-color: rgb(177, 177, 177);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.filter-selector {
+  flex:2;
+  min-width: 20em;
 }
 
 .App-ad-pane {
-  height: 100%;
-  /* width: 50%; */
-  position: fixed;
+  height: 80%;
   z-index: 2;
-  top: 0;
   overflow-x: hidden;
   padding-top: 20px;
-  left: 32%;
+  top: 20%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .App-link {

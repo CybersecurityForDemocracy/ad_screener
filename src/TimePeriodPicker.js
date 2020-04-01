@@ -13,13 +13,12 @@ const TimePeriodPicker = params => {
     console.log(params.endDate);
 
     return <div>
-        Time Range<br />
         <div>
-            Start Time:
-    <DatePicker selected={params.startDate} onChange={updateStartTime} /></div>
-        <div>
-            End Time:
-    <DatePicker selected={params.endDate} onChange={updateEndTime} /></div>
+                Start Date: <DatePicker selected={params.startDate} onChange={updateStartTime} />
+                </div><div>
+            End Date: <DatePicker selected={params.endDate} onChange={updateEndTime} />
+</div>            
+
     </div>;
 }
 

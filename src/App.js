@@ -16,8 +16,8 @@ function App() {
     url: 'https://3jbq2ynuxa-flywheel.netdna-ssl.com/wp-content/uploads/2017/05/Autopilot.png',
     spend: '0-99 USD',
     impressions: '1000-5000',
-    ad_lib_url: 'https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&impression_search_field=has_impressions_lifetime&view_all_page_id=153080620724',
-    archive_id: 0
+    archive_id: 0,
+    demo_impression_results: []
   }]);
   const [topic, setTopic] = useState({ selectedOption: { label: "COVID-19", value: 914 } });
   const topics = [
@@ -331,7 +331,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      </header>
       <div className="App-filter-selector">
         <FilterSelector setState={setTopic} option={topic} title="Topic" options={topics} />
         <FilterSelector setState={setRegion} option={region} title="Region" options={regions} />
@@ -341,12 +340,11 @@ function App() {
         <button onClick={getAds}>
           Get Ads
         </button>
-        <p>{content}</p>
+        {/* <p>{content}</p> */}
       </div>
+      </header>
       <div className="App-ad-pane">
-        <ul>
           {ads.map(ad => (<AdUnit ad={ad} key={ad.archive_id} />))}
-        </ul>
       </div>
     </div>
   );
