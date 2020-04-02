@@ -16,6 +16,7 @@ const FilterSelector = params => {
         options={params.options}
         isSearchable={true}
         isMulti={false}
+        isDisabled={params.disabled}
         name={params.title}
       />
     </div>

@@ -1,0 +1,18 @@
+[
+  {
+    "label": "All",
+    "value": "ALL"
+  },
+  {
+    "label": "Male",
+    "value": "M"
+  },
+  {
+    "label": "Female",
+    "value": "F"
+  },
+  {
+    "label": "Unknown",
+    "value": "U"
+  }
+]
