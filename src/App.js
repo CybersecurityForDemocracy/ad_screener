@@ -12,6 +12,7 @@ import regions from "./data/regions.json";
 import topics from "./data/topics.json";
 import genders from "./data/genders.json";
 import ageRanges from "./data/ageRanges.json";
+import riskScores from "./data/riskScores.json";
 
 // Real Data URL
 const realAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getads";
@@ -31,6 +32,7 @@ function App() {
   const [region, setRegion] = useState({ selectedOption: regions[0] });
   const [gender, setGender] = useState({ selectedOption: genders[0] });
   const [ageRange, setAgeRange] = useState({ selectedOption: ageRanges[0] });
+  const [riskScore, setRiskScore] = useState({ selectedOption: ageRanges[0] });
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -57,14 +59,15 @@ function App() {
           // Using label for region is intentional. The db stores full strings, not 2 char codes
           region: region.selectedOption.label,
           gender: gender.selectedOption.value,
-          ageRange: ageRange.selectedOption.value
-        }
+          ageRange: ageRange.selectedOption.value,
+          riskScore: riskScore.selectedOption.value,
+        },
       })
-      .then(response => {
+      .then((response) => {
         console.log(response.data);
         setAds(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       })
       .finally(() => {});
@@ -111,6 +114,13 @@ function App() {
           options={ageRanges}
           disabled={disableOptions}
         />
+        <FilterSelector
+          setState={setRiskScore}
+          option={riskScore}
+          title="Risk Score"
+          options={riskScores}
+          disabled={disableOptions}
+        />
         <TimePeriodPicker
           startDate={startDate}
           setStartDate={setStartDate}
@@ -120,7 +130,7 @@ function App() {
         <button onClick={getAds}>Get Ads</button>
       </div>
       <div className="App-ad-pane">
-        {ads.map(ad => (
+        {ads.map((ad) => (
           <AdUnit ad={ad} key={ad.archive_id} />
         ))}
       </div>

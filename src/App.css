@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #8c00ff;
+  background-color: #9400FF;
   /* min-iheight: 100vh; */
   display: flex;
   flex-direction: column;
@@ -39,7 +39,7 @@
 }
 .filter-selector {
   flex: 2;
-  min-width: 20em;
+  min-width: 5em;
 }
 
 .App-ad-pane {

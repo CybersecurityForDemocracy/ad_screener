@@ -7,7 +7,7 @@ import Tabs from "react-bootstrap/Tabs";
 
 import "./AdUnit.css";
 
-const AdUnit = params => {
+const AdUnit = (params) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -47,21 +47,17 @@ const AdUnit = params => {
         key={params.ad.archive_id}
       />
       <div className="ad-image-container">
-        <img
-          className="ad-image"
-          alt={params.ad.url}
-          src={params.ad.url}
-        />
+        <img className="ad-image" alt={params.ad.url} src={params.ad.url} />
       </div>
     </div>
   );
 };
 
 const filterfn = (key, val) => {
-  return obj => obj[key] === val;
+  return (obj) => obj[key] === val;
 };
 
-const AdDetails = params => {
+const AdDetails = (params) => {
   var female_data = params.ad.demo_impression_results.filter(
     filterfn("gender", "female")
   );
@@ -105,7 +101,7 @@ const AdDetails = params => {
                 </tr>
               </thead>
               <tbody>
-                {female_data.map(demo_result => (
+                {female_data.map((demo_result) => (
                   <tr key={demo_result.age_group}>
                     <td>{demo_result.age_group}</td>
                     <td>{demo_result.max_spend}</td>
@@ -124,7 +120,7 @@ const AdDetails = params => {
                 </tr>
               </thead>
               <tbody>
-                {male_data.map(demo_result => (
+                {male_data.map((demo_result) => (
                   <tr key={demo_result.age_group}>
                     <td>{demo_result.age_group}</td>
                     <td>{demo_result.max_spend}</td>
@@ -143,7 +139,7 @@ const AdDetails = params => {
                 </tr>
               </thead>
               <tbody>
-                {unknown_data.map(demo_result => (
+                {unknown_data.map((demo_result) => (
                   <tr key={demo_result.age_group}>
                     <td>{demo_result.age_group}</td>
                     <td>{demo_result.max_spend}</td>
@@ -167,7 +163,7 @@ const AdDetails = params => {
                 </tr>
               </thead>
               <tbody>
-                {region_data.map(region_result => (
+                {region_data.map((region_result) => (
                   <tr key={region_result.region}>
                     <td>{region_result.region}</td>
                     <td>{region_result.max_spend}</td>
@@ -182,13 +178,10 @@ const AdDetails = params => {
             title="Alternate Creatives"
             mountOnEnter={true}
           >
-            {params.ad.alternative_ads.map(ad => {
+            {params.ad.alternative_ads.map((ad) => {
               return (
                 <div className="ad-image-container" key={ad.archive_id}>
-                  <img
-                    alt={ad.archive_id}
-                    src={ad.url}
-                  />
+                  <img alt={ad.archive_id} src={ad.url} />
                 </div>
               );
             })}
@@ -203,6 +196,40 @@ const AdDetails = params => {
                 <div className="ad-summary-tuple">
                   <div className="ad-summary-data">{params.ad.type}</div>
                   <div className="ad-summary-data">{params.ad.entities}</div>
+                </div>
+              </div>
+            </div>
+          </Tab>
+          <Tab
+            eventKey="advertizer_info"
+            title="Advertizer Metadata"
+            mountOnEnter={true}
+          >
+            <div className="ad-summary">
+              <div className="ad-summary-block-1">
+                <div className="ad-summary-tuple">
+                  <div className="ad-summary-field">Advertizer Type:</div>
+                  <div className="ad-summary-field">Advertizer Party:</div>
+                  <div className="ad-summary-field">FEC ID:</div>
+                  <div className="ad-summary-field">Advertizer website:</div>
+                  <div className="ad-summary-field">Risk Score:</div>
+                </div>
+                <div className="ad-summary-tuple">
+                  <div className="ad-summary-data">
+                    {params.ad.advertizer_type}
+                  </div>
+                  <div className="ad-summary-data">
+                    {params.ad.advertizer_party}
+                  </div>
+                  <div className="ad-summary-data">
+                    {params.ad.advertizer_fec_id}
+                  </div>
+                  <div className="ad-summary-data">
+                    {params.ad.advertizer_webiste}
+                  </div>
+                  <div className="ad-summary-data">
+                    {params.ad.advertizer_risk_score}
+                  </div>
                 </div>
               </div>
             </div>
