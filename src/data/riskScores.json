@@ -1,0 +1,18 @@
+[
+    {
+      "label": "All",
+      "value": "ALL"
+    },
+    {
+      "label": "Low",
+      "value": "LOW"
+    },
+    {
+      "label": "Medium",
+      "value": "MEDIUM"
+    },
+    {
+      "label": "High",
+      "value": "HIGH"
+    }
+]
