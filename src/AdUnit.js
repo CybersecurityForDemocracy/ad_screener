@@ -77,7 +77,6 @@ const filterfn = (key, val) => {
 };
 
 const AdDetails = (params) => {
-  console.log("AdDetails params:" + JSON.stringify(params));
   if (!(params.details && params.details.length !== 0)) {
     return(<div></div>);
   }
