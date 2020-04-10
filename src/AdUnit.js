@@ -224,34 +224,34 @@ const AdDetails = (params) => {
             </div>
           </Tab>
           <Tab
-            eventKey="advertizer_info"
-            title="Advertizer Metadata"
+            eventKey="advertiser_info"
+            title="Advertiser Metadata"
             mountOnEnter={true}
           >
             <div className="ad-summary">
               <div className="ad-summary-block-1">
                 <div className="ad-summary-tuple">
-                  <div className="ad-summary-field">Advertizer Type:</div>
-                  <div className="ad-summary-field">Advertizer Party:</div>
+                  <div className="ad-summary-field">Advertiser Type:</div>
+                  <div className="ad-summary-field">Advertiser Party:</div>
                   <div className="ad-summary-field">FEC ID:</div>
-                  <div className="ad-summary-field">Advertizer website:</div>
+                  <div className="ad-summary-field">Advertiser website:</div>
                   <div className="ad-summary-field">Risk Score:</div>
                 </div>
                 <div className="ad-summary-tuple">
                   <div className="ad-summary-data">
-                    {params.details.advertizer_type}
+                    {params.details.advertiser_type}
                   </div>
                   <div className="ad-summary-data">
-                    {params.details.advertizer_party}
+                    {params.details.advertiser_party}
                   </div>
                   <div className="ad-summary-data">
-                    {params.details.advertizer_fec_id}
+                    {params.details.advertiser_fec_id}
                   </div>
                   <div className="ad-summary-data">
-                    {params.details.advertizer_webiste}
+                    {params.details.advertiser_webiste}
                   </div>
                   <div className="ad-summary-data">
-                    {params.details.advertizer_risk_score}
+                    {params.details.advertiser_risk_score}
                   </div>
                 </div>
               </div>
