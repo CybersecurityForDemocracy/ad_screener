@@ -20,7 +20,7 @@ const realAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getads";
 // Test URL
 const mockAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getmockads";
 
-const useMockData = true;
+const useMockData = false;
 const disableOptions = false;
 
 const getAdsURL = useMockData ? mockAdsURL : realAdsURL;
@@ -131,7 +131,7 @@ function App() {
       </div>
       <div className="App-ad-pane">
         {ads.map((ad) => (
-          <AdUnit ad={ad} key={ad.archive_id} />
+          <AdUnit ad={ad} key={ad.ad_cluster_id} />
         ))}
       </div>
       <Modal

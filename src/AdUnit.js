@@ -40,12 +40,6 @@ const AdUnit = (params) => {
       <Button variant="primary" onClick={handleShow}>
         Ad Details
       </Button>
-      <AdDetails
-        show={show}
-        handleClose={handleClose}
-        ad={params.ad}
-        key={params.ad.archive_id}
-      />
       <div className="ad-image-container">
         <img className="ad-image" alt={params.ad.url} src={params.ad.url} />
       </div>
@@ -56,6 +50,14 @@ const AdUnit = (params) => {
 const filterfn = (key, val) => {
   return (obj) => obj[key] === val;
 };
+
+// TODO(macpd): hook this to /getaddetails
+      // <AdDetails
+        // show={show}
+        // handleClose={handleClose}
+        // ad={params.ad}
+        // key={params.ad.ad_cluster_id}
+      // />
 
 const AdDetails = (params) => {
   var female_data = params.ad.demo_impression_results.filter(
@@ -71,7 +73,7 @@ const AdDetails = (params) => {
   );
   unknown_data.sort((a, b) => (a.age_group > b.age_group ? 1 : -1));
   var ad_url =
-    "https://www.facebook.com/ads/library/?id=" + params.ad.archive_id;
+    "https://www.facebook.com/ads/library/?id=" + params.ad.canonical_archive_id;
   var region_data = params.ad.region_impression_results;
   region_data.sort((a, b) => (a.region > b.region ? 1 : -1));
   return (
@@ -82,7 +84,7 @@ const AdDetails = (params) => {
       size="xl"
     >
       <Modal.Header>
-        <Modal.Title>Archive Id: {params.ad.archive_id} </Modal.Title>
+        <Modal.Title>Canonical Archive Id: {params.ad.canonical_archive_id} </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Tabs defaultActiveKey="demos">
@@ -180,8 +182,8 @@ const AdDetails = (params) => {
           >
             {params.ad.alternative_ads.map((ad) => {
               return (
-                <div className="ad-image-container" key={ad.archive_id}>
-                  <img alt={ad.archive_id} src={ad.url} />
+                <div className="ad-image-container" key={ad.canonical_archive_id}>
+                  <img alt={ad.canonical_archive_id} src={ad.url} />
                 </div>
               );
             })}
