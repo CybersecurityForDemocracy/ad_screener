@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { addDays } from "date-fns";
@@ -127,7 +128,7 @@ function App() {
           endDate={endDate}
           setEndDate={setEndDate}
         />
-        <button onClick={getAds}>Get Ads</button>
+        <Button variant="primary" onClick={getAds}>Get Ads</Button>
       </div>
       <div className="App-ad-pane">
         {ads.map((ad) => (
