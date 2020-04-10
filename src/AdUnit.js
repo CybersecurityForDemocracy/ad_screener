@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Tab from "react-bootstrap/Tab";
@@ -7,11 +8,29 @@ import Tabs from "react-bootstrap/Tabs";
 
 import "./AdUnit.css";
 
+const getAdDetailsURL = "http://ccs3usr.engineering.nyu.edu:8010/getaddetails";
+
 const AdUnit = (params) => {
   const [show, setShow] = useState(false);
+  const [ad_details, setAdDetails] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const getAdDetails = (ad_cluster_id) => {
+    axios
+      .get(getAdDetailsURL + '/' + ad_cluster_id)
+      .then((response) => {
+        console.log(response.data);
+        setAdDetails(response.data);
+        handleShow();
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {});
+  }
+
 
   return (
     <div className="ad-container">
@@ -37,9 +56,15 @@ const AdUnit = (params) => {
           </div>
         </div>
       </div>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" onClick={() => getAdDetails(params.ad.ad_cluster_id)}>
         Ad Details
       </Button>
+      <AdDetails
+        show={show}
+        handleClose={handleClose}
+        details={ad_details}
+        key={ad_details.ad_cluster_id}
+      />
       <div className="ad-image-container">
         <img className="ad-image" alt={params.ad.url} src={params.ad.url} />
       </div>
@@ -51,30 +76,27 @@ const filterfn = (key, val) => {
   return (obj) => obj[key] === val;
 };
 
-// TODO(macpd): hook this to /getaddetails
-      // <AdDetails
-        // show={show}
-        // handleClose={handleClose}
-        // ad={params.ad}
-        // key={params.ad.ad_cluster_id}
-      // />
-
 const AdDetails = (params) => {
-  var female_data = params.ad.demo_impression_results.filter(
+  console.log("AdDetails params:" + JSON.stringify(params));
+  if (!(params.details && params.details.length !== 0)) {
+    return(<div></div>);
+  }
+
+  var female_data = params.details.demo_impression_results.filter(
     filterfn("gender", "female")
   );
   female_data.sort((a, b) => (a.age_group > b.age_group ? 1 : -1));
-  var male_data = params.ad.demo_impression_results.filter(
+  var male_data = params.details.demo_impression_results.filter(
     filterfn("gender", "male")
   );
   male_data.sort((a, b) => (a.age_group > b.age_group ? 1 : -1));
-  var unknown_data = params.ad.demo_impression_results.filter(
+  var unknown_data = params.details.demo_impression_results.filter(
     filterfn("gender", "unknown")
   );
   unknown_data.sort((a, b) => (a.age_group > b.age_group ? 1 : -1));
   var ad_url =
-    "https://www.facebook.com/ads/library/?id=" + params.ad.canonical_archive_id;
-  var region_data = params.ad.region_impression_results;
+    "https://www.facebook.com/ads/library/?id=" + params.details.canonical_archive_id;
+  var region_data = params.details.region_impression_results;
   region_data.sort((a, b) => (a.region > b.region ? 1 : -1));
   return (
     <Modal
@@ -84,7 +106,7 @@ const AdDetails = (params) => {
       size="xl"
     >
       <Modal.Header>
-        <Modal.Title>Canonical Archive Id: {params.ad.canonical_archive_id} </Modal.Title>
+        <Modal.Title>Cluster ID: {params.details.ad_cluster_id} Canonical Archive ID: {params.details.canonical_archive_id} </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Tabs defaultActiveKey="demos">
@@ -180,9 +202,9 @@ const AdDetails = (params) => {
             title="Alternate Creatives"
             mountOnEnter={true}
           >
-            {params.ad.alternative_ads.map((ad) => {
+            {params.details.alternative_ads.map((ad) => {
               return (
-                <div className="ad-image-container" key={ad.canonical_archive_id}>
+                <div className="ad-image-container" key={ad.archive_id}>
                   <img alt={ad.canonical_archive_id} src={ad.url} />
                 </div>
               );
@@ -196,8 +218,8 @@ const AdDetails = (params) => {
                   <div className="ad-summary-field">Entities:</div>
                 </div>
                 <div className="ad-summary-tuple">
-                  <div className="ad-summary-data">{params.ad.type}</div>
-                  <div className="ad-summary-data">{params.ad.entities}</div>
+                  <div className="ad-summary-data">{params.details.type}</div>
+                  <div className="ad-summary-data">{params.details.entities}</div>
                 </div>
               </div>
             </div>
@@ -218,19 +240,19 @@ const AdDetails = (params) => {
                 </div>
                 <div className="ad-summary-tuple">
                   <div className="ad-summary-data">
-                    {params.ad.advertizer_type}
+                    {params.details.advertizer_type}
                   </div>
                   <div className="ad-summary-data">
-                    {params.ad.advertizer_party}
+                    {params.details.advertizer_party}
                   </div>
                   <div className="ad-summary-data">
-                    {params.ad.advertizer_fec_id}
+                    {params.details.advertizer_fec_id}
                   </div>
                   <div className="ad-summary-data">
-                    {params.ad.advertizer_webiste}
+                    {params.details.advertizer_webiste}
                   </div>
                   <div className="ad-summary-data">
-                    {params.ad.advertizer_risk_score}
+                    {params.details.advertizer_risk_score}
                   </div>
                 </div>
               </div>
