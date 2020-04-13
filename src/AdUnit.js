@@ -210,18 +210,12 @@ const AdDetails = (params) => {
             })}
           </Tab>
           <Tab eventKey="metadata" title="NYU Metadata" mountOnEnter={true}>
-            <div className="ad-summary">
-              <div className="ad-summary-block-1">
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-field">Ad Type:</div>
-                  <div className="ad-summary-field">Entities:</div>
-                </div>
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-data">{params.details.type}</div>
-                  <div className="ad-summary-data">{params.details.entities}</div>
-                </div>
-              </div>
-            </div>
+            <Table striped bordered hover>
+              <tbody>
+                <tr><td>Ad Type:</td><td>{params.details.type}</td></tr>
+                <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
+              </tbody>
+            </Table>
           </Tab>
           <Tab
             eventKey="advertiser_info"
