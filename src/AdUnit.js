@@ -222,34 +222,16 @@ const AdDetails = (params) => {
             title="Advertiser Metadata"
             mountOnEnter={true}
           >
-            <div className="ad-summary">
-              <div className="ad-summary-block-1">
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-field">Advertiser Type:</div>
-                  <div className="ad-summary-field">Advertiser Party:</div>
-                  <div className="ad-summary-field">FEC ID:</div>
-                  <div className="ad-summary-field">Advertiser website:</div>
-                  <div className="ad-summary-field">Risk Score:</div>
-                </div>
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_type}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_party}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_fec_id}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_webiste}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_risk_score}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Table striped bordered hover>
+              <tbody>
+                <tr>
+                <td>Advertiser Type:</td><td>{params.details.advertiser_type}</td></tr>
+                <tr><td>Advertiser Party:</td><td>{params.details.advertiser_party}</td></tr>
+                <tr><td>FEC ID:</td><td>{params.details.advertiser_fec_id}</td></tr>
+                <tr><td>Advertiser website:</td><td>{params.details.advertiser_webiste}</td></tr>
+                <tr><td>Risk Score:</td><td>{params.details.advertiser_risk_score}</td></tr>
+              </tbody>
+            </Table>
           </Tab>
         </Tabs>
       </Modal.Body>
