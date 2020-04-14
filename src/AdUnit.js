@@ -112,7 +112,7 @@ const AdDetails = (params) => {
       size="xl"
     >
       <Modal.Header>
-        <Modal.Title>Cluster ID: {params.details.ad_cluster_id} Canonical Archive ID: {params.details.canonical_archive_id} </Modal.Title>
+        <Modal.Title>Cluster ID: {params.details.ad_cluster_id}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Tabs defaultActiveKey="demos">
@@ -219,13 +219,17 @@ const AdDetails = (params) => {
           <Tab eventKey="metadata" title="NYU Metadata" mountOnEnter={true}>
             <div className="ad-summary">
               <div className="ad-summary-block-1">
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-field">Ad Type:</div>
-                  <div className="ad-summary-field">Entities:</div>
+                <div className="ad-detail-field-container">
+                  <div className="ad-detail-field">Ad Type:</div>
+                  <div className="ad-detail-field">Number of ads in cluster:</div>
+                  <div className="ad-detail-field">Canonical ad archive ID:</div>
+                  <div className="ad-detail-field">Entities:</div>
                 </div>
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-data">{params.details.type}</div>
-                  <div className="ad-summary-data">{params.details.entities}</div>
+                <div className="ad-detail-data-container">
+                  <div className="ad-detail-data">{params.details.type}</div>
+                  <div className="ad-detail-data">{params.details.cluster_size}</div>
+                  <div className="ad-detail-data">{params.details.canonical_archive_id}</div>
+                  <div className="ad-detail-data">{params.details.entities}</div>
                 </div>
               </div>
             </div>
@@ -237,27 +241,27 @@ const AdDetails = (params) => {
           >
             <div className="ad-summary">
               <div className="ad-summary-block-1">
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-field">Advertiser Type:</div>
-                  <div className="ad-summary-field">Advertiser Party:</div>
-                  <div className="ad-summary-field">FEC ID:</div>
-                  <div className="ad-summary-field">Advertiser website:</div>
-                  <div className="ad-summary-field">Risk Score:</div>
+                <div className="ad-detail-field-container">
+                  <div className="ad-detail-field">Advertiser Type:</div>
+                  <div className="ad-detail-field">Advertiser Party:</div>
+                  <div className="ad-detail-field">FEC ID:</div>
+                  <div className="ad-detail-field">Advertiser website:</div>
+                  <div className="ad-detail-field">Risk Score:</div>
                 </div>
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-data">
+                <div className="ad-detail-data-container">
+                  <div className="ad-detail-data">
                     {params.details.advertiser_type}
                   </div>
-                  <div className="ad-summary-data">
+                  <div className="ad-detail-data">
                     {params.details.advertiser_party}
                   </div>
-                  <div className="ad-summary-data">
+                  <div className="ad-detail-data">
                     {params.details.advertiser_fec_id}
                   </div>
-                  <div className="ad-summary-data">
+                  <div className="ad-detail-data">
                     {params.details.advertiser_webiste}
                   </div>
-                  <div className="ad-summary-data">
+                  <div className="ad-detail-data">
                     {params.details.advertiser_risk_score}
                   </div>
                 </div>

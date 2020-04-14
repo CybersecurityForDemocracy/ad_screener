@@ -77,6 +77,38 @@
   padding-left: 0.2em;
 }
 
+.ad-detail-field-container {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.ad-detail-data-container {
+  flex: 4;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.ad-detail-field {
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  font-weight: 500;
+  text-align: right;
+}
+
+.ad-detail-data {
+  flex: 1;
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding-left: 0.2em;
+}
+
 img {
   margin-top: 2%;
   max-width: 100%;
