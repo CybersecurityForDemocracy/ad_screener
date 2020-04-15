@@ -234,11 +234,11 @@ const AdDetails = (params) => {
             <Table striped bordered hover>
               <tbody>
                 <tr>
-                <td>Advertiser Type:</td><td>{params.details.advertiser_type}</td></tr>
-                <tr><td>Advertiser Party:</td><td>{params.details.advertiser_party}</td></tr>
-                <tr><td>FEC ID:</td><td>{params.details.advertiser_fec_id}</td></tr>
-                <tr><td>Advertiser website:</td><td>{params.details.advertiser_webiste}</td></tr>
-                <tr><td>Risk Score:</td><td>{params.details.advertiser_risk_score}</td></tr>
+                <td>Advertiser Type:</td><td>{params.details.advertiser_info.advertiser_type}</td></tr>
+                <tr><td>Advertiser Party:</td><td>{params.details.advertiser_info.advertiser_party}</td></tr>
+                <tr><td>FEC ID:</td><td>{params.details.advertiser_info.advertiser_fec_id}</td></tr>
+                <tr><td>Advertiser website:</td><td>{params.details.advertiser_info.advertiser_webiste}</td></tr>
+                <tr><td>Risk Score:</td><td>{params.details.advertiser_info.advertiser_risk_score}</td></tr>
               </tbody>
             </Table>
           </Tab>
