@@ -112,7 +112,7 @@ const AdDetails = (params) => {
       size="xl"
     >
       <Modal.Header>
-        <Modal.Title>Cluster ID: {params.details.ad_cluster_id} Canonical Archive ID: {params.details.canonical_archive_id} </Modal.Title>
+        <Modal.Title>Cluster ID: {params.details.ad_cluster_id}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Tabs defaultActiveKey="demos">
@@ -217,52 +217,30 @@ const AdDetails = (params) => {
             })}
           </Tab>
           <Tab eventKey="metadata" title="NYU Metadata" mountOnEnter={true}>
-            <div className="ad-summary">
-              <div className="ad-summary-block-1">
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-field">Ad Type:</div>
-                  <div className="ad-summary-field">Entities:</div>
-                </div>
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-data">{params.details.type}</div>
-                  <div className="ad-summary-data">{params.details.entities}</div>
-                </div>
-              </div>
-            </div>
+            <Table striped bordered hover>
+              <tbody>
+                <tr><td>Ad Type:</td><td>{params.details.type}</td></tr>
+                <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
+                <tr><td>Number of ads in cluster:</td><td>{params.details.cluster_size}</td></tr>
+                <tr><td>Canonical ad archive ID:</td><td>{params.details.canonical_archive_id}</td></tr>
+              </tbody>
+            </Table>
           </Tab>
           <Tab
             eventKey="advertiser_info"
             title="Advertiser Metadata"
             mountOnEnter={true}
           >
-            <div className="ad-summary">
-              <div className="ad-summary-block-1">
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-field">Advertiser Type:</div>
-                  <div className="ad-summary-field">Advertiser Party:</div>
-                  <div className="ad-summary-field">FEC ID:</div>
-                  <div className="ad-summary-field">Advertiser website:</div>
-                  <div className="ad-summary-field">Risk Score:</div>
-                </div>
-                <div className="ad-summary-tuple">
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_type}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_party}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_fec_id}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_webiste}
-                  </div>
-                  <div className="ad-summary-data">
-                    {params.details.advertiser_risk_score}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Table striped bordered hover>
+              <tbody>
+                <tr>
+                <td>Advertiser Type:</td><td>{params.details.advertiser_info.advertiser_type}</td></tr>
+                <tr><td>Advertiser Party:</td><td>{params.details.advertiser_info.advertiser_party}</td></tr>
+                <tr><td>FEC ID:</td><td>{params.details.advertiser_info.advertiser_fec_id}</td></tr>
+                <tr><td>Advertiser website:</td><td>{params.details.advertiser_info.advertiser_webiste}</td></tr>
+                <tr><td>Risk Score:</td><td>{params.details.advertiser_info.advertiser_risk_score}</td></tr>
+              </tbody>
+            </Table>
           </Tab>
         </Tabs>
       </Modal.Body>
