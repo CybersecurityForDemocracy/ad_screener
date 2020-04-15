@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import Modal from "react-bootstrap/Modal";
 import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
@@ -59,6 +61,11 @@ const AdUnit = (params) => {
       <Button variant="primary" onClick={() => getAdDetails(params.ad.ad_cluster_id)}>
         Ad Details
       </Button>
+      <DropdownButton id="dropdown-basic-button" title="Is this ad problematic?">
+        <Dropdown.Item href="#/No">No</Dropdown.Item>
+        <Dropdown.Item href="#/Misinformation">Misinformation</Dropdown.Item>
+        <Dropdown.Item href="#/Other">Other</Dropdown.Item>
+      </DropdownButton>
       <AdDetails
         show={show}
         handleClose={handleClose}

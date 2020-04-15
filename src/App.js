@@ -143,10 +143,16 @@ function App() {
         size="lg"
       >
         <Modal.Header>
-          <Modal.Title>How to use this tool</Modal.Title>
+          <Modal.Title>How To Use This Tool</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Please fill me in with details and disclaimers</p>
+          <h2>Filtering Ads</h2>
+          <p>To view ads, select a topic, and a region and/or demographic group of interest. Select a date range, and click 'Get Ads'. If you are interested in a topic that is not available, please contact us so it can be added.</p>
+          <h2>Viewing Results</h2>
+          <p>To see in-depth data about each ad, click 'Ad Details'.</p>
+          <p>Results are for the entire cluster of ads; to see other ad creatives in the cluster, click on the 'Alternate Creatives' tab. Ad type classifications and entities detected are for all ads in the cluster. If you see metadata that you believe to be in error, please let us know!</p>
+          <h2>Limitations</h2>
+          <p>Data is delayed approximately 48 hours. All metadata development and risk scores are EXPERIMENTAL.</p>
         </Modal.Body>
       </Modal>
     </div>
