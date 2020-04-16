@@ -17,7 +17,6 @@ import riskScores from "./data/riskScores.json";
 
 // Real Data URL
 const realAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getads";
-const getAdDetailsURL = "http://ccs3usr.engineering.nyu.edu:8010/getaddetails";
 
 // Test URL
 const mockAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getmockads";
