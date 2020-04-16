@@ -15,7 +15,7 @@ const getAdDetailsURL = "http://ccs3usr.engineering.nyu.edu:8010/getaddetails";
 const AdUnit = (params) => {
   const [show, setShow] = useState(false);
   const [ad_details, setAdDetails] = useState([]);
-
+  const [buttonTitle, setButtonTitle] = useState("Is this ad problematic?");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -61,10 +61,10 @@ const AdUnit = (params) => {
       <Button variant="primary" onClick={() => getAdDetails(params.ad.ad_cluster_id)}>
         Ad Details
       </Button>
-      <DropdownButton id="dropdown-basic-button" title="Is this ad problematic?">
-        <Dropdown.Item href="#/No">No</Dropdown.Item>
-        <Dropdown.Item href="#/Misinformation">Misinformation</Dropdown.Item>
-        <Dropdown.Item href="#/Other">Other</Dropdown.Item>
+      <DropdownButton id="dropdown-basic-button" title={buttonTitle}>
+        <Dropdown.Item href="#/No" eventKey="No" onSelect={setButtonTitle}>No</Dropdown.Item>
+        <Dropdown.Item href="#/Misinformation" eventKey="Misinformation" onSelect={setButtonTitle}>Misinformation</Dropdown.Item>
+        <Dropdown.Item href="#/Other" eventKey="Other" onSelect={setButtonTitle}>Other</Dropdown.Item>
       </DropdownButton>
       <AdDetails
         show={show}
