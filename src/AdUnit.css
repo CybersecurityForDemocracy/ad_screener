@@ -77,6 +77,10 @@
   padding-left: 0.2em;
 }
 
+.problematic-ad-button {
+  padding: 0.5em;
+}
+
 img {
   margin-top: 2%;
   max-width: 100%;

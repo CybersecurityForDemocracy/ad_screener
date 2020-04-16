@@ -61,10 +61,12 @@ const AdUnit = (params) => {
       <Button variant="primary" onClick={() => getAdDetails(params.ad.ad_cluster_id)}>
         Ad Details
       </Button>
-      <DropdownButton id="dropdown-basic-button" title={buttonTitle}>
-        <Dropdown.Item href="#/No" eventKey="No" onSelect={setButtonTitle}>No</Dropdown.Item>
-        <Dropdown.Item href="#/Misinformation" eventKey="Misinformation" onSelect={setButtonTitle}>Misinformation</Dropdown.Item>
-        <Dropdown.Item href="#/Other" eventKey="Other" onSelect={setButtonTitle}>Other</Dropdown.Item>
+      <DropdownButton className="problematic-ad-button" id="dropdown-basic-button" title={buttonTitle}>
+        {['No', 'Misinformation', 'Other'].map(
+          (label) => (
+            <Dropdown.Item href={"#/" + label} eventKey={label} onSelect={setButtonTitle}>{label}</Dropdown.Item>
+          ),
+        )}
       </DropdownButton>
       <AdDetails
         show={show}
