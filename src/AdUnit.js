@@ -11,6 +11,7 @@ import Tabs from "react-bootstrap/Tabs";
 import "./AdUnit.css";
 
 const getAdDetailsURL = "http://ccs3usr.engineering.nyu.edu:8010/getaddetails";
+const errorImageSrc = 'https://storage.googleapis.com/facebook_ad_archive_screenshots/error.png';
 
 const AdUnit = (params) => {
   const [show, setShow] = useState(false);
@@ -18,6 +19,8 @@ const AdUnit = (params) => {
   const [buttonTitle, setButtonTitle] = useState("Is this ad problematic?");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [adImageSrc, setAdImageSrc] = useState(params.ad.url);
+  const handleAdImageError = () => setAdImageSrc(errorImageSrc);
 
   const getAdDetails = (ad_cluster_id) => {
     axios
@@ -79,7 +82,7 @@ const AdUnit = (params) => {
         key={ad_details.ad_cluster_id}
       />
       <div className="ad-image-container">
-        <img className="ad-image" alt={params.ad.url} src={params.ad.url} />
+        <img className="ad-image" alt={adImageSrc} src={adImageSrc} onError={handleAdImageError}/>
       </div>
     </div>
   );
