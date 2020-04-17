@@ -51,10 +51,12 @@ const AdUnit = (params) => {
           <div className="ad-summary-spend">
             <div className="ad-summary-field">Estimated Total Spend:</div>
             <div className="ad-summary-field">Estimated Total Impressions:</div>
+            <div className="ad-summary-field">Cluster Size:</div>
           </div>
           <div className="ad-summary-spend">
             <div className="ad-summary-data">{params.ad.total_spend}</div>
             <div className="ad-summary-data">{params.ad.total_impressions}</div>
+            <div className="ad-summary-data">{params.ad.cluster_size}</div>
           </div>
         </div>
       </div>
