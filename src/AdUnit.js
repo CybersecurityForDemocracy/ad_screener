@@ -62,7 +62,7 @@ const AdUnit = (params) => {
         Ad Details
       </Button>
       <DropdownButton className="problematic-ad-button" id="dropdown-basic-button" title={buttonTitle}>
-        {['No', 'Misinformation', 'Other'].map(
+        {['(No Answer)', 'No', 'Misinformation', 'Other'].map(
           (label) => (
             <Dropdown.Item href={"#/" + label} eventKey={label} onSelect={setButtonTitle}>{label}</Dropdown.Item>
           ),
