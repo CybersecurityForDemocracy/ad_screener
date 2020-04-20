@@ -14,6 +14,9 @@ import topics from "./data/topics.json";
 import genders from "./data/genders.json";
 import ageRanges from "./data/ageRanges.json";
 import riskScores from "./data/riskScores.json";
+import orderByOptions from "./data/orderBy.json";
+import orderDirections from "./data/orderDirections.json";
+
 
 // Real Data URL
 const realAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getads";
@@ -33,7 +36,9 @@ function App() {
   const [region, setRegion] = useState({ selectedOption: regions[0] });
   const [gender, setGender] = useState({ selectedOption: genders[0] });
   const [ageRange, setAgeRange] = useState({ selectedOption: ageRanges[0] });
-  const [riskScore, setRiskScore] = useState({ selectedOption: ageRanges[0] });
+  const [riskScore, setRiskScore] = useState({ selectedOption: riskScores[0] });
+  const [orderBy, setOrderBy] = useState({ selectedOption: orderByOptions[0] });
+  const [orderDirection, setOrderDirection] = useState({ selectedOption: orderDirections[0] });
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -62,6 +67,8 @@ function App() {
           gender: gender.selectedOption.value,
           ageRange: ageRange.selectedOption.value,
           riskScore: riskScore.selectedOption.value,
+          orderBy: orderBy.selectedOption.value,
+          orderDirection: orderDirection.selectedOption.value
         },
       })
       .then((response) => {
@@ -120,6 +127,20 @@ function App() {
           option={riskScore}
           title="Risk Score"
           options={riskScores}
+          disabled={disableOptions}
+        />
+        <FilterSelector
+          setState={setOrderBy}
+          option={orderBy}
+          title="Sort By Field"
+          options={orderByOptions}
+          disabled={disableOptions}
+        />
+        <FilterSelector
+          setState={setOrderDirection}
+          option={orderDirection}
+          title="Sort Order"
+          options={orderDirections}
           disabled={disableOptions}
         />
         <TimePeriodPicker

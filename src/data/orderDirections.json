@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Low to High",
+    "value": "ASC"
+  },
+  {
+    "label": "High to Low",
+    "value": "DESC"
+  }
+]
