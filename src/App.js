@@ -38,7 +38,7 @@ function App() {
   const [ageRange, setAgeRange] = useState({ selectedOption: ageRanges[0] });
   const [riskScore, setRiskScore] = useState({ selectedOption: riskScores[0] });
   const [orderBy, setOrderBy] = useState({ selectedOption: orderByOptions[0] });
-  const [orderDirection, setOrderDirection] = useState({ selectedOptions: orderDirections[0] });
+  const [orderDirection, setOrderDirection] = useState({ selectedOption: orderDirections[0] });
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
