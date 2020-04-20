@@ -1,0 +1,34 @@
+[
+  {
+    "label": "Start Date",
+    "value": "min_ad_creation_time"
+  },
+  {
+    "label": "End Date",
+    "value": "max_ad_creation_time"
+  },
+  {
+    "label": "Min Spend",
+    "value": "min_spend_sum"
+  },
+  {
+    "label": "Max Spend",
+    "value": "max_spend_sum"
+  },
+  {
+    "label": "Min Impressions",
+    "value": "min_impressions_sum"
+  },
+  {
+    "label": "Max Impressions",
+    "value": "max_impressions_sum"
+  },
+  {
+    "label": "Cluster Size",
+    "value": "cluster_size"
+  },
+  {
+    "label": "Num Pages",
+    "value": "num_pages"
+  }
+]
