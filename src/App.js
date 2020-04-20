@@ -68,7 +68,7 @@ function App() {
           ageRange: ageRange.selectedOption.value,
           riskScore: riskScore.selectedOption.value,
           orderBy: orderBy.selectedOption.value,
-          orderDirection: orderDirection.selectedOption.value,
+          orderDirection: orderDirection.selectedOption.value
         },
       })
       .then((response) => {
