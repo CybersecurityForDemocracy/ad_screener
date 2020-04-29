@@ -17,17 +17,11 @@ import riskScores from "./data/riskScores.json";
 import orderByOptions from "./data/orderBy.json";
 import orderDirections from "./data/orderDirections.json";
 
+const endpointHost = process.env.REACT_APP_API_ENDPOINT
+const getAdsURL = endpointHost + "/getads";
 
-// Real Data URL
-const realAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getads";
-
-// Test URL
-const mockAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getmockads";
-
-const useMockData = false;
 const disableOptions = false;
 
-const getAdsURL = useMockData ? mockAdsURL : realAdsURL;
 
 function App() {
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
