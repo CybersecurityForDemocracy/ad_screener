@@ -17,6 +17,8 @@ import riskScores from "./data/riskScores.json";
 import orderByOptions from "./data/orderBy.json";
 import orderDirections from "./data/orderDirections.json";
 
+var AWS = require("aws-sdk");
+
 const endpointHost = process.env.REACT_APP_API_ENDPOINT
 const getAdsURL = endpointHost + "/getads";
 
@@ -24,6 +26,14 @@ const disableOptions = false;
 
 
 function App() {
+  // Initialize the Amazon Cognito credentials provider
+  AWS.config.region = 'us-east-1'; // Region
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'us-east-1:fec44b75-2db2-4f60-9f82-da27bf3a37e9',
+      });
+  console.log('AWS.confing.credentials.data: ' + AWS.config.credentials.data);
+  console.log('AWS.confing.credentials.params: ' + AWS.config.credentials.params);
+  console.log('AWS.confing.credentials.identityId: ' + AWS.config.credentials.identityId);
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
   const [endDate, setEndDate] = useState(new Date());
   const [topic, setTopic] = useState({ selectedOption: topics[5] });
