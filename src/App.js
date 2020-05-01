@@ -28,12 +28,24 @@ const disableOptions = false;
 function App() {
   // Initialize the Amazon Cognito credentials provider
   AWS.config.region = 'us-east-1'; // Region
-  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'us-east-1:fec44b75-2db2-4f60-9f82-da27bf3a37e9',
-      });
+  var params = {
+    IdentityPoolId: 'us-east-1:fec44b75-2db2-4f60-9f82-da27bf3a37e9',
+  };
+  var cognitoidentity = new AWS.CognitoIdentity();
+  cognitoidentity.getId(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else     console.log(data);           // successful response
+    console.log('AWS.confing.credentials.data: ' + AWS.config.credentials.data);
+    console.log('AWS.confing.credentials.params: ' + AWS.config.credentials.params);
+    console.log('AWS.confing.credentials.identityId: ' + AWS.config.credentials.identityId);
+  });
+  var creds = new AWS.CognitoIdentityCredentials(params);
+  AWS.config.credentials = creds;
   console.log('AWS.confing.credentials.data: ' + AWS.config.credentials.data);
   console.log('AWS.confing.credentials.params: ' + AWS.config.credentials.params);
   console.log('AWS.confing.credentials.identityId: ' + AWS.config.credentials.identityId);
+  console.log('creds.params ' + creds.params)
+  console.log('creds.params.Logins ' + creds.params.Logins)
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
   const [endDate, setEndDate] = useState(new Date());
   const [topic, setTopic] = useState({ selectedOption: topics[5] });
