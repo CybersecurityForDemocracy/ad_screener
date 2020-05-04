@@ -19,8 +19,7 @@ import orderDirections from "./data/orderDirections.json";
 
 var AWS = require("aws-sdk");
 
-const endpointHost = process.env.REACT_APP_API_ENDPOINT
-const getAdsURL = endpointHost + "/getads";
+const getAdsURL = "/getads";
 
 const disableOptions = false;
 

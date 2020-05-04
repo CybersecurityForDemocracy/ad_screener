@@ -10,8 +10,7 @@ import Tabs from "react-bootstrap/Tabs";
 
 import "./AdUnit.css";
 
-const endpointHost = process.env.REACT_APP_API_ENDPOINT
-const getAdDetailsURL = endpointHost + "/getaddetails";
+const getAdDetailsURL = "/getaddetails";
 const errorImageSrc = 'https://storage.googleapis.com/facebook_ad_archive_screenshots/error.png';
 
 const AdUnit = (params) => {
