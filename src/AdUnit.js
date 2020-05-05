@@ -99,7 +99,6 @@ const AdFeedbackButton = (params) => {
       })
       .catch((error) => {
         console.log(error);
-        console.log('Status: ' + error.response.status);
         if (error.response && error.response.status === 401) {
           params.handleShowNeedLoginModal();
         }
