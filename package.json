@@ -1,7 +1,6 @@
 {
   "name": "rater",
   "version": "0.1.0",
-  "homepage": "/static",
   "private": true,
   "homepage": "/static",
   "dependencies": {
