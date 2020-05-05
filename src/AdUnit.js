@@ -11,12 +11,12 @@ import Tabs from "react-bootstrap/Tabs";
 import "./AdUnit.css";
 
 const getAdDetailsURL = "/getaddetails";
+const sendAdFeedbackURL = "/ad-feedback";
 const errorImageSrc = 'https://storage.googleapis.com/facebook_ad_archive_screenshots/error.png';
 
 const AdUnit = (params) => {
   const [show, setShow] = useState(false);
   const [ad_details, setAdDetails] = useState([]);
-  const [buttonTitle, setButtonTitle] = useState("Is this ad problematic?");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [adImageSrc, setAdImageSrc] = useState(params.ad.url);
@@ -68,13 +68,10 @@ const AdUnit = (params) => {
       <Button variant="primary" onClick={() => getAdDetails(params.ad.ad_cluster_id)}>
         Ad Details
       </Button>
-      <DropdownButton className="problematic-ad-button" id="dropdown-basic-button" title={buttonTitle}>
-        {['(No Answer)', 'No', 'Misinformation', 'Scam', 'Other'].map(
-          (label) => (
-            <Dropdown.Item href={"#/" + label} key={params.ad.ad_cluster_id + label} eventKey={label} onSelect={setButtonTitle}>{label}</Dropdown.Item>
-          ),
-        )}
-      </DropdownButton>
+      <AdFeedbackButton
+        ad_cluster_id={params.ad.ad_cluster_id}
+        handleShowNeedLoginModal={params.handleShowNeedLoginModal}
+      />
       <AdDetails
         show={show}
         handleClose={handleClose}
@@ -91,6 +88,34 @@ const AdUnit = (params) => {
 const filterfn = (key, val) => {
   return (obj) => obj[key] === val;
 };
+
+const AdFeedbackButton = (params) => {
+  const [buttonTitle, setButtonTitle] = useState("Is this ad problematic?");
+  const handleSelect = (label) => {
+    axios.post(sendAdFeedbackURL + "/" + params.ad_cluster_id + "/set-label/" + label)
+      .then((response) => {
+        console.log(response.data);
+        setButtonTitle(label);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response && error.response.status === 401) {
+          params.handleShowNeedLoginModal();
+        }
+      })
+      .finally(() => {});
+  };
+  const labels = ['(No Answer)', 'No', 'Misinformation', 'Scam', 'Other'];
+  return (
+    <DropdownButton className="problematic-ad-button" id="dropdown-basic-button" title={buttonTitle}>
+      {labels.map(
+        (label) => (
+          <Dropdown.Item href="#" key={params.ad_cluster_id + label} eventKey={label} onSelect={handleSelect}>{label}</Dropdown.Item>
+        ),
+      )}
+    </DropdownButton>
+  );
+}
 
 const AdDetails = (params) => {
   if (!(params.details && params.details.length !== 0)) {
