@@ -10,7 +10,7 @@ import Tabs from "react-bootstrap/Tabs";
 
 import "./AdUnit.css";
 
-const getAdDetailsURL = "http://ccs3usr.engineering.nyu.edu:8010/getaddetails";
+const getAdDetailsURL = "/getaddetails";
 const errorImageSrc = 'https://storage.googleapis.com/facebook_ad_archive_screenshots/error.png';
 
 const AdUnit = (params) => {
@@ -217,10 +217,10 @@ const AdDetails = (params) => {
             title="Alternate Creatives"
             mountOnEnter={true}
           >
-            {params.details.alternative_ads.map((ad) => {
+            {params.details.alternative_ads.map((ad_id) => {
               return (
-                <div className="ad-image-container" key={ad.archive_id}>
-                  <img alt={ad.canonical_archive_id} src={ad.url} />
+                <div className="ad-image-container" key={ad_id}>
+                  <img alt={ad_id} src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
                 </div>
               );
             })}
