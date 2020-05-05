@@ -18,16 +18,9 @@ import orderByOptions from "./data/orderBy.json";
 import orderDirections from "./data/orderDirections.json";
 
 
-// Real Data URL
-const realAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getads";
-
-// Test URL
-const mockAdsURL = "http://ccs3usr.engineering.nyu.edu:8010/getmockads";
-
-const useMockData = false;
 const disableOptions = false;
 
-const getAdsURL = useMockData ? mockAdsURL : realAdsURL;
+const getAdsURL = "/getads";
 
 function App() {
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
@@ -42,6 +35,9 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+  const [showNeedLoginModal, setShowNeedLoginModal] = useState(false);
+  const handleShowNeedLoginModal = () => setShowNeedLoginModal(true);
+  const handleCloseNeedLoginModal = () => setShowNeedLoginModal(false);
   const [ads, setAds] = useState([
     // {  // This is  dummy ad, helpful for testing without loading images
     //   funding_entity: "Funding Entity",
@@ -153,7 +149,7 @@ function App() {
       </div>
       <div className="App-ad-pane">
         {ads.map((ad) => (
-          <AdUnit ad={ad} key={ad.ad_cluster_id} />
+          <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
         ))}
       </div>
       <Modal
@@ -173,6 +169,21 @@ function App() {
           <p>Results are for the entire cluster of ads; to see other ad creatives in the cluster, click on the 'Alternate Creatives' tab. Ad type classifications and entities detected are for all ads in the cluster. If you see metadata that you believe to be in error, please let us know!</p>
           <h2>Limitations</h2>
           <p>Data is delayed approximately 48 hours. All metadata development and risk scores are EXPERIMENTAL.</p>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={showNeedLoginModal}
+        onHide={handleCloseNeedLoginModal}
+        dialogClassName="modal-90w"
+        size="lg"
+      >
+        <Modal.Header>
+          <Modal.Title>Please Login To Use This Tool</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h2>Please login</h2>
+          <p>Either you have not logged in yet, or your session has expired.</p>
+          <a href="/login">Click here to login or register</a>
         </Modal.Body>
       </Modal>
     </div>
