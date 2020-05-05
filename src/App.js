@@ -17,10 +17,9 @@ import riskScores from "./data/riskScores.json";
 import orderByOptions from "./data/orderBy.json";
 import orderDirections from "./data/orderDirections.json";
 
+const getAdsURL = "/getads";
 
 const disableOptions = false;
-
-const getAdsURL = "/getads";
 
 function App() {
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
