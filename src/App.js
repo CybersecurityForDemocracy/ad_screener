@@ -9,19 +9,46 @@ import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
 
-import regions from "./data/regions.json";
-import topics from "./data/topics.json";
-import genders from "./data/genders.json";
-import ageRanges from "./data/ageRanges.json";
-import riskScores from "./data/riskScores.json";
-import orderByOptions from "./data/orderBy.json";
-import orderDirections from "./data/orderDirections.json";
+// import regions from "./data/regions.json";
+// import topics from "./data/topics.json";
+// import genders from "./data/genders.json";
+// import ageRanges from "./data/ageRanges.json";
+// import riskScores from "./data/riskScores.json";
+// import orderByOptions from "./data/orderBy.json";
+// import orderDirections from "./data/orderDirections.json";
 
 const getAdsURL = "/getads";
+const getFilterSelectorDataURL = "/filter-options";
 
 const disableOptions = false;
 
 function App() {
+  const [topics, setTopics] = useState({  });
+  const [regions, setRegions] = useState({  });
+  const [genders, setGenders] = useState({  });
+  const [ageRanges, setAgeRanges] = useState({  });
+  const [riskScores, setRiskScores] = useState({  });
+  const [orderByOptions, setOrderByOptions] = useState({  });
+  const [orderDirections, setOrderDirections] = useState({ });
+  const getFilterSelectorData = (setTopics, setRegions, setGenders, setAgeRanges, setRiskScores, setOrderByOptions, setOrderDirections) => {
+    axios
+      .get(getFilterSelectorDataURL)
+      .then((response) => {
+        console.log(response.data);
+        setTopics(response.data.topics)
+        setRegions(response.data.regions);
+        setGenders(response.data.genders);
+        setAgeRanges(response.data.ageRanges);
+        setRiskScores(response.data.riskScores);
+        setOrderByOptions(response.data.orderByOptions);
+        setOrderDirections(response.data.orderDirections);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {});
+  };
+  getFilterSelectorData(setTopics, setRegions, setGenders, setAgeRanges, setRiskScores, setOrderByOptions, setOrderDirections);
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
   const [endDate, setEndDate] = useState(new Date());
   const [topic, setTopic] = useState({ selectedOption: topics[5] });
