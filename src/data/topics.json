@@ -1,114 +1,118 @@
 [
     {
-        "label": "Abortion",
-        "value": 612
+      "label": "Uncategorized",
+      "value": 0
     },
     {
-        "label": "Addiction",
-        "value": 597
+      "label": "Addiction",
+      "value": 1
     },
     {
-        "label": "African American Community",
-        "value": 616
+      "label": "Democratic Norms",
+      "value": 2
     },
     {
-        "label": "Ballot Measure",
-        "value": 607
+      "label": "Donate",
+      "value": 3
     },
     {
-        "label": "COVID-19",
-        "value": 914
+      "label": "National Security / Terrorism",
+      "value": 4
     },
     {
-        "label": "Children/Parenting/Eldercare",
-        "value": 601
+      "label": "Children/Parenting/Eldercare",
+      "value": 5
     },
     {
-        "label": "Crime",
-        "value": 978
+      "label": "Environment/Climate",
+      "value": 6
     },
     {
-        "label": "Democratic Norms",
-        "value": 598
+      "label": "Elections",
+      "value": 7
     },
     {
-        "label": "Donate",
-        "value": 599
+      "label": "Political persuading / broken system",
+      "value": 8
     },
     {
-        "label": "Economy/Taxes",
-        "value": 622
+      "label": "Veterans Issues",
+      "value": 9
     },
     {
-        "label": "Education  (college/university)",
-        "value": 619
+      "label": "Pending Legislation",
+      "value": 10
     },
     {
-        "label": "Education (K-12)",
-        "value": 618
+      "label": "Ballot Measure",
+      "value": 11
     },
     {
-        "label": "Elections",
-        "value": 606
+      "label": "Rural Community",
+      "value": 12
     },
     {
-        "label": "Energy",
-        "value": 609
-    },
-    {
-        "label": "Environment/Climate",
-        "value": 602
-    },
-    {
-        "label": "Foreign Policy",
-        "value": 617
-    },
-    {
-        "label": "Guns",
-        "value": 615
-    },
-    {
-        "label": "Heathcare",
-        "value": 623
-    },
-    {
-        "label": "Immigration",
-        "value": 613
-    },
-    {
-        "label": "Latino Community",
-        "value": 611
-    },
-    {
-        "label": "Military/War",
-        "value": 614
-    },
-    {
-        "label": "National Security / Terrorism",
-        "value": 600
-    },
-    {
-        "label": "Pending Legislation",
-        "value": 605
-    },
-    {
-        "label": "Political persuading / broken system",
-        "value": 603
-    },
-    {
-        "label": "Regulation",
-        "value": 620
-    },
-    {
-        "label": "Rural Community",
-        "value": 608
-    },
-    {
-        "label": "Veterans Issues",
-        "value": 604
+      "label": "Energy",
+      "value": 13
     },
     {
       "label": "Womens Issues",
-      "value": 610
+      "value": 14
+    },
+    {
+      "label": "Latino Community",
+      "value": 15
+    },
+    {
+      "label": "Abortion",
+      "value": 16
+    },
+    {
+      "label": "Immigration",
+      "value": 17
+    },
+    {
+      "label": "Military/War",
+      "value": 18
+    },
+    {
+      "label": "Guns",
+      "value": 19
+    },
+    {
+      "label": "African American Community",
+      "value": 20
+    },
+    {
+      "label": "Foreign Policy",
+      "value": 21
+    },
+    {
+      "label": "Education (K-12)",
+      "value": 22
+    },
+    {
+      "label": "Education  (college/university)",
+      "value": 23
+    },
+    {
+      "label": "Regulation",
+      "value": 24
+    },
+    {
+      "label": "Economy/Taxes",
+      "value": 25
+    },
+    {
+      "label": "Heathcare",
+      "value": 26
+    },
+    {
+      "label": "COVID-19",
+      "value": 27
+    },
+    {
+      "label": "Crime",
+      "value": 28
     }
 ]
