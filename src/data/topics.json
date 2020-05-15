@@ -1,118 +1,118 @@
 [
     {
-      "label": "Uncategorized",
-      "value": 0
+        "label": "Uncategorized",
+        "value": 0
     },
     {
-      "label": "Addiction",
-      "value": 1
+        "label": "Addiction",
+        "value": 1
     },
     {
-      "label": "Democratic Norms",
-      "value": 2
+        "label": "Democratic Norms",
+        "value": 2
     },
     {
-      "label": "Donate",
-      "value": 3
+        "label": "Donate",
+        "value": 3
     },
     {
-      "label": "National Security / Terrorism",
-      "value": 4
+        "label": "National Security / Terrorism",
+        "value": 4
     },
     {
-      "label": "Children/Parenting/Eldercare",
-      "value": 5
+        "label": "Children/Parenting/Eldercare",
+        "value": 5
     },
     {
-      "label": "Environment/Climate",
-      "value": 6
+        "label": "Environment/Climate",
+        "value": 6
     },
     {
-      "label": "Elections",
-      "value": 7
+        "label": "Elections",
+        "value": 7
     },
     {
-      "label": "Political persuading / broken system",
-      "value": 8
+        "label": "Political persuading / broken system",
+        "value": 8
     },
     {
-      "label": "Veterans Issues",
-      "value": 9
+        "label": "Veterans Issues",
+        "value": 9
     },
     {
-      "label": "Pending Legislation",
-      "value": 10
+        "label": "Pending Legislation",
+        "value": 10
     },
     {
-      "label": "Ballot Measure",
-      "value": 11
+        "label": "Ballot Measure",
+        "value": 11
     },
     {
-      "label": "Rural Community",
-      "value": 12
+        "label": "Rural Community",
+        "value": 12
     },
     {
-      "label": "Energy",
-      "value": 13
+        "label": "Energy",
+        "value": 13
     },
     {
-      "label": "Womens Issues",
-      "value": 14
+        "label": "Womens Issues",
+        "value": 14
     },
     {
-      "label": "Latino Community",
-      "value": 15
+        "label": "Latino Community",
+        "value": 15
     },
     {
-      "label": "Abortion",
-      "value": 16
+        "label": "Abortion",
+        "value": 16
     },
     {
-      "label": "Immigration",
-      "value": 17
+        "label": "Immigration",
+        "value": 17
     },
     {
-      "label": "Military/War",
-      "value": 18
+        "label": "Military/War",
+        "value": 18
     },
     {
-      "label": "Guns",
-      "value": 19
+        "label": "Guns",
+        "value": 19
     },
     {
-      "label": "African American Community",
-      "value": 20
+        "label": "African American Community",
+        "value": 20
     },
     {
-      "label": "Foreign Policy",
-      "value": 21
+        "label": "Foreign Policy",
+        "value": 21
     },
     {
-      "label": "Education (K-12)",
-      "value": 22
+        "label": "Education (K-12)",
+        "value": 22
     },
     {
-      "label": "Education  (college/university)",
-      "value": 23
+        "label": "Education  (college/university)",
+        "value": 23
     },
     {
-      "label": "Regulation",
-      "value": 24
+        "label": "Regulation",
+        "value": 24
     },
     {
-      "label": "Economy/Taxes",
-      "value": 25
+        "label": "Economy/Taxes",
+        "value": 25
     },
     {
-      "label": "Heathcare",
-      "value": 26
+        "label": "Heathcare",
+        "value": 26
     },
     {
-      "label": "COVID-19",
-      "value": 27
+        "label": "COVID-19",
+        "value": 27
     },
     {
-      "label": "Crime",
-      "value": 28
+        "label": "Crime",
+        "value": 28
     }
 ]
