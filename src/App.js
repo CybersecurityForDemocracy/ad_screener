@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
@@ -22,42 +22,67 @@ const getFilterSelectorDataURL = "/filter-options";
 
 const disableOptions = false;
 
+
+
+// getFilterSelectorData();
+
 function App() {
-  const [topics, setTopics] = useState({  });
-  const [regions, setRegions] = useState({  });
-  const [genders, setGenders] = useState({  });
-  const [ageRanges, setAgeRanges] = useState({  });
-  const [riskScores, setRiskScores] = useState({  });
-  const [orderByOptions, setOrderByOptions] = useState({  });
-  const [orderDirections, setOrderDirections] = useState({ });
-  const getFilterSelectorData = (setTopics, setRegions, setGenders, setAgeRanges, setRiskScores, setOrderByOptions, setOrderDirections) => {
-    axios
-      .get(getFilterSelectorDataURL)
-      .then((response) => {
-        console.log(response.data);
-        setTopics(response.data.topics)
-        setRegions(response.data.regions);
-        setGenders(response.data.genders);
-        setAgeRanges(response.data.ageRanges);
-        setRiskScores(response.data.riskScores);
-        setOrderByOptions(response.data.orderByOptions);
-        setOrderDirections(response.data.orderDirections);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {});
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [filterSelectorData, setFilterSelectorData] = useState({});
+  const getFilterSelectorData = () => {
+      axios
+        .get(getFilterSelectorDataURL)
+        .then((response) => {
+          console.log(response.data);
+          setFilterSelectorData(response.data);
+          setIsLoaded(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {});
   };
-  getFilterSelectorData(setTopics, setRegions, setGenders, setAgeRanges, setRiskScores, setOrderByOptions, setOrderDirections);
+
+  useEffect(() => {
+    getFilterSelectorData();
+  }, []);
+
+  if (!isLoaded) {
+    return (<h1>Loading...</h1>);
+  }
+
+  const topics = filterSelectorData.topics;
+  const regions = filterSelectorData.regions;
+  const genders = filterSelectorData.genders;
+  const ageRanges = filterSelectorData.ageRanges;
+  const riskScores = filterSelectorData.riskScores;
+  const orderByOptions = filterSelectorData.orderByOptions;
+  const orderDirections = filterSelectorData.orderDirections;
+
+  return (
+    <AdScreener
+      topics={topics}
+      regions={regions}
+      genders={genders}
+      ageRanges={ageRanges}
+      riskScores={riskScores}
+      orderByOptions={orderByOptions}
+      orderDirections={orderDirections}
+    />
+  );
+};
+
+const AdScreener = (params) => {
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
   const [endDate, setEndDate] = useState(new Date());
-  const [topic, setTopic] = useState({ selectedOption: topics[5] });
-  const [region, setRegion] = useState({ selectedOption: regions[0] });
-  const [gender, setGender] = useState({ selectedOption: genders[0] });
-  const [ageRange, setAgeRange] = useState({ selectedOption: ageRanges[0] });
-  const [riskScore, setRiskScore] = useState({ selectedOption: riskScores[0] });
-  const [orderBy, setOrderBy] = useState({ selectedOption: orderByOptions[0] });
-  const [orderDirection, setOrderDirection] = useState({ selectedOption: orderDirections[0] });
+  const [topic, setTopic] = useState({ selectedOption: params.topics[0] });
+  const [region, setRegion] = useState({ selectedOption: params.regions[0] });
+  const [gender, setGender] = useState({ selectedOption: params.genders[0] });
+  const [ageRange, setAgeRange] = useState({ selectedOption: params.ageRanges[0 ]});
+  const [riskScore, setRiskScore] = useState({ selectedOption: params.riskScores[0] });
+  const [orderBy, setOrderBy] = useState({ selectedOption: params.orderByOptions[0] });
+  const [orderDirection, setOrderDirection] = useState({ selectedOption: params.orderDirections[0] });
+
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -121,48 +146,48 @@ function App() {
           setState={setTopic}
           option={topic}
           title="Topic"
-          options={topics}
+          options={params.topics}
         />
         <FilterSelector
           setState={setRegion}
           option={region}
           title="Region"
-          options={regions}
+          options={params.regions}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setGender}
           option={gender}
           title="Gender"
-          options={genders}
+          options={params.genders}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setAgeRange}
           option={ageRange}
           title="Age Range"
-          options={ageRanges}
+          options={params.ageRanges}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setRiskScore}
           option={riskScore}
           title="Risk Score"
-          options={riskScores}
+          options={params.riskScores}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setOrderBy}
           option={orderBy}
           title="Sort By Field"
-          options={orderByOptions}
+          options={params.orderByOptions}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setOrderDirection}
           option={orderDirection}
           title="Sort Order"
-          options={orderDirections}
+          options={params.orderDirections}
           disabled={disableOptions}
         />
         <TimePeriodPicker
