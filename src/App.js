@@ -70,7 +70,6 @@ const AdScreener = (params) => {
   const [riskScore, setRiskScore] = useState({ selectedOption: params.riskScores[0] });
   const [orderBy, setOrderBy] = useState({ selectedOption: params.orderByOptions[0] });
   const [orderDirection, setOrderDirection] = useState({ selectedOption: params.orderDirections[0] });
-
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
