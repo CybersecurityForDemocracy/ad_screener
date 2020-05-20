@@ -9,14 +9,6 @@ import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
 
-// import regions from "./data/regions.json";
-// import topics from "./data/topics.json";
-// import genders from "./data/genders.json";
-// import ageRanges from "./data/ageRanges.json";
-// import riskScores from "./data/riskScores.json";
-// import orderByOptions from "./data/orderBy.json";
-// import orderDirections from "./data/orderDirections.json";
-
 const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
 
