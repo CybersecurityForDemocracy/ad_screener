@@ -66,7 +66,7 @@ const AdScreener = (params) => {
   const [topic, setTopic] = useState({ selectedOption: params.topics[0] });
   const [region, setRegion] = useState({ selectedOption: params.regions[0] });
   const [gender, setGender] = useState({ selectedOption: params.genders[0] });
-  const [ageRange, setAgeRange] = useState({ selectedOption: params.ageRanges[0 ]});
+  const [ageRange, setAgeRange] = useState({ selectedOption: params.ageRanges[0] });
   const [riskScore, setRiskScore] = useState({ selectedOption: params.riskScores[0] });
   const [orderBy, setOrderBy] = useState({ selectedOption: params.orderByOptions[0] });
   const [orderDirection, setOrderDirection] = useState({ selectedOption: params.orderDirections[0] });
