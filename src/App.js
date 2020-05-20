@@ -27,7 +27,7 @@ const disableOptions = false;
 // getFilterSelectorData();
 
 function App() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isFilterSelectorDataLoaded, setIsFilterSelectorDataLoaded] = useState(false);
   const [filterSelectorData, setFilterSelectorData] = useState({});
   const getFilterSelectorData = () => {
       axios
@@ -35,7 +35,7 @@ function App() {
         .then((response) => {
           console.log(response.data);
           setFilterSelectorData(response.data);
-          setIsLoaded(true);
+          setIsFilterSelectorDataLoaded(true);
         })
         .catch((error) => {
           console.log(error);
@@ -47,7 +47,7 @@ function App() {
     getFilterSelectorData();
   }, []);
 
-  if (!isLoaded) {
+  if (!isFilterSelectorDataLoaded) {
     return (<h1>Loading...</h1>);
   }
 
