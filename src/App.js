@@ -14,10 +14,6 @@ const getFilterSelectorDataURL = "/filter-options";
 
 const disableOptions = false;
 
-
-
-// getFilterSelectorData();
-
 function App() {
   const [isFilterSelectorDataLoaded, setIsFilterSelectorDataLoaded] = useState(false);
   const [filterSelectorData, setFilterSelectorData] = useState({});
