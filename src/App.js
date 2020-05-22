@@ -135,6 +135,9 @@ const AdScreener = (params) => {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response && error.response.status === 401) {
+          handleShowNeedLoginModal();
+        }
       })
       .finally(() => {});
   };
