@@ -111,7 +111,7 @@ const AdScreener = (params) => {
       })
       .catch((error) => {
         console.log(error);
-        if (error.response && error.response.status === 401) {
+        if (error.response && (error.response.status === 302 || error.response.status === 401)) {
           handleShowNeedLoginModal();
         }
       })
