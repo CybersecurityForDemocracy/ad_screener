@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
@@ -60,6 +60,24 @@ function App() {
   );
 };
 
+const PageNavigation = (params) => {
+  const showNext = params.showNext > 0;
+  const showPrevious = showNext && params.showPrevious;
+  if (!showNext) {
+    return null;
+  }
+  if (showPrevious) {
+    return (
+      <div><Button onClick={params.onClickPrevious}>Previous</Button>
+      <Button onClick={params.onClickNext}>Next</Button></div>
+    );
+  } else {
+    return (
+      <div><Button onClick={params.onClickNext}>Next</Button></div>
+    );
+  }
+};
+
 const AdScreener = (params) => {
   const [startDate, setStartDate] = useState(addDays(new Date(), -7));
   const [endDate, setEndDate] = useState(new Date());
@@ -70,6 +88,10 @@ const AdScreener = (params) => {
   const [riskScore, setRiskScore] = useState({ selectedOption: params.riskScores[0] });
   const [orderBy, setOrderBy] = useState({ selectedOption: params.orderByOptions[0] });
   const [orderDirection, setOrderDirection] = useState({ selectedOption: params.orderDirections[0] });
+  const numResultsToRequest = 20;
+  const resultsOffset = useRef(0);
+  const incermentOffset = (i) => { resultsOffset.current = resultsOffset.current + i };
+  const decermentOffset = (i) => { if (resultsOffset.current >= i) {resultsOffset.current = resultsOffset.current - i }};
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -102,7 +124,9 @@ const AdScreener = (params) => {
           ageRange: ageRange.selectedOption.value,
           riskScore: riskScore.selectedOption.value,
           orderBy: orderBy.selectedOption.value,
-          orderDirection: orderDirection.selectedOption.value
+          orderDirection: orderDirection.selectedOption.value,
+          numResults: numResultsToRequest,
+          offset: resultsOffset.current
         },
       })
       .then((response) => {
@@ -113,6 +137,15 @@ const AdScreener = (params) => {
         console.log(error);
       })
       .finally(() => {});
+  };
+
+  const getPreviousPageOfAds = () => {
+    decermentOffset(numResultsToRequest);
+    getAds();
+  };
+  const getNextPageOfAds = () => {
+    incermentOffset(numResultsToRequest);
+    getAds();
   };
 
   return (
@@ -190,6 +223,12 @@ const AdScreener = (params) => {
           <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
         ))}
       </div>
+      <PageNavigation
+        showNext={ads.length > 0}
+        showPrevious={resultsOffset.current > 0}
+        onClickPrevious={getPreviousPageOfAds}
+        onClickNext={getNextPageOfAds}
+      />
       <Modal
         show={showModal}
         onHide={handleClose}
