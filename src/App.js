@@ -90,6 +90,7 @@ const AdScreener = (params) => {
   const [orderDirection, setOrderDirection] = useState({ selectedOption: params.orderDirections[0] });
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
+  const resetOffset = () => { resultsOffset.current = 0 };
   const incermentOffset = (i) => { resultsOffset.current = resultsOffset.current + i };
   const decermentOffset = (i) => { if (resultsOffset.current >= i) {resultsOffset.current = resultsOffset.current - i }};
   const [showModal, setShowModal] = useState(false);
@@ -148,6 +149,11 @@ const AdScreener = (params) => {
   };
   const getNextPageOfAds = () => {
     incermentOffset(numResultsToRequest);
+    getAds();
+  };
+
+  const getFirstPageOfAds = () => {
+    resetOffset();
     getAds();
   };
 
@@ -219,7 +225,7 @@ const AdScreener = (params) => {
           endDate={endDate}
           setEndDate={setEndDate}
         />
-        <Button variant="primary" onClick={getAds}>Get Ads</Button>
+        <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
       <div className="App-ad-pane">
         {ads.map((ad) => (
