@@ -1,7 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
 import { useQueryParam, StringParam } from 'use-query-params';
-import { Link } from 'react-router-dom';
 
 const FilterSelector = params => {
   const [param, setParam] = useQueryParam(params.title, StringParam);

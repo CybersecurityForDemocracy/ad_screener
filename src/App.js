@@ -3,8 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { addDays } from "date-fns";
-import { useQueryParam, StringParam } from 'use-query-params';
-import { Link } from 'react-router-dom';
+import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 
 import "./App.css";
 import AdUnit from "./AdUnit.js";
@@ -17,11 +16,7 @@ const getFilterSelectorDataURL = "/filter-options";
 const disableOptions = false;
 
 function getIndex(array,key){
-  for (var i=0; i < array.length; i++) {
-    if (array[i].value === key) {
-      return i;
-    }
-  }
+  return array.findIndex(element => element.value === key);
 }
 
 function App() {
@@ -92,7 +87,7 @@ const AdScreener = (params) => {
 
   const [startDate_param, setStartDateParam] = useQueryParam('Start Date', StringParam);
   const [endDate_param, setEndDateParam] = useQueryParam('End Date', StringParam);
-  const [topic_param, setTopicParam] = useQueryParam('Topic', StringParam);
+  const [topic_param, setTopicParam] = useQueryParam('Topic', NumberParam);
   const [region_param, setRegionParam] = useQueryParam('Region', StringParam);
   const [gender_param, setGenderParam] = useQueryParam('Gender', StringParam);
   const [ageRange_param, setAgeRangeParam] = useQueryParam('Age Range', StringParam);
