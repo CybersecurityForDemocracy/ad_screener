@@ -1,13 +1,19 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useQueryParam, StringParam } from 'use-query-params';
+import { Link } from 'react-router-dom';
 
 const TimePeriodPicker = (params) => {
+  const [sd, setsd] = useQueryParam('Start Date', StringParam);
+  const [ed, seted] = useQueryParam('End Date', StringParam);
   const updateStartTime = (date) => {
     params.setStartDate(date);
+    setsd(date.toString());
   };
   const updateEndTime = (date) => {
     params.setEndDate(date);
+    seted(date.toString());
   };
   console.log(params.startDate);
   console.log(params.endDate);
