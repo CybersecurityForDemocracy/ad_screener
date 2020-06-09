@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { addDays } from "date-fns";
+import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
+import { Link } from 'react-router-dom';
 
 import "./App.css";
 import AdUnit from "./AdUnit.js";
@@ -13,6 +15,10 @@ const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
 
 const disableOptions = false;
+
+function getSelectorValue(array,param){
+	return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
+}
 
 function App() {
   const [isFilterSelectorDataLoaded, setIsFilterSelectorDataLoaded] = useState(false);
@@ -79,15 +85,27 @@ const PageNavigation = (params) => {
 };
 
 const AdScreener = (params) => {
-  const [startDate, setStartDate] = useState(addDays(new Date(), -7));
-  const [endDate, setEndDate] = useState(new Date());
-  const [topic, setTopic] = useState({ selectedOption: params.topics[0] });
-  const [region, setRegion] = useState({ selectedOption: params.regions[0] });
-  const [gender, setGender] = useState({ selectedOption: params.genders[0] });
-  const [ageRange, setAgeRange] = useState({ selectedOption: params.ageRanges[0] });
-  const [riskScore, setRiskScore] = useState({ selectedOption: params.riskScores[0] });
-  const [orderBy, setOrderBy] = useState({ selectedOption: params.orderByOptions[0] });
-  const [orderDirection, setOrderDirection] = useState({ selectedOption: params.orderDirections[0] });
+
+  const [startDateParam, setStartDateParam] = useQueryParam('Start Date', StringParam);
+  const [endDateParam, setEndDateParam] = useQueryParam('End Date', StringParam);
+  const [topicParam, setTopicParam] = useQueryParam('Topic', StringParam);
+  const [regionParam, setRegionParam] = useQueryParam('Region', StringParam);
+  const [genderParam, setGenderParam] = useQueryParam('Gender', StringParam);
+  const [ageRangeParam, setAgeRangeParam] = useQueryParam('Age Range', StringParam);
+  const [riskScoreParam, setRiskScoreParam] = useQueryParam('Risk Score', StringParam);
+  const [orderByParam, setOrderByParam] = useQueryParam('Sort By Field', StringParam);
+  const [orderDirectionParam, setOrderDirectionParam] = useQueryParam('Sort Order', StringParam);
+
+  const [startDate, setStartDate] = useState((startDateParam===undefined) ? addDays(new Date(), -7) : new Date(startDateParam));
+  const [endDate, setEndDate] = useState((endDateParam===undefined) ? new Date() : new Date(endDateParam));
+  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,parseInt(topicParam))});
+  const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam)});
+  const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam)});
+  const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam)});
+  const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam)});
+  const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam)});
+  const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
+  
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
   const resetOffset = () => { resultsOffset.current = 0 };
