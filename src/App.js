@@ -98,7 +98,7 @@ const AdScreener = (params) => {
 
   const [startDate, setStartDate] = useState((startDateParam===undefined) ? addDays(new Date(), -7) : new Date(startDateParam));
   const [endDate, setEndDate] = useState((endDateParam===undefined) ? new Date() : new Date(endDateParam));
-  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,parseInt(topicParam))});
+  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,topicParam)});
   const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam)});
   const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam)});
   const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam)});
