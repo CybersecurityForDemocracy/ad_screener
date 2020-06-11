@@ -105,7 +105,7 @@ const AdFeedbackButton = (params) => {
       })
       .finally(() => {});
   };
-  const labels = ['(No Answer)', 'No', 'Misinformation', 'Scam', 'Other'];
+  const labels = ['(No Answer)', 'No', 'Misinformation', 'Scam', 'Other', 'Miscategorized'];
   return (
     <DropdownButton className="problematic-ad-button" id="dropdown-basic-button" title={buttonTitle}>
       {labels.map(

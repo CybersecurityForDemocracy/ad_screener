@@ -1,36 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { addDays } from "date-fns";
+import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
+import { Link } from 'react-router-dom';
 
 import "./App.css";
 import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
 
-import regions from "./data/regions.json";
-import topics from "./data/topics.json";
-import genders from "./data/genders.json";
-import ageRanges from "./data/ageRanges.json";
-import riskScores from "./data/riskScores.json";
-import orderByOptions from "./data/orderBy.json";
-import orderDirections from "./data/orderDirections.json";
-
 const getAdsURL = "/getads";
+const getFilterSelectorDataURL = "/filter-options";
 
 const disableOptions = false;
 
+function getSelectorValue(array,param){
+	return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
+}
+
 function App() {
-  const [startDate, setStartDate] = useState(addDays(new Date(), -7));
-  const [endDate, setEndDate] = useState(new Date());
-  const [topic, setTopic] = useState({ selectedOption: topics[5] });
-  const [region, setRegion] = useState({ selectedOption: regions[0] });
-  const [gender, setGender] = useState({ selectedOption: genders[0] });
-  const [ageRange, setAgeRange] = useState({ selectedOption: ageRanges[0] });
-  const [riskScore, setRiskScore] = useState({ selectedOption: riskScores[0] });
-  const [orderBy, setOrderBy] = useState({ selectedOption: orderByOptions[0] });
-  const [orderDirection, setOrderDirection] = useState({ selectedOption: orderDirections[0] });
+  const [isFilterSelectorDataLoaded, setIsFilterSelectorDataLoaded] = useState(false);
+  const [filterSelectorData, setFilterSelectorData] = useState({});
+  const getFilterSelectorData = () => {
+      axios
+        .get(getFilterSelectorDataURL)
+        .then((response) => {
+          console.log(response.data);
+          setFilterSelectorData(response.data);
+          setIsFilterSelectorDataLoaded(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {});
+  };
+
+  useEffect(() => {
+    getFilterSelectorData();
+  }, []);
+
+  if (!isFilterSelectorDataLoaded) {
+    return (<h1>Loading...</h1>);
+  }
+
+  const topics = filterSelectorData.topics;
+  const regions = filterSelectorData.regions;
+  const genders = filterSelectorData.genders;
+  const ageRanges = filterSelectorData.ageRanges;
+  const riskScores = filterSelectorData.riskScores;
+  const orderByOptions = filterSelectorData.orderByOptions;
+  const orderDirections = filterSelectorData.orderDirections;
+
+  return (
+    <AdScreener
+      topics={topics}
+      regions={regions}
+      genders={genders}
+      ageRanges={ageRanges}
+      riskScores={riskScores}
+      orderByOptions={orderByOptions}
+      orderDirections={orderDirections}
+    />
+  );
+};
+
+const PageNavigation = (params) => {
+  const showNext = params.showNext > 0;
+  const showPrevious = showNext && params.showPrevious;
+  if (!showNext) {
+    return null;
+  }
+  if (showPrevious) {
+    return (
+      <div><Button onClick={params.onClickPrevious}>Previous</Button>
+      <Button onClick={params.onClickNext}>Next</Button></div>
+    );
+  } else {
+    return (
+      <div><Button onClick={params.onClickNext}>Next</Button></div>
+    );
+  }
+};
+
+const AdScreener = (params) => {
+
+  const [startDateParam, setStartDateParam] = useQueryParam('Start Date', StringParam);
+  const [endDateParam, setEndDateParam] = useQueryParam('End Date', StringParam);
+  const [topicParam, setTopicParam] = useQueryParam('Topic', StringParam);
+  const [regionParam, setRegionParam] = useQueryParam('Region', StringParam);
+  const [genderParam, setGenderParam] = useQueryParam('Gender', StringParam);
+  const [ageRangeParam, setAgeRangeParam] = useQueryParam('Age Range', StringParam);
+  const [riskScoreParam, setRiskScoreParam] = useQueryParam('Risk Score', StringParam);
+  const [orderByParam, setOrderByParam] = useQueryParam('Sort By Field', StringParam);
+  const [orderDirectionParam, setOrderDirectionParam] = useQueryParam('Sort Order', StringParam);
+
+  const [startDate, setStartDate] = useState((startDateParam===undefined) ? addDays(new Date(), -7) : new Date(startDateParam));
+  const [endDate, setEndDate] = useState((endDateParam===undefined) ? new Date() : new Date(endDateParam));
+  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,topicParam)});
+  const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam)});
+  const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam)});
+  const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam)});
+  const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam)});
+  const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam)});
+  const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
+  
+  const numResultsToRequest = 20;
+  const resultsOffset = useRef(0);
+  const resetOffset = () => { resultsOffset.current = 0 };
+  const incermentOffset = (i) => { resultsOffset.current = resultsOffset.current + i };
+  const decermentOffset = (i) => { if (resultsOffset.current >= i) {resultsOffset.current = resultsOffset.current - i }};
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -63,7 +143,9 @@ function App() {
           ageRange: ageRange.selectedOption.value,
           riskScore: riskScore.selectedOption.value,
           orderBy: orderBy.selectedOption.value,
-          orderDirection: orderDirection.selectedOption.value
+          orderDirection: orderDirection.selectedOption.value,
+          numResults: numResultsToRequest,
+          offset: resultsOffset.current
         },
       })
       .then((response) => {
@@ -72,8 +154,25 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
+        if (error.response && error.response.status === 401) {
+          handleShowNeedLoginModal();
+        }
       })
       .finally(() => {});
+  };
+
+  const getPreviousPageOfAds = () => {
+    decermentOffset(numResultsToRequest);
+    getAds();
+  };
+  const getNextPageOfAds = () => {
+    incermentOffset(numResultsToRequest);
+    getAds();
+  };
+
+  const getFirstPageOfAds = () => {
+    resetOffset();
+    getAds();
   };
 
   return (
@@ -94,48 +193,48 @@ function App() {
           setState={setTopic}
           option={topic}
           title="Topic"
-          options={topics}
+          options={params.topics}
         />
         <FilterSelector
           setState={setRegion}
           option={region}
           title="Region"
-          options={regions}
+          options={params.regions}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setGender}
           option={gender}
           title="Gender"
-          options={genders}
+          options={params.genders}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setAgeRange}
           option={ageRange}
           title="Age Range"
-          options={ageRanges}
+          options={params.ageRanges}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setRiskScore}
           option={riskScore}
           title="Risk Score"
-          options={riskScores}
+          options={params.riskScores}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setOrderBy}
           option={orderBy}
           title="Sort By Field"
-          options={orderByOptions}
+          options={params.orderByOptions}
           disabled={disableOptions}
         />
         <FilterSelector
           setState={setOrderDirection}
           option={orderDirection}
           title="Sort Order"
-          options={orderDirections}
+          options={params.orderDirections}
           disabled={disableOptions}
         />
         <TimePeriodPicker
@@ -144,13 +243,19 @@ function App() {
           endDate={endDate}
           setEndDate={setEndDate}
         />
-        <Button variant="primary" onClick={getAds}>Get Ads</Button>
+        <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
       <div className="App-ad-pane">
         {ads.map((ad) => (
           <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
         ))}
       </div>
+      <PageNavigation
+        showNext={ads.length > 0}
+        showPrevious={resultsOffset.current > 0}
+        onClickPrevious={getPreviousPageOfAds}
+        onClickNext={getNextPageOfAds}
+      />
       <Modal
         show={showModal}
         onHide={handleClose}
