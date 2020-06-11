@@ -118,8 +118,8 @@ const AdScreener = (params) => {
   const [showNeedLoginModal, setShowNeedLoginModal] = useState(false);
   const handleShowNeedLoginModal = () => setShowNeedLoginModal(true);
   const handleCloseNeedLoginModal = () => setShowNeedLoginModal(false);
-  const [isAdDataLoaded, setIsAdDataLoaded] = useState(true);
-  const [isAdDataNotEmpty, setIsAdDataNotEmpty] = useState(true);
+  const [isGetAdsRequestPending, setIsGetAdsRequestPending] = useState(false);
+  const [isAdDataEmpty, setIsAdDataEmpty] = useState(false);
   const [ads, setAds] = useState([
     // {  // This is  dummy ad, helpful for testing without loading images
     //   funding_entity: "Funding Entity",
@@ -134,8 +134,8 @@ const AdScreener = (params) => {
   ]);
 
   const getAds = () => {
-    setIsAdDataLoaded(false);
-    setIsAdDataNotEmpty(false);
+    setIsGetAdsRequestPending(true);
+    setIsAdDataEmpty(true);
     axios
       .get(getAdsURL, {
         params: {
@@ -156,10 +156,8 @@ const AdScreener = (params) => {
       .then((response) => {
         console.log(response.data);
         setAds(response.data);
-        if(response.data.length !== 0){
-          setIsAdDataNotEmpty(true);
-        }
-        setIsAdDataLoaded(true);
+        setIsAdDataEmpty(response.data.length == 0);
+        setIsGetAdsRequestPending(false);
       })
       .catch((error) => {
         console.log(error);
@@ -255,8 +253,8 @@ const AdScreener = (params) => {
         />
         <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
-      {!isAdDataLoaded ? <div align="center"><ReactLoading type="spin" color="#000"/></div> :
-        !isAdDataNotEmpty ? <p>No results found</p> : 
+      {isGetAdsRequestPending ? <div align="center"><ReactLoading type="spin" color="#000"/></div> :
+        isAdDataEmpty ? <p>No results found</p> :
         <div>
         <div className="App-ad-pane">
           {ads.map((ad) => (
