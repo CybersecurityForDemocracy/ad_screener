@@ -5,6 +5,7 @@ import axios from "axios";
 import { addDays } from "date-fns";
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
 import { Link } from 'react-router-dom';
+import ReactLoading from 'react-loading';
 
 import "./App.css";
 import AdUnit from "./AdUnit.js";
@@ -17,7 +18,7 @@ const getFilterSelectorDataURL = "/filter-options";
 const disableOptions = false;
 
 function getSelectorValue(array,param){
-	return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
+	return (param==undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
 }
 
 function App() {
@@ -84,6 +85,47 @@ const PageNavigation = (params) => {
   }
 };
 
+const AdCluster = (params) => {
+  const isGetAdsRequestPending = params.isGetAdsRequestPending;
+  const isAdDataEmpty = params.isAdDataEmpty;
+  const ads = params.ads;
+  const handleShowNeedLoginModal = params.handleShowNeedLoginModal;
+  const resultsOffset = params.resultsOffset;
+  const getPreviousPageOfAds = params.getPreviousPageOfAds;
+  const getNextPageOfAds = params.getNextPageOfAds;
+
+  if(!isGetAdsRequestPending) {
+    return (
+      <div align="center"><br /><br /><ReactLoading type="spin" color="#000"/></div>
+    );
+  }
+  else {
+    if(isAdDataEmpty) {
+      return (
+        <div><br /><br /><p>No results found</p></div>
+      );
+    }
+    else{
+      return (
+        <div>
+          <div className="App-ad-pane" align="center">
+            {ads.map((ad) => (
+              <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
+            ))}
+          </div>
+          <PageNavigation
+            showNext={ads.length > 0}
+            showPrevious={resultsOffset.current > 0}
+            onClickPrevious={getPreviousPageOfAds}
+            onClickNext={getNextPageOfAds}
+          />
+        </div>
+      );
+    }
+  }
+  return (<div><br /><br /><p>Error loading results</p></div>);
+}
+
 const AdScreener = (params) => {
 
   const [startDateParam, setStartDateParam] = useQueryParam('Start Date', StringParam);
@@ -117,6 +159,8 @@ const AdScreener = (params) => {
   const [showNeedLoginModal, setShowNeedLoginModal] = useState(false);
   const handleShowNeedLoginModal = () => setShowNeedLoginModal(true);
   const handleCloseNeedLoginModal = () => setShowNeedLoginModal(false);
+  const [isGetAdsRequestPending, setIsGetAdsRequestPending] = useState(false);
+  const [isAdDataEmpty, setIsAdDataEmpty] = useState(false);
   const [ads, setAds] = useState([
     // {  // This is  dummy ad, helpful for testing without loading images
     //   funding_entity: "Funding Entity",
@@ -131,6 +175,8 @@ const AdScreener = (params) => {
   ]);
 
   const getAds = () => {
+    setIsGetAdsRequestPending(true);
+    setIsAdDataEmpty(true);
     axios
       .get(getAdsURL, {
         params: {
@@ -151,6 +197,8 @@ const AdScreener = (params) => {
       .then((response) => {
         console.log(response.data);
         setAds(response.data);
+        setIsAdDataEmpty(response.data.length === 0);
+        setIsGetAdsRequestPending(false);
       })
       .catch((error) => {
         console.log(error);
@@ -165,6 +213,7 @@ const AdScreener = (params) => {
     decermentOffset(numResultsToRequest);
     getAds();
   };
+  
   const getNextPageOfAds = () => {
     incermentOffset(numResultsToRequest);
     getAds();
@@ -245,17 +294,17 @@ const AdScreener = (params) => {
         />
         <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
-      <div className="App-ad-pane">
-        {ads.map((ad) => (
-          <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
-        ))}
-      </div>
-      <PageNavigation
-        showNext={ads.length > 0}
-        showPrevious={resultsOffset.current > 0}
-        onClickPrevious={getPreviousPageOfAds}
-        onClickNext={getNextPageOfAds}
+
+      <AdCluster
+        isGetAdsRequestPending={isGetAdsRequestPending}
+        isAdDataEmpty={isAdDataEmpty}
+        ads={ads}
+        handleShowNeedLoginModal={handleShowNeedLoginModal}
+        resultsOffset={resultsOffset}
+        getPreviousPageOfAds={getPreviousPageOfAds}
+        getNextPageOfAds={getNextPageOfAds}
       />
+
       <Modal
         show={showModal}
         onHide={handleClose}
