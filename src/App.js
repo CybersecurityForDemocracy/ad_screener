@@ -99,31 +99,28 @@ const AdCluster = (params) => {
       <div align="center"><br /><br /><ReactLoading type="spin" color="#000"/></div>
     );
   }
-  else {
-    if(isAdDataEmpty) {
-      return (
-        <div><br /><br /><p>No results found</p></div>
-      );
-    }
-    else{
-      return (
-        <div>
-          <div className="App-ad-pane" align="center">
-            {ads.map((ad) => (
-              <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
-            ))}
-          </div>
-          <PageNavigation
-            showNext={ads.length > 0}
-            showPrevious={resultsOffset.current > 0}
-            onClickPrevious={getPreviousPageOfAds}
-            onClickNext={getNextPageOfAds}
-          />
-        </div>
-      );
-    }
+  
+  if(isAdDataEmpty) {
+    return (
+      <div><br /><br /><p>No results found</p></div>
+    );
   }
-  return (<div><br /><br /><p>Error loading results</p></div>);
+    
+  return (
+    <div>
+      <div className="App-ad-pane" align="center">
+        {ads.map((ad) => (
+          <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
+        ))}
+      </div>
+      <PageNavigation
+        showNext={ads.length > 0}
+        showPrevious={resultsOffset.current > 0}
+        onClickPrevious={getPreviousPageOfAds}
+        onClickNext={getNextPageOfAds}
+      />
+    </div>
+  );
 }
 
 const AdScreener = (params) => {
