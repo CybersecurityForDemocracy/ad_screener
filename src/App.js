@@ -94,7 +94,7 @@ const AdClustersDisplay = (params) => {
   const getPreviousPageOfAds = params.getPreviousPageOfAds;
   const getNextPageOfAds = params.getNextPageOfAds;
 
-  if(!isGetAdsRequestPending) {
+  if(isGetAdsRequestPending) {
     return (
       <div align="center"><br /><br /><ReactLoading type="spin" color="#000"/></div>
     );
