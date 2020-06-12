@@ -85,7 +85,7 @@ const PageNavigation = (params) => {
   }
 };
 
-const AdCluster = (params) => {
+const AdClustersDisplay = (params) => {
   const isGetAdsRequestPending = params.isGetAdsRequestPending;
   const isAdDataEmpty = params.isAdDataEmpty;
   const ads = params.ads;
@@ -292,7 +292,7 @@ const AdScreener = (params) => {
         <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
 
-      <AdCluster
+      <AdClustersDisplay
         isGetAdsRequestPending={isGetAdsRequestPending}
         isAdDataEmpty={isAdDataEmpty}
         ads={ads}
