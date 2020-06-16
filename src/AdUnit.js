@@ -91,7 +91,7 @@ const filterfn = (key, val) => {
 };
 
 const AdFeedbackButton = (params) => {
-  const [buttonTitle, setButtonTitle] = useState(params.label_name === '' ? "Is this ad problematic?" : params.label_name);
+  const [buttonTitle, setButtonTitle] = useState(params.label_name === null ? "Is this ad problematic?" : params.label_name);
   const handleSelect = (label) => {
     axios.post(sendAdFeedbackURL + "/" + params.ad_cluster_id + "/set-label/" + label)
       .then((response) => {
