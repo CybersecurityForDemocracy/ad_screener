@@ -108,7 +108,7 @@ const AdClustersDisplay = (params) => {
     
   return (
     <div>
-      <div className="App-ad-pane" align="center">
+      <div className="App-ad-pane">
         {ads.map((ad) => (
           <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
         ))}
