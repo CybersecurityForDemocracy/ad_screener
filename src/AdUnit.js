@@ -122,7 +122,7 @@ const AdDetails = (params) => {
   if (!(params.details && params.details.length !== 0)) {
     return(<div></div>);
   }
-
+  var advertisers_info = params.details.advertiser_info
   var female_data = params.details.demo_impression_results.filter(
     filterfn("gender", "female")
   );
@@ -267,17 +267,19 @@ const AdDetails = (params) => {
             title="Advertiser Metadata"
             mountOnEnter={true}
           >
-            <Table striped bordered hover>
-              <tbody>
-                <tr>
-                <td>Advertiser Type:</td><td>{params.details.advertiser_info.advertiser_type}</td></tr>
-                <tr><td>Advertiser Party:</td><td>{params.details.advertiser_info.advertiser_party}</td></tr>
-                <tr><td>FEC ID:</td><td>{params.details.advertiser_info.advertiser_fec_id}</td></tr>
-                <tr><td>Advertiser website:</td><td>{params.details.advertiser_info.advertiser_webiste}</td></tr>
-                <tr><td>Risk Score:</td><td>{params.details.advertiser_info.advertiser_risk_score}</td></tr>
-              </tbody>
-            </Table>
-          </Tab>
+            {advertisers_info.map((advertiser_info) => (
+              <Table striped bordered hover>
+                <tbody className="equal-width-columns">
+                  <tr>
+                  <td>Advertiser Type:</td><td>{advertiser_info.advertiser_type}</td></tr>
+                  <tr><td>Advertiser Party:</td><td>{advertiser_info.advertiser_party}</td></tr>
+                  <tr><td>FEC ID:</td><td>{advertiser_info.advertiser_fec_id}</td></tr>
+                  <tr><td>Advertiser website:</td><td>{advertiser_info.advertiser_webiste}</td></tr>
+                  <tr><td>Risk Score:</td><td>{advertiser_info.advertiser_risk_score}</td></tr>
+                </tbody>
+              </Table>
+            ))}
+        </Tab>
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
