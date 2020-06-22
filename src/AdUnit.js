@@ -135,8 +135,6 @@ const AdDetails = (params) => {
     filterfn("gender", "unknown")
   );
   unknown_data.sort((a, b) => (a.age_group > b.age_group ? 1 : -1));
-  var ad_url =
-    "https://www.facebook.com/ads/library/?id=" + params.details.canonical_archive_id;
   var region_data = params.details.region_impression_results;
   region_data.sort((a, b) => (a.region > b.region ? 1 : -1));
   return (
@@ -246,7 +244,18 @@ const AdDetails = (params) => {
             {params.details.alternative_ads.map((ad_id) => {
               return (
                 <div className="ad-image-container" key={ad_id}>
-                  <img alt={ad_id} src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
+                  <div>
+                    <img className="ad-image" alt={ad_id}
+                      src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
+                  </div>
+                  <Button
+                    className="see-in-facebook-ad-library-button"
+                    href={"https://www.facebook.com/ads/library/?id=" + ad_id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    See in Facebook Ad Library
+                  </Button>
                 </div>
               );
             })}
@@ -281,14 +290,6 @@ const AdDetails = (params) => {
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          className="right"
-          href={ad_url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          See in Facebook Ad Library
-        </Button>{" "}
         <Button variant="secondary" onClick={params.handleClose}>
           Close
         </Button>
