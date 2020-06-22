@@ -135,8 +135,6 @@ const AdDetails = (params) => {
     filterfn("gender", "unknown")
   );
   unknown_data.sort((a, b) => (a.age_group > b.age_group ? 1 : -1));
-  var ad_url =
-    "https://www.facebook.com/ads/library/?id=" + params.details.canonical_archive_id;
   var region_data = params.details.region_impression_results;
   region_data.sort((a, b) => (a.region > b.region ? 1 : -1));
   return (
@@ -247,7 +245,8 @@ const AdDetails = (params) => {
               return (
                 <div className="ad-image-container" key={ad_id}>
                   <div>
-                    <img className="ad-image" alt={ad_id} src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
+                    <img className="ad-image" alt={ad_id}
+                      src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
                   </div>
                   <Button
                     className="see-in-facebook-ad-library-button"
