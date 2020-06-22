@@ -246,8 +246,17 @@ const AdDetails = (params) => {
             {params.details.alternative_ads.map((ad_id) => {
               return (
                 <div className="ad-image-container" key={ad_id}>
-                  <img alt={ad_id} src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
-                  <a href={"https://www.facebook.com/ads/library/?id=" + ad_id}>ad in Facebook Ad Library</a>
+                  <div>
+                    <img className="ad-image" alt={ad_id} src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
+                  </div>
+                  <Button
+                    className="see-in-facebook-ad-library-button"
+                    href={"https://www.facebook.com/ads/library/?id=" + ad_id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    See in Facebook Ad Library
+                  </Button>{" "}
                 </div>
               );
             })}
@@ -282,14 +291,6 @@ const AdDetails = (params) => {
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          className="right"
-          href={ad_url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          See in Facebook Ad Library
-        </Button>{" "}
         <Button variant="secondary" onClick={params.handleClose}>
           Close
         </Button>
