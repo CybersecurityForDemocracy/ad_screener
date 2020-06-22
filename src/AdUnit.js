@@ -256,7 +256,7 @@ const AdDetails = (params) => {
                     rel="noopener noreferrer"
                   >
                     See in Facebook Ad Library
-                  </Button>{" "}
+                  </Button>
                 </div>
               );
             })}
