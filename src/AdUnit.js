@@ -247,6 +247,7 @@ const AdDetails = (params) => {
               return (
                 <div className="ad-image-container" key={ad_id}>
                   <img alt={ad_id} src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
+                  <a href={"https://www.facebook.com/ads/library/?id=" + ad_id}>ad in Facebook Ad Library</a>
                 </div>
               );
             })}
