@@ -83,6 +83,10 @@
   padding: 0.5em;
 }
 
+.equal-width-columns td{
+  width: 50%;
+}
+
 img {
   margin-top: 2%;
   max-width: 100%;
