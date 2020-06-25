@@ -11,39 +11,71 @@ import "./App.css";
 import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
+import AdDetailsContent from "./AdDetailsContent.js";
 
 const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
+const getClusterURL = "/archive-id"
 
 const disableOptions = false;
 
 function getSelectorValue(array,param){
-	return (param==undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
+	return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
 }
 
 function App() {
   const [isFilterSelectorDataLoaded, setIsFilterSelectorDataLoaded] = useState(false);
   const [filterSelectorData, setFilterSelectorData] = useState({});
+  const [adIdParam, setAdIdParam] = useQueryParam('ad_id', StringParam);
+  const [adClusterData, setAdClusterData] = useState([]);
+  const [isAdClusterDataLoaded, setIsAdClusterDataLoaded] = useState(false);
+
   const getFilterSelectorData = () => {
-      axios
-        .get(getFilterSelectorDataURL)
-        .then((response) => {
-          console.log(response.data);
-          setFilterSelectorData(response.data);
-          setIsFilterSelectorDataLoaded(true);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {});
+    axios
+      .get(getFilterSelectorDataURL)
+      .then((response) => {
+        console.log(response.data);
+        setFilterSelectorData(response.data);
+        setIsFilterSelectorDataLoaded(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {});
+  };
+
+  const getAdClusterData = () => {
+    axios
+      .get(getClusterURL + '/' + adIdParam + '/cluster')
+      .then((response) => {
+        console.log(response.data);
+        setAdClusterData(response.data);
+        setIsAdClusterDataLoaded(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {});
   };
 
   useEffect(() => {
-    getFilterSelectorData();
+    adIdParam === undefined ? getFilterSelectorData() : getAdClusterData();
   }, []);
 
-  if (!isFilterSelectorDataLoaded) {
+  if (!isFilterSelectorDataLoaded && !isAdClusterDataLoaded) {
     return (<h1>Loading...</h1>);
+  }
+
+  if(isAdClusterDataLoaded){   
+    return (
+      <div className="App-ad-cluster-data">
+        <h2>Cluster ID: {adClusterData.ad_cluster_id} </h2>
+        <hr />
+        <AdDetailsContent
+          details={adClusterData}
+        />
+      </div>
+    );
   }
 
   const topics = filterSelectorData.topics;
