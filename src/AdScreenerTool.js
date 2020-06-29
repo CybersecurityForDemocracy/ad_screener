@@ -203,6 +203,8 @@ const AdScreener = (params) => {
         if (error.response && error.response.status === 401) {
           handleShowNeedLoginModal();
         }
+        setIsAdDataEmpty(true);
+        setIsGetAdsRequestPending(false);
       })
       .finally(() => {});
   };
