@@ -337,17 +337,12 @@ const AdScreener = (params) => {
         dialogClassName="modal-90w"
         size="lg"
       >
-        <Modal.Header>
+        <Modal.Header closeButton>
           <Modal.Title>Suggest a new topic</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <LabelEntryForm />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseTopicModal}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
       <Modal
         show={showNeedLoginModal}
