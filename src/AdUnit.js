@@ -118,6 +118,7 @@ const AdDetails = (params) => {
   }
   var ad_url =
     "https://www.facebook.com/ads/library/?id=" + params.details.canonical_archive_id;
+  var show_link = true;
 
   return (
     <Modal
@@ -132,6 +133,7 @@ const AdDetails = (params) => {
       <Modal.Body>
         <AdDetailsContent
           details={params.details}
+          show_link={show_link}
         />
       </Modal.Body>
       <Modal.Footer>

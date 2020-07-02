@@ -24,6 +24,8 @@ const AdDetailsContent = (params) => {
   unknown_data.sort((a, b) => (a.age_group > b.age_group ? 1 : -1));
   var region_data = params.details.region_impression_results;
   region_data.sort((a, b) => (a.region > b.region ? 1 : -1));
+  var showlink = params.show_link;
+  var style = showlink ? {} : {display: 'none'};
 
   return(
     <Tabs defaultActiveKey="demos">
@@ -147,6 +149,7 @@ const AdDetailsContent = (params) => {
           <tr><td>Canonical ad archive ID:</td><td>{params.details.canonical_archive_id}</td></tr>
         </tbody>
       </Table>
+      <a style={style} href={"/cluster?ad_id=" + params.details.canonical_archive_id}>Standalone view of this cluster</a>
     </Tab>
     <Tab
       eventKey="advertiser_info"

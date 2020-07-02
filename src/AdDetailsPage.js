@@ -11,6 +11,7 @@ function AdDetailsPage() {
 	const [adClusterData, setAdClusterData] = useState([]);
 	const [isAdClusterDataLoaded, setIsAdClusterDataLoaded] = useState(false);
 	const [isAdClusterDataEmpty, setIsAdClusterDataEmpty] = useState(false);
+	var show_link = false;
 
 	const getAdClusterData = () => {
 		axios
@@ -47,6 +48,7 @@ function AdDetailsPage() {
 		<hr />
 		<AdDetailsContent
 		  details={adClusterData}
+		  show_link={show_link}
 		/>
 		</div>
 	);
