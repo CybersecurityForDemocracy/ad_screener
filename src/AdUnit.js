@@ -130,8 +130,6 @@ const AdDetails = (params) => {
         <Modal.Title>Cluster ID: {params.details.ad_cluster_id}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <a href={"/cluster?ad_id=" + params.details.canonical_archive_id}>Standalone view of this cluster</a>
-        <br />
         <AdDetailsContent
           details={params.details}
         />
