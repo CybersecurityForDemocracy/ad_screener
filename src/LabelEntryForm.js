@@ -25,7 +25,7 @@ function LabelEntryForm() {
 			labelName = form.topic_name.value;
 			console.log(labelName);
 			axios
-			.post('/insert-topic-name/'+labelName)
+			.post('/insert-user-suggested-topic-name/'+labelName)
 			.then((response) => {
 				console.log(response.data);
 				setShow(true);
