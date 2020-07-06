@@ -141,14 +141,6 @@ const AdDetails = (params) => {
         >
         Standalone view of this cluster
         </Button>{" "}
-        <Button
-          className="right"
-          href={ad_url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          See in Facebook Ad Library
-        </Button>{" "}
         <Button variant="secondary" onClick={params.handleClose}>
           Close
         </Button>
