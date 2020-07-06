@@ -10,7 +10,7 @@ import ReactLoading from 'react-loading';
 import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
-
+import LabelEntryForm from "./LabelEntryForm.js";
 
 const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
@@ -154,6 +154,9 @@ const AdScreener = (params) => {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+  const [showTopicModal, setShowTopicModal] = useState(false);
+  const handleCloseTopicModal = () => setShowTopicModal(false);
+  const handleShowTopicModal = () => setShowTopicModal(true);
   const [showNeedLoginModal, setShowNeedLoginModal] = useState(false);
   const handleShowNeedLoginModal = () => setShowNeedLoginModal(true);
   const handleCloseNeedLoginModal = () => setShowNeedLoginModal(false);
@@ -295,6 +298,10 @@ const AdScreener = (params) => {
         <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
 
+      <a href="#" onClick={handleShowTopicModal}>
+        Click here to suggest topics.
+      </a>
+
       <AdClustersDisplay
         isGetAdsRequestPending={isGetAdsRequestPending}
         isAdDataEmpty={isAdDataEmpty}
@@ -322,6 +329,19 @@ const AdScreener = (params) => {
           <p>Results are for the entire cluster of ads; to see other ad creatives in the cluster, click on the 'Alternate Creatives' tab. Ad type classifications and entities detected are for all ads in the cluster. If you see metadata that you believe to be in error, please let us know!</p>
           <h2>Limitations</h2>
           <p>Data is delayed approximately 48 hours. All metadata development and risk scores are EXPERIMENTAL.</p>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        show={showTopicModal}
+        onHide={handleCloseTopicModal}
+        dialogClassName="modal-90w"
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Suggest a new topic</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <LabelEntryForm />
         </Modal.Body>
       </Modal>
       <Modal
