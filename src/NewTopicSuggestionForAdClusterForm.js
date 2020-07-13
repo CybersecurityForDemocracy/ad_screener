@@ -36,14 +36,14 @@ const NewTopicSuggestionForAdClusterForm = params => {
 			console.log(topicName);
 			console.log(comments);
 			console.log(selected_topics);
-			axios({
+/*			axios({
   				method: 'post',
   				url: baseUrl + 'applications/' + appName + '/dataexport/plantypes' + plan,
   				headers: {}, 
   				data: {
     				foo: 'bar', // This is the body part
   }
-});
+});*/
 			axios
 			.post('/ad-topic-suggestion/' + params.ad_id + '/set-topic-and-comments/'
 				+ topicName + '/' + comments)
