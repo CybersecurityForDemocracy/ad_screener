@@ -3,12 +3,19 @@ import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
 import Tabs from "react-bootstrap/Tabs";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import NewTopicSuggestionForAdClusterForm from "./NewTopicSuggestionForAdClusterForm.js";
+import { useState } from 'react';
 
 const filterfn = (key, val) => {
   return (obj) => obj[key] === val;
 };
 
 const AdDetailsContent = (params) => {
+  const [showForm, setShowForm] = useState(false);
+  const handleClose = () => setShowForm(false);
+  const handleShow = () => setShowForm(true);
+  
   var advertisers_info = params.details.advertiser_info
   var female_data = params.details.demo_impression_results.filter(
     filterfn("gender", "female")
@@ -26,6 +33,7 @@ const AdDetailsContent = (params) => {
   region_data.sort((a, b) => (a.region > b.region ? 1 : -1));
 
   return(
+    <div>
     <Tabs defaultActiveKey="demos">
     <Tab
       eventKey="demos"
@@ -142,7 +150,7 @@ const AdDetailsContent = (params) => {
         <tbody>
           <tr><td>Ad Type:</td><td>{params.details.type}</td></tr>
           <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
-          <tr><td>Cluster Topics:</td><td>{params.details.topics}</td></tr>
+          <tr><td>Cluster Topics:</td><td>{params.details.topics}<br /><a href='#' onClick={handleShow}>Suggest more topics?</a></td></tr>
           <tr><td>Number of ads in cluster:</td><td>{params.details.cluster_size}</td></tr>
           <tr><td>Canonical ad archive ID:</td><td>{params.details.canonical_archive_id}</td></tr>
         </tbody>
@@ -167,6 +175,25 @@ const AdDetailsContent = (params) => {
       ))}
     </Tab>
     </Tabs>
+    <Modal
+        show={showForm}
+        onHide={handleClose}
+        dialogClassName="modal-90w"
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Suggest a new topic</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <NewTopicSuggestionForAdClusterForm
+            ad_id={params.details.ad_cluster_id}
+            topics={params.topics}
+          />
+        </Modal.Body>
+    </Modal>
+    </div>
   );
 }
 

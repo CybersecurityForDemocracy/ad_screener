@@ -76,6 +76,7 @@ const AdUnit = (params) => {
         handleClose={handleClose}
         details={ad_details}
         key={ad_details.ad_cluster_id}
+        topics={params.topics}
       />
       <div className="ad-image-container">
         <img className="ad-image" alt={adImageSrc} src={adImageSrc} onError={handleAdImageError}/>
@@ -132,6 +133,7 @@ const AdDetails = (params) => {
       <Modal.Body>
         <AdDetailsContent
           details={params.details}
+          topics={params.topics}
         />
       </Modal.Body>
       <Modal.Footer>
