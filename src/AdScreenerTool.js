@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
 import axios from "axios";
 import { addDays } from "date-fns";
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
@@ -241,12 +243,25 @@ const AdScreener = (params) => {
       </p>
 
       <div className="App-filter-selector">
+      	<div>
         <FilterSelector
           setState={setTopic}
           option={topic}
           title="Topic"
           options={params.topics}
         />
+        <br />
+        <InputGroup className="mb-3">
+    	  <InputGroup.Prepend>
+             <InputGroup.Text id="basic-addon1">Full text search</InputGroup.Text>
+          </InputGroup.Prepend>
+	      <FormControl
+	        placeholder="search"
+	        aria-label="Search"
+	        aria-describedby="basic-addon1"
+	      />
+  		</InputGroup>
+  		</div>
         <FilterSelector
           setState={setRegion}
           option={region}
