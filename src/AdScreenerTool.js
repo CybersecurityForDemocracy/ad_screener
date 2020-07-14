@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
 import axios from "axios";
 import { addDays } from "date-fns";
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
@@ -13,14 +13,16 @@ import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
 import LabelEntryForm from "./LabelEntryForm.js";
+import SearchField from "./SearchField.js";
 
 const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
 
 const disableOptions = false;
 
-function getSelectorValue(array,param){
-  return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
+function getSelectorValue(array,param,topicFlag){
+  var defaultValue = topicFlag ? "" : array[0];
+  return (param===undefined) ? defaultValue : array[array.findIndex(element => element.value === param)]
 }
 
 function AdScreenerTool() {
@@ -140,14 +142,16 @@ const AdScreener = (params) => {
 
   const [startDate, setStartDate] = useState((startDateParam===undefined) ? addDays(new Date(), -7) : new Date(startDateParam));
   const [endDate, setEndDate] = useState((endDateParam===undefined) ? new Date() : new Date(endDateParam));
-  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,topicParam)});
-  const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam)});
-  const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam)});
-  const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam)});
-  const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam)});
-  const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam)});
-  const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
-  
+  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,topicParam,true)});
+  const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam,false)});
+  const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam,false)});
+  const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam,false)});
+  const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam,false)});
+  const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam,false)});
+  const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam,false)});
+  const [keyword, setKeyword] = useState(null);
+  const [key, setKey] = useState('topics');
+
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
   const resetOffset = () => { resultsOffset.current = 0 };
@@ -180,6 +184,7 @@ const AdScreener = (params) => {
   const getAds = () => {
     setIsGetAdsRequestPending(true);
     setIsAdDataEmpty(true);
+    console.log(topic.selectedOption);
     axios
       .get(getAdsURL, {
         params: {
@@ -194,7 +199,8 @@ const AdScreener = (params) => {
           orderBy: orderBy.selectedOption.value,
           orderDirection: orderDirection.selectedOption.value,
           numResults: numResultsToRequest,
-          offset: resultsOffset.current
+          offset: resultsOffset.current,
+          full_text_search: keyword
         },
       })
       .then((response) => {
@@ -229,6 +235,17 @@ const AdScreener = (params) => {
     getAds();
   };
 
+  const handleSearch = (k) => {
+  	setKey(k);
+  	if(k=='topics') {
+  		setKeyword(null);
+  	}
+  	else {
+   		setTopic({ selectedOption: ""});
+    	setTopicParam(undefined);
+  	}
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -244,24 +261,33 @@ const AdScreener = (params) => {
 
       <div className="App-filter-selector">
       	<div>
+      	Search By:
+        <Tabs 
+          activeKey={key}
+          onSelect={handleSearch}
+        >
+        <Tab
+      	  eventKey="topics"
+      	  title="Topic"
+      	  mountOnEnter={true}
+    	>
         <FilterSelector
           setState={setTopic}
           option={topic}
-          title="Topic"
           options={params.topics}
         />
-        <br />
-        <InputGroup className="mb-3">
-    	  <InputGroup.Prepend>
-             <InputGroup.Text id="basic-addon1">Full text search</InputGroup.Text>
-          </InputGroup.Prepend>
-	      <FormControl
-	        placeholder="search"
-	        aria-label="Search"
-	        aria-describedby="basic-addon1"
-	      />
-  		</InputGroup>
-  		</div>
+        </Tab>
+        <Tab
+      	  eventKey="fullText1"
+      	  title="Full Text"
+      	  mountOnEnter={true}
+    	>   
+        <SearchField
+          setState={setKeyword}
+        />
+        </Tab>
+        </Tabs>
+        </div>
         <FilterSelector
           setState={setRegion}
           option={region}

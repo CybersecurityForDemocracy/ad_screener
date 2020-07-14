@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { useQueryParam, StringParam } from 'use-query-params';
 
 const FilterSelector = params => {
-  const [param, setParam] = useQueryParam(params.title, StringParam);
+  const [param, setParam] = useQueryParam(params.title ? params.title : "Topic", StringParam);
 
   const handleChange = selectedOption => {
     params.setState({ selectedOption });
