@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
 import axios from "axios";
 import { addDays } from "date-fns";
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
@@ -11,6 +13,7 @@ import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
 import LabelEntryForm from "./LabelEntryForm.js";
+import SearchField from "./SearchField.js";
 
 const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
@@ -145,7 +148,9 @@ const AdScreener = (params) => {
   const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam)});
   const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam)});
   const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
-  
+  const [fullTextSearchQuery, setFullTextSearchQuery] = useState(null);
+  const [selectedTopicOrFullTextSearchTab, setSelectedTopicOrFullTextSearchTab] = useState('topics');
+
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
   const resetOffset = () => { resultsOffset.current = 0 };
@@ -178,6 +183,7 @@ const AdScreener = (params) => {
   const getAds = () => {
     setIsGetAdsRequestPending(true);
     setIsAdDataEmpty(true);
+    console.log(topic.selectedOption);
     axios
       .get(getAdsURL, {
         params: {
@@ -192,7 +198,8 @@ const AdScreener = (params) => {
           orderBy: orderBy.selectedOption.value,
           orderDirection: orderDirection.selectedOption.value,
           numResults: numResultsToRequest,
-          offset: resultsOffset.current
+          offset: resultsOffset.current,
+          full_text_search: fullTextSearchQuery
         },
       })
       .then((response) => {
@@ -227,6 +234,17 @@ const AdScreener = (params) => {
     getAds();
   };
 
+  const handleSelect = (k) => {
+  	setSelectedTopicOrFullTextSearchTab(k);
+  	if(k=='topics') {
+  		setFullTextSearchQuery(null);
+  	}
+  	else {
+		setTopic({ selectedOption: ""});
+		setTopicParam(undefined);
+  	}
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -241,12 +259,34 @@ const AdScreener = (params) => {
       </p>
 
       <div className="App-filter-selector">
-        <FilterSelector
-          setState={setTopic}
-          option={topic}
-          title="Topic"
-          options={params.topics}
-        />
+      	<div>
+      	  Search By:
+          <Tabs 
+            activeKey={selectedTopicOrFullTextSearchTab}
+            onSelect={handleSelect}
+          >
+            <Tab
+      	      eventKey="topics"
+      	      title="Topic"
+      	      mountOnEnter={true}
+    	    >
+		      <FilterSelector
+		        setState={setTopic}
+		        option={topic}
+		        options={params.topics}
+		      />
+            </Tab>
+            <Tab
+      	      eventKey="fullText"
+      	      title="Full Text"
+      	      mountOnEnter={true}
+    	    >   
+	          <SearchField
+	            setState={setFullTextSearchQuery}
+	          />
+            </Tab>
+          </Tabs>
+        </div>
         <FilterSelector
           setState={setRegion}
           option={region}
