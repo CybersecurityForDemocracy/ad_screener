@@ -20,9 +20,8 @@ const getFilterSelectorDataURL = "/filter-options";
 
 const disableOptions = false;
 
-function getSelectorValue(array,param,topicFlag){
-  var defaultValue = topicFlag ? "" : array[0];
-  return (param===undefined) ? defaultValue : array[array.findIndex(element => element.value === param)]
+function getSelectorValue(array,param){
+  return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
 }
 
 function AdScreenerTool() {
@@ -142,15 +141,15 @@ const AdScreener = (params) => {
 
   const [startDate, setStartDate] = useState((startDateParam===undefined) ? addDays(new Date(), -7) : new Date(startDateParam));
   const [endDate, setEndDate] = useState((endDateParam===undefined) ? new Date() : new Date(endDateParam));
-  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,topicParam,true)});
-  const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam,false)});
-  const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam,false)});
-  const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam,false)});
-  const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam,false)});
-  const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam,false)});
-  const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam,false)});
-  const [keyword, setKeyword] = useState(null);
-  const [key, setKey] = useState('topics');
+  const [topic, setTopic] = useState({ selectedOption: getSelectorValue(params.topics,topicParam)});
+  const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam)});
+  const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam)});
+  const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam)});
+  const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam)});
+  const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam)});
+  const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
+  const [fullTextSearchQuery, setFullTextSearchQuery] = useState(null);
+  const [selectedTopicOrFullTextSearchTab, setSelectedTopicOrFullTextSearchTab] = useState('topics');
 
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
@@ -200,7 +199,7 @@ const AdScreener = (params) => {
           orderDirection: orderDirection.selectedOption.value,
           numResults: numResultsToRequest,
           offset: resultsOffset.current,
-          full_text_search: keyword
+          full_text_search: fullTextSearchQuery
         },
       })
       .then((response) => {
@@ -235,14 +234,14 @@ const AdScreener = (params) => {
     getAds();
   };
 
-  const handleSearch = (k) => {
-  	setKey(k);
+  const handleSelect = (k) => {
+  	setSelectedTopicOrFullTextSearchTab(k);
   	if(k=='topics') {
-  		setKeyword(null);
+  		setFullTextSearchQuery(null);
   	}
   	else {
-   		setTopic({ selectedOption: ""});
-    	setTopicParam(undefined);
+		setTopic({ selectedOption: ""});
+		setTopicParam(undefined);
   	}
   }
 
@@ -261,32 +260,32 @@ const AdScreener = (params) => {
 
       <div className="App-filter-selector">
       	<div>
-      	Search By:
-        <Tabs 
-          activeKey={key}
-          onSelect={handleSearch}
-        >
-        <Tab
-      	  eventKey="topics"
-      	  title="Topic"
-      	  mountOnEnter={true}
-    	>
-        <FilterSelector
-          setState={setTopic}
-          option={topic}
-          options={params.topics}
-        />
-        </Tab>
-        <Tab
-      	  eventKey="fullText1"
-      	  title="Full Text"
-      	  mountOnEnter={true}
-    	>   
-        <SearchField
-          setState={setKeyword}
-        />
-        </Tab>
-        </Tabs>
+      	  Search By:
+          <Tabs 
+            activeKey={selectedTopicOrFullTextSearchTab}
+            onSelect={handleSelect}
+          >
+            <Tab
+      	      eventKey="topics"
+      	      title="Topic"
+      	      mountOnEnter={true}
+    	    >
+		      <FilterSelector
+		        setState={setTopic}
+		        option={topic}
+		        options={params.topics}
+		      />
+            </Tab>
+            <Tab
+      	      eventKey="fullText"
+      	      title="Full Text"
+      	      mountOnEnter={true}
+    	    >   
+	          <SearchField
+	            setState={setFullTextSearchQuery}
+	          />
+            </Tab>
+          </Tabs>
         </div>
         <FilterSelector
           setState={setRegion}
