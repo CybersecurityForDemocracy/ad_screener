@@ -21,26 +21,32 @@ const NewTopicSuggestionForAdClusterForm = params => {
 		const form = event.currentTarget;
 		event.preventDefault();
 
-		if (form.checkValidity() === false) {
-			event.stopPropagation();
+		var topicName = form.topic_name.value;
+		var comments = form.comments.value != "" ? form.comments.value : "None"
+		var topics = form.topic_options;
+		var selected_topics = [];
+		for (var i = 0; i < topics.length; i++) {
+		    if (topics.options[i].selected) selected_topics.push(topics.options[i].value);
+		}
+		if(topicName != ""){
+			selected_topics.push(topicName);
+		}
+		console.log(comments);
+		console.log(selected_topics);
+		
+		if(selected_topics.length == 0) {
+			setShow(true);
+			setMessage("Please select or enter a topic name!");
+			setStyle({color: 'red'});
 		}
 
 		else{
-			var topicName = form.topic_name.value;
-			var comments = form.comments.value != "" ? form.comments.value : "None"
-			var topics = form.topic_options;
-			var selected_topics = [];
-			for (var i = 0; i < topics.length; i++) {
-			    if (topics.options[i].selected) selected_topics.push(topics.options[i].value);
-			}
-			console.log(topicName);
-			console.log(comments);
-			console.log(selected_topics);
-			axios
-			.post('/ad-topic-suggestion/' + params.ad_id + '/set-topic-and-comments/', {
-				params: {
+			axios({
+				method: 'post',
+				url: '/ad-topic-suggestion/' + params.ad_id + '/set-topic-and-comments',
+				data: {
 					topics: selected_topics,
-					comment: comments,
+					comment: comments
 				}
 			})
 			.then((response) => {
@@ -57,7 +63,6 @@ const NewTopicSuggestionForAdClusterForm = params => {
 			})
 			.finally(() => {});
 		}
-		setValidated(true);
 	}
 
 	return (
@@ -77,7 +82,7 @@ const NewTopicSuggestionForAdClusterForm = params => {
 			</Col>
 			<Col xs={3}></Col>
 		</Row>
-		<Form noValidate validated={validated} onSubmit={handleSubmit}>
+		<Form onSubmit={handleSubmit}>
 		  <Form.Row>
 	  	      <Form.Control as="select" multiple id="topic_options">
 	  	        {topic_list.map((topic) => (
@@ -85,16 +90,12 @@ const NewTopicSuggestionForAdClusterForm = params => {
         		))}
 		      </Form.Control>
 			  <Form.Group as={Col} md="4">
-			  	<Form.Label>Suggest Topic</Form.Label>
+			  	<Form.Label>Or suggest a new topic: </Form.Label>
 				<Form.Control
-				required
-				type="text"
-				id="topic_name"
-				placeholder="Enter topic name"
+				  type="text"
+				  id="topic_name"
+				  placeholder="Enter topic name"
 				/>
-				<Form.Control.Feedback type="invalid" className="mb-2 mr-sm-2">
-				Please enter a topic name.
-				</Form.Control.Feedback>
 			  </Form.Group>
 		  </Form.Row>
 		  <Form.Row>
