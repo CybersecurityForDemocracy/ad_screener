@@ -4,13 +4,16 @@ import Button from "react-bootstrap/Button";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import axios from "axios";
+
 
 const NewTopicSuggestionForAdClusterForm = params => {
 	var labelName = "";
 	const [validated, setValidated] = useState(false);
-	const [show, setShow] = useState(false);
-	const [message, setMessage] = useState("Test message");
+	const [showSubmitStatusMessage, setShowSubmitStatusMessage] = useState(false);
+	const [message, setMessage] = useState("");
 	const [style, setStyle] = useState({});
 	var topic_list = [];
 	for(var i=0; i < params.topics.length; i++){
@@ -21,7 +24,7 @@ const NewTopicSuggestionForAdClusterForm = params => {
 		const form = event.currentTarget;
 		event.preventDefault();
 
-		var topicName = form.topic_name.value;
+		var topicName = form.user_suggested_topic.value;
 		var comments = form.comments.value != "" ? form.comments.value : "None"
 		var topics = form.topic_options;
 		var selected_topics = [];
@@ -35,7 +38,7 @@ const NewTopicSuggestionForAdClusterForm = params => {
 		console.log(selected_topics);
 		
 		if(selected_topics.length == 0) {
-			setShow(true);
+			setShowSubmitStatusMessage(true);
 			setMessage("Please select or enter a topic name!");
 			setStyle({color: 'red'});
 		}
@@ -51,13 +54,13 @@ const NewTopicSuggestionForAdClusterForm = params => {
 			})
 			.then((response) => {
 				console.log(response.data);
-				setShow(true);
+				setShowSubmitStatusMessage(true);
 				setMessage("Topic suggestion submitted successfully.");
 				setStyle({color: 'green'});
 			})
 			.catch((error) => {
 				console.log(error);
-				setShow(true);
+				setShowSubmitStatusMessage(true);
 				setMessage("There was a problem in submitting your suggestion.");
 				setStyle({color: 'red'});
 			})
@@ -71,8 +74,8 @@ const NewTopicSuggestionForAdClusterForm = params => {
 			<Col xs={3}></Col>
 			<Col xs={6}>
 				<Toast 
-				  onClose={() => setShow(false)} 
-				  show={show} 
+				  onClose={() => setShowSubmitStatusMessage(false)} 
+				  show={showSubmitStatusMessage} 
 				  delay={2000} 
 				  autohide
 				  style={style}
@@ -84,19 +87,27 @@ const NewTopicSuggestionForAdClusterForm = params => {
 		</Row>
 		<Form onSubmit={handleSubmit}>
 		  <Form.Row>
+		  	<OverlayTrigger
+		  		overlay={
+		  			<Tooltip>
+		  				[Ctrl/Command + click] to select multiple topics.
+		  			</Tooltip>
+		  		}
+		 	>
 	  	      <Form.Control as="select" multiple id="topic_options">
 	  	        {topic_list.map((topic) => (
           			<option>{topic}</option>
         		))}
 		      </Form.Control>
-			  <Form.Group as={Col} md="4">
+		   	</OverlayTrigger>
+			 <Form.Group as={Col} md="4">
 			  	<Form.Label>Or suggest a new topic: </Form.Label>
 				<Form.Control
 				  type="text"
-				  id="topic_name"
+				  id="user_suggested_topic"
 				  placeholder="Enter topic name"
 				/>
-			  </Form.Group>
+			 </Form.Group>
 		  </Form.Row>
 		  <Form.Row>
 		    <Form.Group as={Col} md="4">
