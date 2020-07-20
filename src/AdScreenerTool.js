@@ -97,7 +97,9 @@ const AdClustersDisplay = (params) => {
   const resultsOffset = params.resultsOffset;
   const getPreviousPageOfAds = params.getPreviousPageOfAds;
   const getNextPageOfAds = params.getNextPageOfAds;
-
+  const topics = params.topics;
+  console.log('in AdClustersDisplay: ',topics);
+  
   if(isGetAdsRequestPending) {
     return (
       <div align="center"><br /><br /><ReactLoading type="spin" color="#000"/></div>
@@ -114,7 +116,7 @@ const AdClustersDisplay = (params) => {
     <div>
       <div className="App-ad-pane" align="center">
         {ads.map((ad) => (
-          <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal}/>
+          <AdUnit ad={ad} key={ad.ad_cluster_id} handleShowNeedLoginModal={handleShowNeedLoginModal} topics={topics}/>
         ))}
       </div>
       <PageNavigation
@@ -350,6 +352,7 @@ const AdScreener = (params) => {
         resultsOffset={resultsOffset}
         getPreviousPageOfAds={getPreviousPageOfAds}
         getNextPageOfAds={getNextPageOfAds}
+        topics={params.topics}
       />
 
       <Modal
