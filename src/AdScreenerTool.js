@@ -336,12 +336,12 @@ const AdScreener = (params) => {
 	    >
 		<AsyncTypeahead
 		  id="advertiser-search"
-		  isLoading={isLoading}
+		  isLoading={isAdvertiserSearchLoading}
 		  labelKey="page"
 		  minLength={1}
 		  onSearch={handleAdvertiserSearch}
 		  onChange={(selected) => {try {setPageId(selected[0].id)} catch(e) {}}}
-		  options={advertiserSearchoptions}
+		  options={advertiserSearchOptions}
 		  placeholder="Search for an advertiser page..."
 		  renderMenuItemChildren={(option, props) => (
 		  	<React.Fragment>
