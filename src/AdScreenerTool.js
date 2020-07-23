@@ -153,7 +153,7 @@ const AdScreener = (params) => {
   const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
   const [fullTextSearchQuery, setFullTextSearchQuery] = useState(null);
   const [selectedTopicOrFullTextSearchTab, setSelectedTopicOrFullTextSearchTab] = useState('topics');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isAdvertiserSearchLoading, setIsAdvertiserSearchLoading] = useState(false);
   const [advertiserSearchOptions, setAdvertiserSearchOptions] = useState([]);
   const [pageId, setPageId] = useState(null);
 	
@@ -263,7 +263,7 @@ const AdScreener = (params) => {
   }
 
   const handleAdvertiserSearch = (query) => {
-	setIsLoading(true);
+	setIsAdvertiserSearchLoading(true);
 	axios
 	  .get(advertiserSearchURL, {
 		params: {
@@ -277,8 +277,8 @@ const AdScreener = (params) => {
 		  page: i.page_name,
 		}))
 		setAdvertiserSearchOptions(results);
-		setIsLoading(false);
-		console.log(options);
+		setIsAdvertiserSearchLoading(false);
+		console.log(advertiserSearchOptions);
 	  })
 	  .catch((error) => {
 		console.log(error);
