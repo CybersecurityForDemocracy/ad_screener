@@ -153,7 +153,10 @@ const AdScreener = (params) => {
   const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
   const [fullTextSearchQuery, setFullTextSearchQuery] = useState(null);
   const [selectedTopicOrFullTextSearchTab, setSelectedTopicOrFullTextSearchTab] = useState('topics');
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [advertiserSearchOptions, setAdvertiserSearchOptions] = useState([]);
+  const [pageId, setPageId] = useState(null);
+	
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
   const resetOffset = () => { resultsOffset.current = 0 };
@@ -249,23 +252,18 @@ const AdScreener = (params) => {
   	}
 	else if(k=='advertiser') {
 		setFullTextSearchQuery(null);
-		setTopic({ selectedOption: "" });
+		setTopic({ selectedOption: ""});
 		setTopicParam(undefined);
 	}
   	else {
-		setTopic({ selectedOption: "" });
+		setTopic({ selectedOption: ""});
 		setTopicParam(undefined);
 		setPageId(null);
   	}
   }
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [pageId, setPageId] = useState(null);
-
   const handleAdvertiserSearch = (query) => {
 	setIsLoading(true);
-
 	axios
 	  .get(advertiserSearchURL, {
 		params: {
@@ -278,7 +276,7 @@ const AdScreener = (params) => {
 		  id: i.id,
 		  page: i.page_name,
 		}))
-		setOptions(results);
+		setAdvertiserSearchOptions(results);
 		setIsLoading(false);
 		console.log(options);
 	  })
@@ -343,7 +341,7 @@ const AdScreener = (params) => {
 		  minLength={1}
 		  onSearch={handleAdvertiserSearch}
 		  onChange={(selected) => {try {setPageId(selected[0].id)} catch(e) {}}}
-		  options={options}
+		  options={advertiserSearchoptions}
 		  placeholder="Search for an advertiser page..."
 		  renderMenuItemChildren={(option, props) => (
 		  	<React.Fragment>
