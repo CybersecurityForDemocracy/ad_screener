@@ -8,6 +8,7 @@ import { addDays } from "date-fns";
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
+import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
@@ -17,6 +18,7 @@ import SearchField from "./SearchField.js";
 
 const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
+const advertiserSearchURL = "/search/pages_type_ahead";
 
 const disableOptions = false;
 
@@ -98,8 +100,7 @@ const AdClustersDisplay = (params) => {
   const getPreviousPageOfAds = params.getPreviousPageOfAds;
   const getNextPageOfAds = params.getNextPageOfAds;
   const topics = params.topics;
-  console.log('in AdClustersDisplay: ',topics);
-  
+
   if(isGetAdsRequestPending) {
     return (
       <div align="center"><br /><br /><ReactLoading type="spin" color="#000"/></div>
@@ -152,7 +153,10 @@ const AdScreener = (params) => {
   const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
   const [fullTextSearchQuery, setFullTextSearchQuery] = useState(null);
   const [selectedTopicOrFullTextSearchTab, setSelectedTopicOrFullTextSearchTab] = useState('topics');
-
+  const [isAdvertiserSearchLoading, setIsAdvertiserSearchLoading] = useState(false);
+  const [advertiserSearchOptions, setAdvertiserSearchOptions] = useState([]);
+  const [pageId, setPageId] = useState(null);
+	
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
   const resetOffset = () => { resultsOffset.current = 0 };
@@ -185,7 +189,10 @@ const AdScreener = (params) => {
   const getAds = () => {
     setIsGetAdsRequestPending(true);
     setIsAdDataEmpty(true);
-    console.log(topic.selectedOption);
+    console.log("in getads");
+    console.log("topic: ", topic.selectedOption);
+    console.log("page ",pageId);
+    console.log("full text", fullTextSearchQuery);
     axios
       .get(getAdsURL, {
         params: {
@@ -201,7 +208,8 @@ const AdScreener = (params) => {
           orderDirection: orderDirection.selectedOption.value,
           numResults: numResultsToRequest,
           offset: resultsOffset.current,
-          full_text_search: fullTextSearchQuery
+          full_text_search: fullTextSearchQuery,
+	  page_id: pageId
         },
       })
       .then((response) => {
@@ -240,12 +248,46 @@ const AdScreener = (params) => {
   	setSelectedTopicOrFullTextSearchTab(k);
   	if(k=='topics') {
   		setFullTextSearchQuery(null);
+		setPageId(null);
   	}
+	else if(k=='advertiser') {
+		setFullTextSearchQuery(null);
+		setTopic({ selectedOption: ""});
+		setTopicParam(undefined);
+	}
   	else {
 		setTopic({ selectedOption: ""});
 		setTopicParam(undefined);
+		setPageId(null);
   	}
   }
+
+  const handleAdvertiserSearch = (query) => {
+	setIsAdvertiserSearchLoading(true);
+	axios
+	  .get(advertiserSearchURL, {
+		params: {
+		  q: query
+		},
+	  })
+	  .then((response) => {
+		console.log(response.data);
+		const results = response.data.data.map((i) => ({
+		  id: i.id,
+		  page: i.page_name,
+		}))
+		setAdvertiserSearchOptions(results);
+		setIsAdvertiserSearchLoading(false);
+		console.log(advertiserSearchOptions);
+	  })
+	  .catch((error) => {
+		console.log(error);
+		if (error.response && error.response.status === 401) {
+			handleShowNeedLoginModal();
+		}
+	  })
+	  .finally(() => {});
+  };
 
   return (
     <div className="App">
@@ -287,6 +329,27 @@ const AdScreener = (params) => {
 	            setState={setFullTextSearchQuery}
 	          />
             </Tab>
+	    <Tab
+	      eventKey="advertiser"
+	      title="Advertiser"
+	      mountOnEnter={true}
+	    >
+		<AsyncTypeahead
+		  id="advertiser-search"
+		  isLoading={isAdvertiserSearchLoading}
+		  labelKey="page"
+		  minLength={1}
+		  onSearch={handleAdvertiserSearch}
+		  onChange={(selected) => {try {setPageId(selected[0].id)} catch(e) {}}}
+		  options={advertiserSearchOptions}
+		  placeholder="Search for an advertiser page..."
+		  renderMenuItemChildren={(option, props) => (
+		  	<React.Fragment>
+		  	  <span>{option.page}</span>
+		  	</React.Fragment>
+		  )}
+		/>
+	    </Tab>
           </Tabs>
         </div>
         <FilterSelector
