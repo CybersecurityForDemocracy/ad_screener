@@ -117,8 +117,6 @@ const AdDetails = (params) => {
   if (!(params.details && params.details.length !== 0)) {
     return(<div></div>);
   }
-  var ad_url =
-    "https://www.facebook.com/ads/library/?id=" + params.details.canonical_archive_id;
 
   return (
     <Modal

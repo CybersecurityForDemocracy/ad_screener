@@ -8,6 +8,7 @@ const FilterSelector = params => {
   const handleChange = selectedOption => {
     params.setState({ selectedOption });
     setParam(selectedOption.value);
+    console.log(param);
     console.log(`Option selected:`, selectedOption);
   };
   console.log(params.option)

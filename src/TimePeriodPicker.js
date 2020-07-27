@@ -16,7 +16,8 @@ const TimePeriodPicker = (params) => {
   };
   console.log(params.startDate);
   console.log(params.endDate);
-
+  console.log(startingDate);
+  console.log(endingDate);
   return (
     <div>
       <div>

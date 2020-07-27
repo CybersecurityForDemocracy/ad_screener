@@ -150,7 +150,7 @@ const AdDetailsContent = (params) => {
         <tbody>
           <tr><td>Ad Type:</td><td>{params.details.type}</td></tr>
           <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
-          <tr><td>Cluster Topics:</td><td>{params.details.topics}<br /><a href='#' onClick={handleShow}>Suggest more topics?</a></td></tr>
+          <tr><td>Cluster Topics:</td><td>{params.details.topics}<br /><a href='# ' onClick={handleShow}>Suggest more topics?</a></td></tr>
           <tr><td>Number of ads in cluster:</td><td>{params.details.cluster_size}</td></tr>
           <tr><td>Canonical ad archive ID:</td><td>{params.details.canonical_archive_id}</td></tr>
         </tbody>

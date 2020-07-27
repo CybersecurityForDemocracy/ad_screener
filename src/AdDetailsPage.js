@@ -7,31 +7,30 @@ import AdDetailsContent from "./AdDetailsContent.js";
 const getClusterURL = "/archive-id";
 
 function AdDetailsPage() {
-	const [adIdParam, setAdIdParam] = useQueryParam('ad_id', StringParam);
+	const adIdParam = useQueryParam('ad_id', StringParam);
 	const [adClusterData, setAdClusterData] = useState([]);
 	const [isAdClusterDataLoaded, setIsAdClusterDataLoaded] = useState(false);
 	const [isAdClusterDataEmpty, setIsAdClusterDataEmpty] = useState(false);
-
-	const getAdClusterData = () => {
-		axios
-		  .get(getClusterURL + '/' + adIdParam + '/cluster')
-		  .then((response) => {
-		    console.log(response.data);
-		    setAdClusterData(response.data);
-		    setIsAdClusterDataLoaded(true);
-		  })
-		  .catch((error) => {
-		    console.log(error);
-		    if (error.response.status === 404) {
-		      setIsAdClusterDataEmpty(true);
-		    }
-		  })
-		  .finally(() => {});
-	};
 	
 	useEffect(() => {
+		const getAdClusterData = () => {
+			axios
+			  .get(getClusterURL + '/' + adIdParam + '/cluster')
+			  .then((response) => {
+			    console.log(response.data);
+			    setAdClusterData(response.data);
+			    setIsAdClusterDataLoaded(true);
+			  })
+			  .catch((error) => {
+			    console.log(error);
+			    if (error.response.status === 404) {
+			      setIsAdClusterDataEmpty(true);
+			    }
+			  })
+			  .finally(() => {});
+		};
 		getAdClusterData();
-	}, []);
+	}, [adIdParam]);
 
 	if (isAdClusterDataEmpty) {
 		return (<div><br /><br /><br /><h3 align="center">No results found</h3></div>);
