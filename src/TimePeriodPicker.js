@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useQueryParam, StringParam } from 'use-query-params';
 
 const TimePeriodPicker = (params) => {
+  /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "Date"}]*/
   const [startingDate, setStartingDate] = useQueryParam('Start Date', StringParam);
   const [endingDate, setEndingDate] = useQueryParam('End Date', StringParam);
   const updateStartTime = (date) => {
@@ -16,7 +17,6 @@ const TimePeriodPicker = (params) => {
   };
   console.log(params.startDate);
   console.log(params.endDate);
-
   return (
     <div>
       <div>

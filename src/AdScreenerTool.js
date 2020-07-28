@@ -5,8 +5,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import axios from "axios";
 import { addDays } from "date-fns";
-import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
-import { Link } from 'react-router-dom';
+import { useQueryParam, StringParam } from 'use-query-params';
 import ReactLoading from 'react-loading';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
@@ -131,6 +130,10 @@ const AdClustersDisplay = (params) => {
 }
 
 const AdScreener = (params) => {
+  /*Disabling lint for setParam variables as they are required to set values in the tool even though they are not 
+  explicitly invoked.
+  Disabling argument check to prevent error raised for not using props in renderMenuItemChildren in AsyncTypeahead*/
+  /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "set", "args": "none"}]*/
 
   const [startDateParam, setStartDateParam] = useQueryParam('Start Date', StringParam);
   const [endDateParam, setEndDateParam] = useQueryParam('End Date', StringParam);
@@ -246,11 +249,11 @@ const AdScreener = (params) => {
 
   const handleSelect = (k) => {
   	setSelectedTopicOrFullTextSearchTab(k);
-  	if(k=='topics') {
+  	if(k==='topics') {
   		setFullTextSearchQuery(null);
 		setPageId(null);
   	}
-	else if(k=='advertiser') {
+	else if(k==='advertiser') {
 		setFullTextSearchQuery(null);
 		setTopic({ selectedOption: ""});
 		setTopicParam(undefined);
@@ -297,7 +300,7 @@ const AdScreener = (params) => {
       <p>
         Please select filters below and click 'Get Ads' to load content.{" "}
         {/* eslint-disable-next-line */}
-        <a href="#" onClick={handleShow}>
+        <a href="# " onClick={handleShow}>
           Click here for more information.
         </a>
       </p>
@@ -403,7 +406,7 @@ const AdScreener = (params) => {
         <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
 
-      <a href="#" onClick={handleShowTopicModal}>
+      <a href="# " onClick={handleShowTopicModal}>
         Click here to suggest topics.
       </a>
 

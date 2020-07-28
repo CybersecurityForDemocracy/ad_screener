@@ -10,8 +10,6 @@ import axios from "axios";
 
 
 const NewTopicSuggestionForAdClusterForm = params => {
-	var labelName = "";
-	const [validated, setValidated] = useState(false);
 	const [showSubmitStatusMessage, setShowSubmitStatusMessage] = useState(false);
 	const [message, setMessage] = useState("");
 	const [style, setStyle] = useState({});
@@ -25,19 +23,19 @@ const NewTopicSuggestionForAdClusterForm = params => {
 		event.preventDefault();
 
 		var topicName = form.user_suggested_topic.value;
-		var comments = form.comments.value != "" ? form.comments.value : "None"
+		var comments = form.comments.value !== "" ? form.comments.value : "None"
 		var topics = form.topic_options;
 		var selected_topics = [];
 		for (var i = 0; i < topics.length; i++) {
 		    if (topics.options[i].selected) selected_topics.push(topics.options[i].value);
 		}
-		if(topicName != ""){
+		if(topicName !== ""){
 			selected_topics.push(topicName);
 		}
 		console.log(comments);
 		console.log(selected_topics);
 		
-		if(selected_topics.length == 0) {
+		if(selected_topics.length === 0) {
 			setShowSubmitStatusMessage(true);
 			setMessage("Please select or enter a topic name!");
 			setStyle({color: 'red'});
