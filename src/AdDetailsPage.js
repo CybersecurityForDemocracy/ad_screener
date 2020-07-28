@@ -7,7 +7,8 @@ import AdDetailsContent from "./AdDetailsContent.js";
 const getClusterURL = "/archive-id";
 
 function AdDetailsPage() {
-	const adIdParam = useQueryParam('ad_id', StringParam);
+	/* eslint-disable-next-line */
+	const [adIdParam, setAdIdParam] = useQueryParam('ad_id', StringParam);
 	const [adClusterData, setAdClusterData] = useState([]);
 	const [isAdClusterDataLoaded, setIsAdClusterDataLoaded] = useState(false);
 	const [isAdClusterDataEmpty, setIsAdClusterDataEmpty] = useState(false);
