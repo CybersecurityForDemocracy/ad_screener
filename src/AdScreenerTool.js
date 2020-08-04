@@ -21,8 +21,6 @@ const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
 const advertiserSearchURL = "/search/pages_type_ahead";
 
-const disableOptions = false;
-
 function getSelectorValue(array,param){
   return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
 }
@@ -158,6 +156,7 @@ const AdScreener = (params) => {
   const [advertiserSearchOptions, setAdvertiserSearchOptions] = useState([]);
   const [pageId, setPageId] = useState(null);
   const [searchImage, setSearchImage] = useState(null);
+  const [disableOptions, setDisableOptions] = useState(false);
 	
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
@@ -196,17 +195,22 @@ const AdScreener = (params) => {
     console.log("page: ",pageId);
     console.log("full text: ", fullTextSearchQuery);
     console.log("image file: ", searchImage);
-    if(searchImage){
+    if(!searchImage && !topic.selectedOption && !pageId && !fullTextSearchQuery){
+      alert("Invalid search. Please enter a value for one of the search options.");
+      setIsGetAdsRequestPending(false);
+      setIsAdDataEmpty(false);
+    }
+    else if(searchImage){
       const formData = new FormData();
       console.log(formData.has('reverse_image_search'));
-      formData.append('reverse_image_search', searchImage);
+      formData.append('reverse_image_search', searchImage.file);
       console.log(formData.has('reverse_image_search'));
       const config = {
         headers: {
           'content-type': 'multipart/form-data'
         }
       };
-      //console.log(formData.get('reverse_image_search'));
+      console.log(formData.get('reverse_image_search'));
       axios
         .post(getAdsURL, formData, config)
         .then((response) => {
@@ -285,6 +289,7 @@ const AdScreener = (params) => {
         setFullTextSearchQuery(null);
         setPageId(null);
         setSearchImage(null);
+        setDisableOptions(false);
         break;
 
       case "advertiser":
@@ -292,6 +297,7 @@ const AdScreener = (params) => {
         setTopic({ selectedOption: ""});
         setTopicParam(undefined);
         setSearchImage(null);
+        setDisableOptions(false);
         break;
 
       case "fullText":
@@ -299,6 +305,7 @@ const AdScreener = (params) => {
         setTopicParam(undefined);
         setPageId(null);
         setSearchImage(null);
+        setDisableOptions(false);
         break;
 
       case "image":
@@ -306,6 +313,7 @@ const AdScreener = (params) => {
         setTopicParam(undefined);
         setPageId(null);
         setFullTextSearchQuery(null);
+        setDisableOptions(true);
         break;
 
       default:
@@ -459,6 +467,7 @@ const AdScreener = (params) => {
           setStartDate={setStartDate}
           endDate={endDate}
           setEndDate={setEndDate}
+          disabled={disableOptions}
         />
         <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>

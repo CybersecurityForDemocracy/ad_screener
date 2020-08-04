@@ -10,7 +10,7 @@ const ReverseImageSearchForm = params => {
 	return(
       <Form>
         <Form.Group>
-          <Form.File id="reverse_image_search" label="Input image file for search" onChange={handleChange} accept="image/*"/>
+          <Form.File id="reverse_image_search" label="Upload an image to search for similar ad creatives" onChange={handleChange} accept="image/*"/>
         </Form.Group>
       </Form>
 	);	
