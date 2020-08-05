@@ -15,12 +15,11 @@ import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
 import LabelEntryForm from "./LabelEntryForm.js";
 import SearchField from "./SearchField.js";
+import ReverseImageSearchForm from "./ReverseImageSearchForm.js"
 
 const getAdsURL = "/getads";
 const getFilterSelectorDataURL = "/filter-options";
 const advertiserSearchURL = "/search/pages_type_ahead";
-
-const disableOptions = false;
 
 function getSelectorValue(array,param){
   return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
@@ -152,10 +151,12 @@ const AdScreener = (params) => {
   const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam)});
   const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
   const [fullTextSearchQuery, setFullTextSearchQuery] = useState(null);
-  const [selectedTopicOrFullTextSearchTab, setSelectedTopicOrFullTextSearchTab] = useState('topics');
+  const [selectedSearchTab, setSelectedSearchTab] = useState('topics');
   const [isAdvertiserSearchLoading, setIsAdvertiserSearchLoading] = useState(false);
   const [advertiserSearchOptions, setAdvertiserSearchOptions] = useState([]);
   const [pageId, setPageId] = useState(null);
+  const [searchImage, setSearchImage] = useState(null);
+  const [disableOptions, setDisableOptions] = useState(false);
 	
   const numResultsToRequest = 20;
   const resultsOffset = useRef(0);
@@ -191,42 +192,79 @@ const AdScreener = (params) => {
     setIsAdDataEmpty(true);
     console.log("in getads");
     console.log("topic: ", topic.selectedOption);
-    console.log("page ",pageId);
-    console.log("full text", fullTextSearchQuery);
-    axios
-      .get(getAdsURL, {
-        params: {
-          startDate: startDate,
-          endDate: endDate,
-          topic: topic.selectedOption.value,
-          // Using label for region is intentional. The db stores full strings, not 2 char codes
-          region: region.selectedOption.label,
-          gender: gender.selectedOption.value,
-          ageRange: ageRange.selectedOption.value,
-          riskScore: riskScore.selectedOption.value,
-          orderBy: orderBy.selectedOption.value,
-          orderDirection: orderDirection.selectedOption.value,
-          numResults: numResultsToRequest,
-          offset: resultsOffset.current,
-          full_text_search: fullTextSearchQuery,
-	  page_id: pageId
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setAds(response.data);
-        setIsAdDataEmpty(response.data.length === 0);
-        setIsGetAdsRequestPending(false);
-      })
-      .catch((error) => {
+    console.log("page: ",pageId);
+    console.log("full text: ", fullTextSearchQuery);
+    console.log("image file: ", searchImage);
+    if(!searchImage && !topic.selectedOption && !pageId && !fullTextSearchQuery){
+      alert("Invalid search. Please enter a value for one of the search options.");
+      setIsGetAdsRequestPending(false);
+      setIsAdDataEmpty(false);
+    }
+    else if(searchImage){
+      const formData = new FormData();
+      console.log(formData.has('reverse_image_search'));
+      formData.append('reverse_image_search', searchImage.file);
+      console.log(formData.has('reverse_image_search'));
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      console.log(formData.get('reverse_image_search'));
+      axios
+        .post(getAdsURL, formData, config)
+        .then((response) => {
+          console.log(response.data);
+          setAds(response.data);
+          setIsAdDataEmpty(response.data.length === 0);
+          setIsGetAdsRequestPending(false);          
+        })
+        .catch((error) => {
         console.log(error);
         if (error.response && error.response.status === 401) {
           handleShowNeedLoginModal();
         }
         setIsAdDataEmpty(true);
         setIsGetAdsRequestPending(false);
-      })
-      .finally(() => {});
+        })
+        .finally(() => {});
+    }
+    else{
+      axios
+        .get(getAdsURL, {
+          params: {
+            startDate: startDate,
+            endDate: endDate,
+            topic: topic.selectedOption.value,
+            // Using label for region is intentional. The db stores full strings, not 2 char codes
+            region: region.selectedOption.label,
+            gender: gender.selectedOption.value,
+            ageRange: ageRange.selectedOption.value,
+            riskScore: riskScore.selectedOption.value,
+            orderBy: orderBy.selectedOption.value,
+            orderDirection: orderDirection.selectedOption.value,
+            numResults: numResultsToRequest,
+            offset: resultsOffset.current,
+            full_text_search: fullTextSearchQuery,
+            page_id: pageId
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setAds(response.data);
+          setIsAdDataEmpty(response.data.length === 0);
+          setIsGetAdsRequestPending(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response && error.response.status === 401) {
+            handleShowNeedLoginModal();
+          }
+          setIsAdDataEmpty(true);
+          setIsGetAdsRequestPending(false);
+        })
+        .finally(() => {});
+      }
   };
 
   const getPreviousPageOfAds = () => {
@@ -245,21 +283,42 @@ const AdScreener = (params) => {
   };
 
   const handleSelect = (k) => {
-  	setSelectedTopicOrFullTextSearchTab(k);
-  	if(k=='topics') {
-  		setFullTextSearchQuery(null);
-		setPageId(null);
-  	}
-	else if(k=='advertiser') {
-		setFullTextSearchQuery(null);
-		setTopic({ selectedOption: ""});
-		setTopicParam(undefined);
-	}
-  	else {
-		setTopic({ selectedOption: ""});
-		setTopicParam(undefined);
-		setPageId(null);
-  	}
+  	setSelectedSearchTab(k);
+    switch(k) {
+      case "topics":
+        setFullTextSearchQuery(null);
+        setPageId(null);
+        setSearchImage(null);
+        setDisableOptions(false);
+        break;
+
+      case "advertiser":
+        setFullTextSearchQuery(null);
+        setTopic({ selectedOption: ""});
+        setTopicParam(undefined);
+        setSearchImage(null);
+        setDisableOptions(false);
+        break;
+
+      case "fullText":
+        setTopic({ selectedOption: ""});
+        setTopicParam(undefined);
+        setPageId(null);
+        setSearchImage(null);
+        setDisableOptions(false);
+        break;
+
+      case "image":
+        setTopic({ selectedOption: ""});
+        setTopicParam(undefined);
+        setPageId(null);
+        setFullTextSearchQuery(null);
+        setDisableOptions(true);
+        break;
+
+      default:
+        alert("Select one of the tabs");
+    }
   }
 
   const handleAdvertiserSearch = (query) => {
@@ -304,52 +363,61 @@ const AdScreener = (params) => {
 
       <div className="App-filter-selector">
       	<div>
-      	  Search By:
+      	 Search By:
           <Tabs 
-            activeKey={selectedTopicOrFullTextSearchTab}
+            activeKey={selectedSearchTab}
             onSelect={handleSelect}
           >
             <Tab
       	      eventKey="topics"
       	      title="Topic"
       	      mountOnEnter={true}
-    	    >
-		      <FilterSelector
-		        setState={setTopic}
-		        option={topic}
-		        options={params.topics}
-		      />
+      	    >
+    		      <FilterSelector
+    		        setState={setTopic}
+    		        option={topic}
+    		        options={params.topics}
+    		      />
             </Tab>
             <Tab
       	      eventKey="fullText"
       	      title="Full Text"
       	      mountOnEnter={true}
-    	    >   
-	          <SearchField
-	            setState={setFullTextSearchQuery}
-	          />
+      	    >   
+  	          <SearchField
+  	            setState={setFullTextSearchQuery}
+  	          />
             </Tab>
-	    <Tab
-	      eventKey="advertiser"
-	      title="Advertiser"
-	      mountOnEnter={true}
-	    >
-		<AsyncTypeahead
-		  id="advertiser-search"
-		  isLoading={isAdvertiserSearchLoading}
-		  labelKey="page"
-		  minLength={1}
-		  onSearch={handleAdvertiserSearch}
-		  onChange={(selected) => {try {setPageId(selected[0].id)} catch(e) {}}}
-		  options={advertiserSearchOptions}
-		  placeholder="Search for an advertiser page..."
-		  renderMenuItemChildren={(option, props) => (
-		  	<React.Fragment>
-		  	  <span>{option.page}</span>
-		  	</React.Fragment>
-		  )}
-		/>
-	    </Tab>
+      	    <Tab
+      	      eventKey="advertiser"
+      	      title="Advertiser"
+      	      mountOnEnter={true}
+      	    >
+          		<AsyncTypeahead
+          		  id="advertiser-search"
+          		  isLoading={isAdvertiserSearchLoading}
+          		  labelKey="page"
+          		  minLength={1}
+          		  onSearch={handleAdvertiserSearch}
+          		  onChange={(selected) => {try {setPageId(selected[0].id)} catch(e) {}}}
+          		  options={advertiserSearchOptions}
+          		  placeholder="Search for an advertiser page..."
+          		  renderMenuItemChildren={(option, props) => (
+          		  	<React.Fragment>
+          		  	  <span>{option.page}</span>
+          		  	</React.Fragment>
+          		  )}
+          		/>
+            </Tab>
+            <Tab
+              eventKey="image"
+              title="Image"
+              mountOnEnter={true}
+            >
+              <ReverseImageSearchForm 
+                setState={setSearchImage}
+              />
+            </Tab>
           </Tabs>
         </div>
         <FilterSelector
@@ -399,6 +467,7 @@ const AdScreener = (params) => {
           setStartDate={setStartDate}
           endDate={endDate}
           setEndDate={setEndDate}
+          disabled={disableOptions}
         />
         <Button variant="primary" onClick={getFirstPageOfAds}>Get Ads</Button>
       </div>
