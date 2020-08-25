@@ -149,9 +149,11 @@ const AdDetailsContent = (params) => {
       <Table striped bordered hover>
         <tbody>
           <tr><td>Ad Type:</td><td>{params.details.type}</td></tr>
-          <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
           <tr><td>Cluster Topics:</td><td>{params.details.topics}<br /><a href='#' onClick={handleShow}>Suggest more topics?</a></td></tr>
+          <tr><td>Earliest Ad Creation Date:</td><td>{params.details.min_ad_creation_date}</td></tr>
+          <tr><td>Latest Ad Creation Date:</td><td>{params.details.max_ad_creation_date}</td></tr>
           <tr><td>Number of ads in cluster:</td><td>{params.details.cluster_size}</td></tr>
+          <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
           <tr><td>Canonical ad archive ID:</td><td>{params.details.canonical_archive_id}</td></tr>
         </tbody>
       </Table>
@@ -169,6 +171,7 @@ const AdDetailsContent = (params) => {
             <tr><td>Advertiser Party:</td><td>{advertiser_info.advertiser_party}</td></tr>
             <tr><td>FEC ID:</td><td>{advertiser_info.advertiser_fec_id}</td></tr>
             <tr><td>Advertiser website:</td><td>{advertiser_info.advertiser_webiste}</td></tr>
+            <tr><td>Facebook Page ID:</td><td>{advertiser_info.facebook_page_id}</td></tr>
             <tr><td>Risk Score:</td><td>{advertiser_info.advertiser_risk_score}</td></tr>
           </tbody>
         </Table>
