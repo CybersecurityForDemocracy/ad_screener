@@ -156,6 +156,7 @@ const AdScreener = (params) => {
   const [advertiserSearchOptions, setAdvertiserSearchOptions] = useState([]);
   const [pageId, setPageId] = useState(null);
   const [searchImage, setSearchImage] = useState(null);
+  const [imageSimilarity, setImageSimilarity] = useState("Medium");
   const [disableOptions, setDisableOptions] = useState(false);
 	
   const numResultsToRequest = 20;
@@ -195,6 +196,7 @@ const AdScreener = (params) => {
     console.log("page: ",pageId);
     console.log("full text: ", fullTextSearchQuery);
     console.log("image file: ", searchImage);
+    console.log("Slider value: ", imageSimilarity);
     if(!searchImage && !topic.selectedOption && !pageId && !fullTextSearchQuery){
       alert("Invalid search. Please enter a value for one of the search options.");
       setIsGetAdsRequestPending(false);
@@ -202,15 +204,15 @@ const AdScreener = (params) => {
     }
     else if(searchImage){
       const formData = new FormData();
-      console.log(formData.has('reverse_image_search'));
       formData.append('reverse_image_search', searchImage.file);
-      console.log(formData.has('reverse_image_search'));
+      formData.append('similarity', imageSimilarity);
       const config = {
         headers: {
           'content-type': 'multipart/form-data'
         }
       };
       console.log(formData.get('reverse_image_search'));
+      console.log(formData.get('similarity'));
       axios
         .post(getAdsURL, formData, config)
         .then((response) => {
@@ -415,7 +417,8 @@ const AdScreener = (params) => {
               mountOnEnter={true}
             >
               <ReverseImageSearchForm 
-                setState={setSearchImage}
+                setFileState={setSearchImage}
+                setSliderState={setImageSimilarity}
               />
             </Tab>
           </Tabs>
