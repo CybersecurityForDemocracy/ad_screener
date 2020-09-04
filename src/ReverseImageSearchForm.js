@@ -3,7 +3,9 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import { Slider, IconButton , Tooltip } from '@material-ui/core';
 import { MdInfo } from "react-icons/md";
+
 const ReverseImageSearchForm = params => {
+	
 	const handleChange = (e) => {
 	  params.setFileState({file:e.target.files[0]});
 	  console.log({file:e.target.files[0]});
@@ -32,8 +34,8 @@ const ReverseImageSearchForm = params => {
 		},
 	];
 
-	const valuetext = (value) => {
-		params.setSliderState(marks[value/25]["label"])
+	const handleSliderChange = (e, value) => {
+		params.setSliderState(marks[value/25]["label"]);
 	}
 
 	return(
@@ -50,9 +52,10 @@ const ReverseImageSearchForm = params => {
 					</IconButton>
 				</Tooltip>
 	    	</Form.Label>   	  
-		    <Slider
+			<Slider
+		    	name = "slider"
 				defaultValue={50}
-				getAriaValueText={valuetext}
+				onChange={handleSliderChange}
 				aria-labelledby="discrete-slider-custom"
 				step={null}
 				valueLabelDisplay="off"
