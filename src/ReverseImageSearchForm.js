@@ -11,11 +11,11 @@ const ReverseImageSearchForm = params => {
 
 	const marks = [
 		{
-			value: 0,
+			value: 100,
 			label: 'Very Low',
 		},
 		{
-			value: 25,
+			value: 75,
 			label: 'Low',
 		},
 		{
@@ -23,11 +23,11 @@ const ReverseImageSearchForm = params => {
 			label: 'Medium',
 		},
 		{
-			value: 75,
+			value: 25,
 			label: 'High',
 		},
 		{
-			value: 100,
+			value: 0,
 			label: 'Very High',
 		},
 	];
