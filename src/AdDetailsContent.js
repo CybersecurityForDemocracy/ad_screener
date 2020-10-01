@@ -127,7 +127,7 @@ const AdDetailsContent = (params) => {
       title="Alternate Creatives"
       mountOnEnter={true}
     >
-      {params.details.alternative_ads.map((ad_id) => {
+      {params.details.archive_ids.map((ad_id) => {
         return (
           <div className="ad-image-container" key={ad_id}>
           <div>
@@ -155,6 +155,7 @@ const AdDetailsContent = (params) => {
           <tr><td>Number of ads in cluster:</td><td>{params.details.cluster_size}</td></tr>
           <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
           <tr><td>Canonical ad archive ID:</td><td>{params.details.canonical_archive_id}</td></tr>
+          <tr><td>Archive IDs in cluster:</td><td>{params.details.archive_ids.join(', ')}</td></tr>
         </tbody>
       </Table>
     </Tab>
