@@ -127,7 +127,7 @@ const AdDetailsContent = (params) => {
       title="Alternate Creatives"
       mountOnEnter={true}
     >
-      {params.details.alternative_ads.map((ad_id) => {
+      {params.details.archive_ids.map((ad_id) => {
         return (
           <div className="ad-image-container" key={ad_id}>
           <div>
