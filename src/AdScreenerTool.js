@@ -55,6 +55,7 @@ function AdScreenerTool() {
   const regions = filterSelectorData.regions;
   const genders = filterSelectorData.genders;
   const ageRanges = filterSelectorData.ageRanges;
+  const languages = filterSelectorData.languages;
   const riskScores = filterSelectorData.riskScores;
   const orderByOptions = filterSelectorData.orderByOptions;
   const orderDirections = filterSelectorData.orderDirections;
@@ -65,6 +66,7 @@ function AdScreenerTool() {
       regions={regions}
       genders={genders}
       ageRanges={ageRanges}
+      languages={languages}
       riskScores={riskScores}
       orderByOptions={orderByOptions}
       orderDirections={orderDirections}
@@ -137,6 +139,7 @@ const AdScreener = (params) => {
   const [regionParam, setRegionParam] = useQueryParam('Region', StringParam);
   const [genderParam, setGenderParam] = useQueryParam('Gender', StringParam);
   const [ageRangeParam, setAgeRangeParam] = useQueryParam('Age Range', StringParam);
+  const [languageParam, setLanguageParam] = useQueryParam('Language', StringParam);
   const [riskScoreParam, setRiskScoreParam] = useQueryParam('Risk Score', StringParam);
   const [orderByParam, setOrderByParam] = useQueryParam('Sort By Field', StringParam);
   const [orderDirectionParam, setOrderDirectionParam] = useQueryParam('Sort Order', StringParam);
@@ -147,6 +150,7 @@ const AdScreener = (params) => {
   const [region, setRegion] = useState({ selectedOption: getSelectorValue(params.regions,regionParam)});
   const [gender, setGender] = useState({ selectedOption: getSelectorValue(params.genders,genderParam)});
   const [ageRange, setAgeRange] = useState({ selectedOption: getSelectorValue(params.ageRanges,ageRangeParam)});
+  const [language, setLanguage] = useState({ selectedOption: getSelectorValue(params.languages,languageParam)});
   const [riskScore, setRiskScore] = useState({ selectedOption: getSelectorValue(params.riskScores,riskScoreParam)});
   const [orderBy, setOrderBy] = useState({ selectedOption: getSelectorValue(params.orderByOptions,orderByParam)});
   const [orderDirection, setOrderDirection] = useState({ selectedOption: getSelectorValue(params.orderDirections,orderDirectionParam)});
@@ -242,6 +246,7 @@ const AdScreener = (params) => {
             region: region.selectedOption.label,
             gender: gender.selectedOption.value,
             ageRange: ageRange.selectedOption.value,
+            language: language.selectedOption.value,
             riskScore: riskScore.selectedOption.value,
             orderBy: orderBy.selectedOption.value,
             orderDirection: orderDirection.selectedOption.value,
@@ -442,6 +447,13 @@ const AdScreener = (params) => {
           option={ageRange}
           title="Age Range"
           options={params.ageRanges}
+          disabled={disableOptions}
+        />
+        <FilterSelector
+          setState={setLanguage}
+          option={language}
+          title="Language"
+          options={params.languages}
           disabled={disableOptions}
         />
         <FilterSelector
