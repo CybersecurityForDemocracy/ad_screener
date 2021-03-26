@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Modal from "react-bootstrap/Modal";
 import AdDetailsContent from "./AdDetailsContent.js";
+
+import api from './api.js';
 
 import "./AdUnit.css";
 
@@ -21,7 +22,7 @@ const AdUnit = (params) => {
   const handleAdImageError = () => setAdImageSrc(errorImageSrc);
 
   const getAdDetails = (ad_cluster_id) => {
-    axios
+    api
       .get(getAdClusterDetailsUrl + ad_cluster_id)
       .then((response) => {
         console.log(response.data);
@@ -88,7 +89,7 @@ const AdUnit = (params) => {
 const AdFeedbackButton = (params) => {
   const [buttonTitle, setButtonTitle] = useState(params.user_feedback_label_name === null ? "Is this ad problematic?" : params.user_feedback_label_name);
   const handleSelect = (label) => {
-    axios.post(sendAdFeedbackURL + "/" + params.ad_cluster_id + "/set-label/" + label)
+    api.post(sendAdFeedbackURL + "/" + params.ad_cluster_id + "/set-label/" + label)
       .then((response) => {
         console.log(response.data);
         setButtonTitle(label);

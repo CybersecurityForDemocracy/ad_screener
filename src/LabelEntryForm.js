@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
-import axios from "axios";
+import api from './api.js';
 
 function LabelEntryForm() {
 	var labelName = "";
@@ -24,7 +24,7 @@ function LabelEntryForm() {
 		else{
 			labelName = form.topic_name.value;
 			console.log(labelName);
-			axios
+			api
 			.post('/insert-user-suggested-topic-name/'+labelName)
 			.then((response) => {
 				console.log(response.data);

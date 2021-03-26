@@ -3,13 +3,13 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import axios from "axios";
 import { addDays } from "date-fns";
 import { useQueryParam, StringParam, NumberParam } from 'use-query-params';
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
+import api from './api.js';
 import AdUnit from "./AdUnit.js";
 import TimePeriodPicker from "./TimePeriodPicker.js";
 import FilterSelector from "./FilterSelector.js";
@@ -30,7 +30,7 @@ function AdScreenerTool() {
   const [filterSelectorData, setFilterSelectorData] = useState({});
 
   const getFilterSelectorData = () => {
-    axios
+    api
       .get(getFilterSelectorDataURL)
       .then((response) => {
         console.log(response.data);
@@ -217,7 +217,7 @@ const AdScreener = (params) => {
       };
       console.log(formData.get('reverse_image_search'));
       console.log(formData.get('similarity'));
-      axios
+      api
         .post(getAdClustersUrl, formData, config)
         .then((response) => {
           console.log(response.data);
@@ -236,7 +236,7 @@ const AdScreener = (params) => {
         .finally(() => {});
     }
     else{
-      axios
+      api
         .get(getAdClustersUrl, {
           params: {
             startDate: startDate,
@@ -330,7 +330,7 @@ const AdScreener = (params) => {
 
   const handleAdvertiserSearch = (query) => {
 	setIsAdvertiserSearchLoading(true);
-	axios
+	api
 	  .get(advertiserSearchURL, {
 		params: {
 		  q: query

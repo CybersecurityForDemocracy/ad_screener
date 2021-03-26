@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useQueryParam, StringParam } from 'use-query-params';
 
+import api from './api.js';
 import AdDetailsContent from "./AdDetailsContent.js";
 
 const getClusterURL = "/archive-id";
@@ -13,7 +13,7 @@ function AdDetailsPage() {
 	const [isAdClusterDataEmpty, setIsAdClusterDataEmpty] = useState(false);
 
 	const getAdClusterData = () => {
-		axios
+		api
 		  .get(getClusterURL + '/' + adIdParam + '/cluster')
 		  .then((response) => {
 		    console.log(response.data);

@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import axios from "axios";
+import api from './api.js';
 
 
 const NewTopicSuggestionForAdClusterForm = params => {
@@ -44,7 +44,7 @@ const NewTopicSuggestionForAdClusterForm = params => {
 		}
 
 		else{
-			axios({
+			api({
 				method: 'post',
 				url: '/ad-topic-suggestion/' + params.ad_id + '/set-topic-and-comments',
 				data: {
