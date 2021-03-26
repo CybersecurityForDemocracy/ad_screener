@@ -17,7 +17,7 @@ import LabelEntryForm from "./LabelEntryForm.js";
 import SearchField from "./SearchField.js";
 import ReverseImageSearchForm from "./ReverseImageSearchForm.js"
 
-const getAdsURL = "/getads";
+const getAdClustersUrl = "/ad-clusters";
 const getFilterSelectorDataURL = "/filter-options";
 const advertiserSearchURL = "/search/pages_type_ahead";
 
@@ -218,7 +218,7 @@ const AdScreener = (params) => {
       console.log(formData.get('reverse_image_search'));
       console.log(formData.get('similarity'));
       axios
-        .post(getAdsURL, formData, config)
+        .post(getAdClustersUrl, formData, config)
         .then((response) => {
           console.log(response.data);
           setAds(response.data);
@@ -237,7 +237,7 @@ const AdScreener = (params) => {
     }
     else{
       axios
-        .get(getAdsURL, {
+        .get(getAdClustersUrl, {
           params: {
             startDate: startDate,
             endDate: endDate,
