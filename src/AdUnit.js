@@ -8,7 +8,7 @@ import AdDetailsContent from "./AdDetailsContent.js";
 
 import "./AdUnit.css";
 
-const getAdDetailsURL = "/getaddetails";
+const getAdClusterDetailsUrl = "/ad-clusters/";
 const sendAdFeedbackURL = "/ad-feedback";
 const errorImageSrc = 'https://storage.googleapis.com/facebook_ad_archive_screenshots/error.png';
 
@@ -22,7 +22,7 @@ const AdUnit = (params) => {
 
   const getAdDetails = (ad_cluster_id) => {
     axios
-      .get(getAdDetailsURL + '/' + ad_cluster_id)
+      .get(getAdClusterDetailsUrl + ad_cluster_id)
       .then((response) => {
         console.log(response.data);
         setAdDetails(response.data);
