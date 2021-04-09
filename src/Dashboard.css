@@ -1,0 +1,174 @@
+.dashboard-title{
+	text-align: center;
+	font-weight: bolder;
+	padding-top: 2%;
+}
+
+.cluster-container {
+  background: #ffffff;
+  margin: 2%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding: 0.2%;
+  width: 20%;
+  min-width: 250px;
+  border: solid;
+  border-color: cornflowerblue;
+  border-radius: 1%;
+  border-width: 1px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-contents {
+	padding: 5%;
+	text-align: left;
+}
+
+.bottom {
+	padding-top: 5%; 
+}
+
+.center-align {
+	text-align: center;
+	margin-top: 1%;
+}
+
+.pad-button {
+	margin-left: 1%;
+	margin-right: 1%;
+}
+
+.action-bar {
+	float: right;
+	padding: 2%;
+	cursor: pointer;
+}
+
+.view {
+	background: #9400FF;
+	border-radius: 2%;
+	border: none;
+	color: white;
+	font-size: 12px;
+	text-decoration: none;
+	padding: 3%;
+}
+
+.view:hover {
+	background-color: grey;
+	color: #e7e7e7;
+}
+
+.copy-button {
+	background-color: #e0e0e0;
+	border: none;
+	border-radius: 2%; 
+	text-decoration: none;
+}
+
+.copy-button:hover {
+	background-color: grey;
+}
+
+.ad-unit {
+	border: none;
+	padding: 2%;
+	box-shadow: 10px 10px #e0e0e0;
+	width: 28%;
+	margin: 2%;
+}
+
+.ad-info {
+	display: inline-block;
+	text-align: left;
+	font-size: smaller;
+}
+
+.ad-info-container {
+	padding: 3%;
+	margin-top: 6%;
+}
+
+.ad-image {
+	max-width: 100%;
+	text-align: center;
+	margin: 3%;
+	border: 1px solid black;
+}
+
+.ad-image-small {
+	max-width: 25%;
+	max-height: 30%;
+}
+
+.ad-image-container {
+	max-width: 100%;
+}
+
+.small {
+	font-size: x-small;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+ /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.search-field {
+	margin-right: 3%;
+}
+
+.selected-ad-title {
+	margin: 2%;
+	margin-bottom: 0%;
+}
+
+.selected-ad-info {
+	margin: 5%;
+}
+
+.selected-ad-details {
+	float: left;
+	margin: 5%;
+	margin-top: 1%;
+	display: flex;
+	flex-direction: row;
+}
+
+.similar-ads-form {
+	margin-top: 5%;
+}
+
+.similar-ads-form-dropdown-align {
+	display: flex;
+	flex-direction: row;
+}
+
+.similar-ads-button {
+	margin: 1%;
+	margin-top: 5%;
+}
+
+.similarity-selections {
+	margin-top: 5%;
+	margin-left: 3%;
+	font-weight: bold;
+}
+
+.similar-ads-results{
+	text-align: center;
+	margin-top: 1%;
+	margin: 5%;
+}
+
+.scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+}
