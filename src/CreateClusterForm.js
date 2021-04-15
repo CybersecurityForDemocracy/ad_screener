@@ -25,7 +25,7 @@ function CreateClusterForm() {
 			clusterName = form.cluster_name.value;
 			console.log(clusterName);
 			axios
-			.post('/create_new_user_cluster/'+clusterName)
+			.post('/user_clusters/'+clusterName)
 			.then((response) => {
 				console.log(response.data);
 				setShow(true);

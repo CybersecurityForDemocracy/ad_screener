@@ -22,10 +22,10 @@ const AddByArchiveIdForm = (params) => {
 		}
 
 		else{
-			archiveId = form.archive_id.value;
+			archiveId = [form.archive_id.value];
 			console.log(archiveId);
 			axios
-			.post('/add_to_user_cluster/'+ params.ad_cluster_id +'/archive_id/' + archiveId)
+			.post('/add_to_user_cluster/'+ params.ad_cluster_id, {"archive_ids": archiveId})
 			.then((response) => {
 				console.log(response.data);
 				setShow(true);

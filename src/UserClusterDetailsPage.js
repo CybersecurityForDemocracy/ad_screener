@@ -8,9 +8,9 @@ import "./Dashboard.css"
 import UserClusterAdUnit from "./UserClusterAdUnit.js";
 import AddByArchiveIdForm from "./AddByArchiveIdForm.js";
 
-const getClusterContentsURL = "/view_user_cluster_contents/";
-const checkClusterCreatorIdURL = "/check_cluster_creator_id/";
-const getClusterNameURL = "/get_user_cluster_name_from_id/";
+const getClusterDetailsURL = "/user_clusters/";
+const checkClusterCreatorIdURL = "/owner";
+const getClusterNameURL = "/name";
 
 function UserClusterDetailsPage() {
 	const [clusterIdParam, setClusterIdParam] = useQueryParam('cluster_id', NumberParam);
@@ -25,10 +25,10 @@ function UserClusterDetailsPage() {
 
 	const getAdClusterData = () => {
 		axios
-		  .get(getClusterContentsURL + clusterIdParam)
+		  .get(getClusterDetailsURL + clusterIdParam)
 		  .then((response) => {
-		    console.log(response.data);
-		    setAdClusterData(response.data);
+		    console.log(Object.values(response.data));
+		    setAdClusterData(Object.values(response.data));
 		    setIsAdClusterDataLoaded(true);
 		  })
 		  .catch((error) => {
@@ -42,7 +42,7 @@ function UserClusterDetailsPage() {
 
 	const checkClusterCreator = () => {
 		axios
-		  .get(checkClusterCreatorIdURL + clusterIdParam)
+		  .get(getClusterDetailsURL + clusterIdParam + checkClusterCreatorIdURL )
 		  .then((response) => {
 		    console.log(response.data);
 		    setIsUserClusterCreator(response.data.Ownership);
@@ -55,7 +55,7 @@ function UserClusterDetailsPage() {
 	
 	const getClusterName = () => {
 		axios
-		  .get(getClusterNameURL + clusterIdParam)
+		  .get(getClusterDetailsURL + clusterIdParam + getClusterNameURL)
 		  .then((response) => {
 		    console.log(response.data);
 		    setClusterName(response.data.ad_cluster_name);
@@ -111,11 +111,12 @@ function UserClusterDetailsPage() {
           <div className="App-ad-pane center-align">
             {adClusterData.map((ad) => (
               <UserClusterAdUnit 
-                ad={ad} 
+                ad={JSON.parse(ad)} 
                 key={ad.archive_id} 
                 refresh={refresh} 
                 canDelete={isUserClusterCreator}
                 showAddToClusterButton={false}
+                ad_cluster_id={clusterIdParam}
               />
             ))}
           </div>

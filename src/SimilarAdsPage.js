@@ -40,7 +40,7 @@ const SimilarAdsDisplay = (params) => {
       <div className="App-ad-pane scroll">
         {ads.map((ad) => (
           <UserClusterAdUnit 
-            ad={ad} 
+            ad={JSON.parse(ad)} 
             key={ad.archive_id} 
             canDelete={false}
             showAddToClusterButton={true}
@@ -61,7 +61,9 @@ function SimilarAdsPage() {
 	const [isGetAdsRequestPending, setIsGetAdsRequestPending] = useState(false);
 	const [isAdDataEmpty, setIsAdDataEmpty] = useState(false);
 
-	const similarityLevelValueMapping = {'high': 1, 'medium': 2, 'low': 3}
+	const similarityLevelValueMapping = {'High': 1, 'Medium': 2, 'Low': 3}
+  const similarityFeatureValueMapping = {'Text': 'creative_body', 'Image': 'creative_image'}
+
 	const getAdDetails = () => {
 		axios
 		  .get(getAdDetailsURL + archiveIdParam)
@@ -84,7 +86,7 @@ function SimilarAdsPage() {
 		setIsGetAdsRequestPending(true);
 		var ads = [];
 		axios
-		  .get(getSimilarAdsURL + archiveIdParam + "/" + similarityFeature + "/" + similarityLevelValueMapping[similarityLevel])
+		  .get(getSimilarAdsURL + archiveIdParam + "/" + similarityFeatureValueMapping[similarityFeature] + "/" + similarityLevelValueMapping[similarityLevel])
 		  .then((response) => {
 		  	let ad_entries = Object.values(response.data);
 		    for (let i=0; i<ad_entries.length; i++) {
@@ -149,17 +151,17 @@ function SimilarAdsPage() {
                 className="pad-button"
                 onSelect={handleFeatureSelect}
               >
-                <Dropdown.Item eventKey="text">Text</Dropdown.Item>
-                <Dropdown.Item eventKey="image">Image</Dropdown.Item>
+                <Dropdown.Item eventKey="Text">Text</Dropdown.Item>
+                <Dropdown.Item eventKey="Image">Image</Dropdown.Item>
               </DropdownButton>
               <DropdownButton
                 title="Select similarity level"
                 className="pad-button"
                 onSelect={handleSimilaritySelect}
               >
-                <Dropdown.Item eventKey="high">High</Dropdown.Item>
-                <Dropdown.Item eventKey="medium">Medium</Dropdown.Item>
-                <Dropdown.Item eventKey="low">Low</Dropdown.Item>
+                <Dropdown.Item eventKey="High">High</Dropdown.Item>
+                <Dropdown.Item eventKey="Medium">Medium</Dropdown.Item>
+                <Dropdown.Item eventKey="Low">Low</Dropdown.Item>
               </DropdownButton>
             </div>
             <div className="similarity-selections">

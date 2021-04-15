@@ -8,7 +8,7 @@ import "./Dashboard.css"
 import CreateClusterForm from "./CreateClusterForm.js";
 import ActionBar from "./ActionBar.js"
 
-const getClusterURL = "/get_user_clusters";
+const getClusterURL = "/user_clusters";
 
 function UserClustersDashboard() {
 	const [userClustersData, setUserClustersData] = useState([]);
@@ -62,7 +62,7 @@ function UserClustersDashboard() {
         {userClustersData.map((cluster) => (
           <div key={cluster.ad_cluster_id} className="cluster-container">
             <div className="container-contents">
-              <ActionBar id={cluster.ad_cluster_id} refresh={refresh} mode="cluster"/>
+              <ActionBar ad_cluster_id={cluster.ad_cluster_id} refresh={refresh} mode="cluster"/>
               <h3>{cluster.ad_cluster_name}</h3>
               <h5>Cluster ID: {cluster.ad_cluster_id}</h5>
               <h6> Last modified on: {formatDate(cluster.last_modified)}</h6>

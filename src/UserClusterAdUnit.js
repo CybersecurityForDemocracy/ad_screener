@@ -21,7 +21,9 @@ const UserClusterAdUnit = (params) => {
 
   return (
     <div className="ad-unit">
-      {params.canDelete ? <ActionBar id={params.ad.archive_id} refresh={params.refresh} mode="ad"/> : <div></div>}
+      {params.canDelete ? 
+        <ActionBar ad_cluster_id={params.ad_cluster_id} archive_id={params.ad.archive_id} refresh={params.refresh} mode="ad"/> : 
+        <div></div>}
       <div className="ad-info-container">
         <Row>
           <Col className="ad-info small">Ad creation date: </Col>

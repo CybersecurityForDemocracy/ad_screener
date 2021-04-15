@@ -23,26 +23,27 @@ const ActionBar = (params) => {
     };
     const handleShowDeleteModal = () => {setShowDeleteModal(true)}
 
-	const sharingLink = window.location.href + "usercluster?cluster_id=" + params.id;
-	const deleteEndpoint = (mode === "cluster" ? '/delete_user_cluster/' +params.id : '/delete_ad_in_user_cluster/' + params.id);
+	const sharingLink = window.location.href + "usercluster?cluster_id=" + params.ad_cluster_id;
+	const deleteEndpoint = (mode === "cluster" ? '/user_clusters/' + params.ad_cluster_id 
+		: '/user_clusters/ads/' + params.ad_cluster_id + '/' + params.archive_id);
 	
-	const deleteClusterOrAd = (id) => {
+	const deleteClusterOrAd = () => {
 		axios
-		  .post(deleteEndpoint)
+		  .delete(deleteEndpoint)
 		  .then((response) => {
 		  	console.log(response.data);
-		  	if(response.data.Status === 200) {
-		  		handleCloseDeleteModal();
-		  	}
-		  	else {
-		  		setModalMessage(response.data.Status);
-		  		setButtonText("Try again");
-		  	}
+		  	handleCloseDeleteModal();
 		  })
 		  .catch((error) => {
 		  	console.log(error);
-		  	setModalMessage("There was an error in deleting the " + mode + ".");
-		  	setButtonText("Try again");
+        	if (error.response && error.response.status === 401) {
+		  		setModalMessage(error.response.message);
+		  		setButtonText("Try again");
+        	}
+        	else {
+		  		setModalMessage("There was an error in deleting the " + mode + ".");
+		  		setButtonText("Try again");
+		  	}
 		  })
 		  .finally(() => {});
 
@@ -78,14 +79,14 @@ const ActionBar = (params) => {
           onHide={handleCloseDeleteModal}
           >
           <Modal.Header closeButton>
-            <Modal.Title>Delete cluster</Modal.Title>
+            <Modal.Title>Delete {mode}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {modalMessage}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="Secondary" onClick={handleCloseDeleteModal}>Cancel</Button>
-            <Button onClick={() => deleteClusterOrAd(params.id)}>{buttonText}</Button>
+            <Button onClick={deleteClusterOrAd}>{buttonText}</Button>
           </Modal.Footer>
         </Modal>
       </div>
