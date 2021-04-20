@@ -39,7 +39,7 @@ const AddToUserClusterButton = (params) => {
     if (params.archive_ids.length !== 1) {
       if (window.confirm("Are you sure you want to add all the archive ids in this cluster to your cluster? To add select archive ids, go to the alternate creatives tab in Ad Details.")) {
         axios
-          .post('/user_clusters/ads/'+ ad_cluster_id, {"archive_ids": params.archive_ids})
+          .post('/user_clusters/'+ ad_cluster_id + '/ads', {"archive_ids": params.archive_ids})
           .then((response) => {
             console.log(response.data);
             alert("Ad successfully added to cluster")
@@ -53,7 +53,7 @@ const AddToUserClusterButton = (params) => {
     }
     else {
       axios
-        .post('/user_clusters/ads/'+ ad_cluster_id, {"archive_ids": params.archive_ids})
+        .post('/user_clusters/'+ ad_cluster_id + '/ads', {"archive_ids": params.archive_ids})
         .then((response) => {
           console.log(response.data);
           alert("Ad successfully added to cluster")

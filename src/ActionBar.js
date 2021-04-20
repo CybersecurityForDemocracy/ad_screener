@@ -25,7 +25,7 @@ const ActionBar = (params) => {
 
 	const sharingLink = window.location.href + "usercluster?cluster_id=" + params.ad_cluster_id;
 	const deleteEndpoint = (mode === "cluster" ? '/user_clusters/' + params.ad_cluster_id 
-		: '/user_clusters/ads/' + params.ad_cluster_id + '/' + params.archive_id);
+		: '/user_clusters/' + params.ad_cluster_id + '/ads/' + params.archive_id);
 	
 	const deleteClusterOrAd = () => {
 		axios
