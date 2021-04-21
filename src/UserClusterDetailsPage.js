@@ -30,10 +30,11 @@ function UserClusterDetailsPage() {
 		    console.log(Object.values(response.data));
 		    setAdClusterData(Object.values(response.data));
 		    setIsAdClusterDataLoaded(true);
+		    setIsAdClusterDataEmpty(Object.values(response.data).length === 0);
 		  })
 		  .catch((error) => {
 		    console.log(error);
-		    if (error.response.status === 404) {
+		    if (error.response.status && error.response.status === 404) {
 		      setIsAdClusterDataEmpty(true);
 		    }
 		  })
@@ -89,24 +90,29 @@ function UserClusterDetailsPage() {
           <h1>{clusterName}</h1>
           <h3>Cluster ID: {clusterIdParam}</h3>
         </div>
-        <div className="center-align">
-		  <Button onClick={handleShowInsertModal} className="pad-button"> 
-		    Add by archive id 
-		  </Button>
-		  <Button className="pad-button" href="/search"> Add through search </Button>
-		  <br /><br /><a href="/"> Back to dashboard </a>
-		</div>
-		<Modal
-          show={showInsertModal}
-          onHide={handleCloseInsertModal}
-          >
-          <Modal.Header closeButton>
-            <Modal.Title>Add archive id to cluster</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <AddByArchiveIdForm ad_cluster_id={clusterIdParam}/>
-          </Modal.Body>
-        </Modal>
+        {!isUserClusterCreator ? <div></div> :
+          <div>
+          <div className="center-align">
+		    <Button onClick={handleShowInsertModal} className="pad-button"> 
+		      Add by archive id 
+		    </Button>
+		    <Button className="pad-button" href="/search"> Add through search </Button>
+		    <br /><br />
+		    <Button href="/"> Back to dashboard </Button>
+		  </div>
+		  <Modal
+            show={showInsertModal}
+            onHide={handleCloseInsertModal}
+            >
+            <Modal.Header closeButton>
+              <Modal.Title>Add archive id to cluster</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <AddByArchiveIdForm ad_cluster_id={clusterIdParam}/>
+            </Modal.Body>
+          </Modal> 
+          </div>
+        }
         {isAdClusterDataEmpty ? <div className="center-align">This cluster is currently empty</div> :
           <div className="App-ad-pane center-align">
             {adClusterData.map((ad) => (

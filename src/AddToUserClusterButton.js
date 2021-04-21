@@ -42,7 +42,13 @@ const AddToUserClusterButton = (params) => {
           .post('/user_clusters/'+ ad_cluster_id + '/ads', {"archive_ids": params.archive_ids})
           .then((response) => {
             console.log(response.data);
-            alert("Ad successfully added to cluster")
+            if(response.data.archive_ids.length != params.archive_ids.length) {
+              alert("Only the ads with archive IDs: " + response.data.toString() + "were added. " +
+                "Other ad(s) not found in the database")
+            }
+            else{
+              alert("Ad successfully added to cluster")
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -56,7 +62,13 @@ const AddToUserClusterButton = (params) => {
         .post('/user_clusters/'+ ad_cluster_id + '/ads', {"archive_ids": params.archive_ids})
         .then((response) => {
           console.log(response.data);
-          alert("Ad successfully added to cluster")
+          if(response.data.archive_ids.length != params.archive_ids.length) {
+            alert("Only the ads with archive IDs: " + response.data.toString() + "were added. " +
+              "Other ad(s) not found in the database")
+          }
+          else{
+            alert("Ad successfully added to cluster")
+          }
         })
         .catch((error) => {
           console.log(error);

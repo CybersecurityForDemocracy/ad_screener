@@ -25,12 +25,19 @@ const AddByArchiveIdForm = (params) => {
 			archiveId = [form.archive_id.value];
 			console.log(archiveId);
 			axios
-			.post('/add_to_user_cluster/'+ params.ad_cluster_id, {"archive_ids": archiveId})
+			.post('/user_clusters/'+ params.ad_cluster_id + '/ads', {"archive_ids": archiveId})
 			.then((response) => {
 				console.log(response.data);
+				console.log(response.data.archive_ids.length);
 				setShow(true);
-				setMessage("Ad added to cluster created successfully.");
-				setStyle({color: 'green'});
+				if(response.data.archive_ids.length === 0){
+					setMessage("Archive ID does not exist in database");
+					setStyle({color: 'red'});
+				}
+				else {
+					setMessage("Ad added to cluster created successfully.");
+					setStyle({color: 'green'});					
+				}
 			})
 			.catch((error) => {
 				console.log(error);

@@ -16,8 +16,19 @@ const UserClusterAdUnit = (params) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [adImageSrc, setAdImageSrc] = useState(params.ad.url);
+  const [adImageSrc, setAdImageSrc] = useState(params.ad.url ? params.ad.url : errorImageSrc);
   const handleAdImageError = () => setAdImageSrc(errorImageSrc);
+
+  console.log(Object.keys(params.ad).length)
+
+  if(Object.keys(params.ad).length === 0) {
+    return (
+      <div className="ad-unit">
+        <h4>Ad not found</h4>
+        <img className="ad-image" alt={adImageSrc} src={adImageSrc} onError={handleAdImageError}/>
+      </div>
+    )
+  }
 
   return (
     <div className="ad-unit">

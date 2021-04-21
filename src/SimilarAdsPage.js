@@ -61,7 +61,7 @@ function SimilarAdsPage() {
 	const [isGetAdsRequestPending, setIsGetAdsRequestPending] = useState(false);
 	const [isAdDataEmpty, setIsAdDataEmpty] = useState(false);
 
-	const similarityLevelValueMapping = {'High': 1, 'Medium': 2, 'Low': 3}
+	const similarityLevelValueMapping = {'Identical': 0, 'High': 8, 'Medium': 16, 'Low': 24}
   const similarityFeatureValueMapping = {'Text': 'creative_body', 'Image': 'creative_image'}
 
 	const getAdDetails = () => {
@@ -159,6 +159,7 @@ function SimilarAdsPage() {
                 className="pad-button"
                 onSelect={handleSimilaritySelect}
               >
+                <Dropdown.Item eventKey="Identical">Identical</Dropdown.Item>
                 <Dropdown.Item eventKey="High">High</Dropdown.Item>
                 <Dropdown.Item eventKey="Medium">Medium</Dropdown.Item>
                 <Dropdown.Item eventKey="Low">Low</Dropdown.Item>
