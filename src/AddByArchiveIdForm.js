@@ -30,7 +30,7 @@ const AddByArchiveIdForm = (params) => {
 				console.log(response.data);
 				console.log(response.data.archive_ids.length);
 				setShow(true);
-				if(response.data.archive_ids.length === 0){
+				if(response.data.error_archive_ids.length !== 0){
 					setMessage("Archive ID does not exist in database");
 					setStyle({color: 'red'});
 				}

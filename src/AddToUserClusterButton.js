@@ -42,12 +42,12 @@ const AddToUserClusterButton = (params) => {
           .post('/user_clusters/'+ ad_cluster_id + '/ads', {"archive_ids": params.archive_ids})
           .then((response) => {
             console.log(response.data);
-            if(response.data.archive_ids.length != params.archive_ids.length) {
-              alert("Only the ads with archive IDs: " + response.data.toString() + "were added. " +
-                "Other ad(s) not found in the database")
+            if(response.data.error_archive_ids.length !== 0) {
+              alert("Ad(s) with archive IDs: " + response.data.error_archive_ids.toString() + "were not added " +
+              "as they were not found in the database")
             }
             else{
-              alert("Ad successfully added to cluster")
+              alert("Ad(s) successfully added to cluster")
             }
           })
           .catch((error) => {
@@ -62,12 +62,12 @@ const AddToUserClusterButton = (params) => {
         .post('/user_clusters/'+ ad_cluster_id + '/ads', {"archive_ids": params.archive_ids})
         .then((response) => {
           console.log(response.data);
-          if(response.data.archive_ids.length != params.archive_ids.length) {
-            alert("Only the ads with archive IDs: " + response.data.toString() + "were added. " +
-              "Other ad(s) not found in the database")
+          if(response.data.error_archive_ids.length !== 0) {
+            alert("Ad(s) with archive IDs: " + response.data.error_archive_ids.toString() + "were not added " +
+            "as they were not found in the database")
           }
           else{
-            alert("Ad successfully added to cluster")
+            alert("Ad(s) successfully added to cluster")
           }
         })
         .catch((error) => {
