@@ -14,8 +14,14 @@ const AddtoNewClusterForm = (params) => {
 	const [style, setStyle] = useState({});
 
 	const insertToCluster = (cluster_id) => {
-	    if (params.archive_ids.length !== 1) {
-	      if (window.confirm("Are you sure you want to add all the archive ids in this cluster to your cluster? To add select archive ids, go to the alternate creatives tab in Ad Details.")) {
+    	let confirmation = false;
+    	if (params.archive_ids.length !== 1) {
+      		confirmation = window.confirm("Are you sure you want to add all the archive ids in this cluster to your cluster? To add select archive ids, go to the alternate creatives tab in Ad Details.") 
+    	}
+	    else {
+	      confirmation = true;
+	    }
+    	if (confirmation){
 	        axios
 	          .post('/user_clusters/'+ cluster_id + '/ads', {"archive_ids": params.archive_ids})
 	          .then((response) => {
@@ -33,26 +39,6 @@ const AddtoNewClusterForm = (params) => {
 	            alert("There was a problem in adding to cluster")
 	          })
 	          .finally(() => {}); 
-	      }
-	    }
-	    else {
-	      axios
-	        .post('/user_clusters/'+ cluster_id + '/ads', {"archive_ids": params.archive_ids})
-	        .then((response) => {
-	          console.log(response.data);
-	            if(response.data.error_archive_ids.length !== 0) {
-	              alert("Ad(s) with archive IDs: " + response.data.error_archive_ids.toString() + "were not added " +
-	            	"as they were not found in the database")
-	            }
-	          else{
-	            alert("Ad(s) successfully added to cluster")
-	          }	        	
-	        })
-	        .catch((error) => {
-	          console.log(error);
-	          alert("There was a problem in adding to cluster")
-	        })
-	        .finally(() => {}); 
 	    }
 	};
 

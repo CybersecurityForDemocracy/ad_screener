@@ -400,8 +400,10 @@ const AdScreener = (params) => {
     <div className="App">
       <header className="App-header">
         <h1>Welcome to NYU's Misinformation Screener</h1>
-        <a href="/"> Back to dashboard </a>
       </header>
+      <div className="center-align">
+        <Button href="/"> Back to dashboard </Button>
+      </div>
       <p>
         Please select filters below and click 'Get Ads' to load content.{" "}
         {/* eslint-disable-next-line */}

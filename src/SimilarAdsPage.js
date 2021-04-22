@@ -130,7 +130,9 @@ function SimilarAdsPage() {
         <header className="App-header">
           <h1>Welcome to NYU's Misinformation Screener</h1>
         </header>
-        <div className="center-align"><br /><br /><a href="/"> Back to dashboard </a></div>
+        <div className="center-align">
+          <Button href="/"> Back to dashboard </Button>
+        </div>
         <div className="selected-ad-details">
           <div className="ad-image-small">
             <img className="ad-image" alt={referenceAdDetails.url} src={referenceAdDetails.url} onError={errorImageSrc}/>
