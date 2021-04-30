@@ -8,7 +8,6 @@ import axios from "axios";
 
 const AddByArchiveIdForm = (params) => {
 	var archiveId = 0;
-	const [validated, setValidated] = useState(false);
 	const [show, setShow] = useState(false);
 	const [message, setMessage] = useState("");
 	const [style, setStyle] = useState({});
@@ -22,13 +21,12 @@ const AddByArchiveIdForm = (params) => {
 		}
 
 		else{
-			archiveId = [form.archive_id.value];
+			archiveId = [parseInt(form.archive_id.value)];
 			console.log(archiveId);
 			axios
 			.post('/user_clusters/'+ params.ad_cluster_id + '/ads', {"archive_ids": archiveId})
 			.then((response) => {
 				console.log(response.data);
-				console.log(response.data.archive_ids.length);
 				setShow(true);
 				if(response.data.error_archive_ids.length !== 0){
 					setMessage("Archive ID does not exist in database");
@@ -47,7 +45,6 @@ const AddByArchiveIdForm = (params) => {
 			})
 			.finally(() => {});
 		}
-		setValidated(true);
 	}
 
 	return (
@@ -57,7 +54,7 @@ const AddByArchiveIdForm = (params) => {
 				<Col xs={6}>
 					<Toast 
 					  onClose={() => setShow(false)} 
-					  show={show} 
+					  show={show}
 					  delay={2000} 
 					  autohide
 					  style={style}
@@ -67,7 +64,7 @@ const AddByArchiveIdForm = (params) => {
 				</Col>
 				<Col xs={3}></Col>
 			</Row>
-			<Form noValidate validated={validated} onSubmit={handleSubmit}>
+			<Form onSubmit={handleSubmit}>
 				<Row>
 				<Col xs={12} md={8}>
 					<Form.Control
@@ -76,11 +73,8 @@ const AddByArchiveIdForm = (params) => {
 					id="archive_id"
 					placeholder="Enter archive id"
 					/>
-					<Form.Control.Feedback type="invalid" className="mb-2 mr-sm-2">
-					Please enter a valid archive id.
-					</Form.Control.Feedback>
 				</Col>
-			    <Col xs={6} md={4}><Button type="submit">Create</Button></Col>
+			    <Col xs={6} md={4}><Button type="submit">Add</Button></Col>
 			    </Row>
 			</Form>
 		</div>
