@@ -60,10 +60,11 @@ function LoginForm() {
           // token (which is verified server-side) in a cookie; do not add other
           // user information.
           // document.cookie = "token=" + token;
-          Cookies.set('id_token', token, {'secure': true});
+          // Cookies.set('id_token', token, {'secure': true});
+          Cookies.set('id_token', token);
           console.log(`id_token: ${token}`);
           console.log(`cookie id_token: ${Cookies.get('id_token')}`);
-          document.location = signInSuccessUrl;
+          // document.location = signInSuccessUrl;
         });
       } else {
         console.log(`signin failed or not started`);
