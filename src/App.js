@@ -14,7 +14,6 @@ function App() {
   return (
     <Switch> {/* The Switch decides which component to show based on the current URL.*/}
       <Route exact path='/login' component={LoginForm}></Route>
-      <Route exact path='/' component={AdScreenerTool}></Route>
       <Route path='/usercluster' component={UserClusterDetailsPage}></Route>
       <Route path='/similar_ads' component={SimilarAdsPage}></Route>
       <Route exact path='/' component={UserClustersDashboard}></Route>

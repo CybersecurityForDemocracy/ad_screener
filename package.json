@@ -19,7 +19,7 @@
     "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
-    "react-bootstrap-icons": "^1.4.0",
+    "react-bootstrap-icons": "^1.4.1",
     "react-bootstrap-typeahead": "^5.1.0",
     "react-copy-to-clipboard": "^5.0.3",
     "react-date-range": "^1.0.3",

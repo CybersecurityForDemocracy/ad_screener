@@ -9,6 +9,7 @@ import 'firebaseui/dist/firebaseui.css';
 
 function LoginForm() {
   const signInSuccessUrl = '/authorize';
+  const id_token_cookie_name = 'id_token';
   var firebaseConfig = {
     apiKey: "AIzaSyByBm2L9U18Mg7ypAM_U_7nijNXo1XrjP0",
     authDomain: "ad-screener.firebaseapp.com",
@@ -60,15 +61,18 @@ function LoginForm() {
           // token (which is verified server-side) in a cookie; do not add other
           // user information.
           // document.cookie = "token=" + token;
-          // Cookies.set('id_token', token, {'secure': true});
-          Cookies.set('id_token', token);
+          // Cookies.set(id_token_cookie_name, token, {'secure': true});
+          Cookies.set(id_token_cookie_name, token);
           console.log(`id_token: ${token}`);
-          console.log(`cookie id_token: ${Cookies.get('id_token')}`);
+          console.log(`cookie id_token: ${Cookies.get(id_token_cookie_name)}`);
           // document.location = signInSuccessUrl;
         });
       } else {
         console.log(`signin failed or not started`);
         // User is signed out.
+        // Remove any existing id_token for this site
+        Cookies.remove(id_token_cookie_name);
+        console.log(`cookie id_token: ${Cookies.get(id_token_cookie_name)}`);
         // Initialize the FirebaseUI Widget using Firebase.
         var ui = new firebaseui.auth.AuthUI(firebase.auth());
         ui.start('#firebaseui-auth-container', firebaseUiConfig);
@@ -79,7 +83,6 @@ function LoginForm() {
         // document.getElementById('login-info').hidden = true;
         // // Clear the token cookie.
         // document.cookie = "token=";
-        Cookies.remove('id_token', {'secure': true});
       }
     }, function (error) {
       console.log(error);
