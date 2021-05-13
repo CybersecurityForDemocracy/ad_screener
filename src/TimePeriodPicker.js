@@ -24,7 +24,7 @@ const TimePeriodPicker = (params) => {
         <DatePicker selected={params.startDate} onChange={updateStartTime} disabled={params.disabled}/>
       </div>
       <div>
-        End Date:{" "}
+        End Date:&nbsp;&nbsp;&nbsp;
         <DatePicker selected={params.endDate} onChange={updateEndTime} disabled={params.disabled}/>
       </div>
     </div>

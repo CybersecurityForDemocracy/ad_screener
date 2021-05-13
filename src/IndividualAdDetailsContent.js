@@ -3,16 +3,13 @@ import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
 import Tabs from "react-bootstrap/Tabs";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import NewTopicSuggestionForAdClusterForm from "./NewTopicSuggestionForAdClusterForm.js";
-import AddToUserClusterButton from "./AddToUserClusterButton.js"
 import { useState } from 'react';
 
 const filterfn = (key, val) => {
   return (obj) => obj[key] === val;
 };
 
-const AdDetailsContent = (params) => {
+const IndividualAdDetailsContent = (params) => {
   const [showForm, setShowForm] = useState(false);
   const handleClose = () => setShowForm(false);
   const handleShow = () => setShowForm(true);
@@ -123,46 +120,15 @@ const AdDetailsContent = (params) => {
         </tbody>
       </Table>
     </Tab>
-    <Tab
-      eventKey="alternates"
-      title="Alternate Creatives"
-      mountOnEnter={true}
-    >
-      {params.details.archive_ids.map((ad_id) => {
-        return (
-          <div className="ad-image-container" key={ad_id}>
-          <div>
-            <img alt={ad_id} src={"https://storage.googleapis.com/facebook_ad_archive_screenshots/" + ad_id + ".png"} />
-          </div>
-          <Button
-              className="see-in-facebook-ad-library-button"
-              href={"https://www.facebook.com/ads/library/?id=" + ad_id}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              See in Facebook Ad Library
-          </Button>
-          <AddToUserClusterButton
-            archive_ids={[ad_id]}
-            user_clusters={params.userClusters}
-            handleShowNeedLoginModal={params.handleShowNeedLoginModal}
-          />
-          </div>
-        );
-      })}
-    </Tab>
     <Tab eventKey="metadata" title="NYU Metadata" mountOnEnter={true}>
       <Table striped bordered hover>
         <tbody>
           <tr><td>Ad Type:</td><td>{params.details.type}</td></tr>
           <tr><td>Cluster Topics:</td><td>{params.details.topics}</td></tr>
-          <tr><td>Earliest Ad Creation Date:</td><td>{params.details.min_ad_creation_date}</td></tr>
-          <tr><td>Latest Ad Creation Date:</td><td>{params.details.max_ad_creation_date}</td></tr>
-          <tr><td>Number of ads in cluster:</td><td>{params.details.cluster_size}</td></tr>
+          <tr><td>Ad Creation Date:</td><td>{params.details.ad_creation_date}</td></tr>
+          <tr><td>Last Active Date:</td><td>{params.details.last_active_date}</td></tr>
           <tr><td>Languages identified:</td><td>{params.details.languages.join(', ')}</td></tr>
           <tr><td>Entities:</td><td>{params.details.entities}</td></tr>
-          <tr><td>Canonical ad archive ID:</td><td>{params.details.canonical_archive_id}</td></tr>
-          <tr><td>Archive IDs in cluster:</td><td>{params.details.archive_ids.join(', ')}</td></tr>
         </tbody>
       </Table>
     </Tab>
@@ -190,5 +156,5 @@ const AdDetailsContent = (params) => {
   );
 }
 
-export default AdDetailsContent
+export default IndividualAdDetailsContent
 
