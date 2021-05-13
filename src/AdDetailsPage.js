@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQueryParam, StringParam } from 'use-query-params';
+import Modal from "react-bootstrap/Modal";
 
 import AdDetailsContent from "./AdDetailsContent.js";
+import AddToUserClusterButton from "./AddToUserClusterButton.js"
 
 const getClusterURL = "/archive-id";
+const getUserClusterURL = "/get_user_clusters";
 
 function AdDetailsPage() {
 	const [adIdParam, setAdIdParam] = useQueryParam('ad_id', StringParam);
 	const [adClusterData, setAdClusterData] = useState([]);
 	const [isAdClusterDataLoaded, setIsAdClusterDataLoaded] = useState(false);
 	const [isAdClusterDataEmpty, setIsAdClusterDataEmpty] = useState(false);
-
+	const [userClusters, setUserClusters] = useState([]);
+    const [showNeedLoginModal, setShowNeedLoginModal] = useState(false);
+    const handleShowNeedLoginModal = () => setShowNeedLoginModal(true);
+    const handleCloseNeedLoginModal = () => setShowNeedLoginModal(false);
+	
 	const getAdClusterData = () => {
 		axios
 		  .get(getClusterURL + '/' + adIdParam + '/cluster')
@@ -29,8 +36,22 @@ function AdDetailsPage() {
 		  .finally(() => {});
 	};
 	
+    const getUserClusterData = () => {
+      axios
+        .get(getUserClusterURL)
+        .then((response) => {
+          console.log(response.data);
+          setUserClusters(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {});
+    };
+
 	useEffect(() => {
 		getAdClusterData();
+		getUserClusterData();
 	}, []);
 
 	if (isAdClusterDataEmpty) {
@@ -44,10 +65,31 @@ function AdDetailsPage() {
 	return (
 		<div className="App-ad-cluster-data">
 		<h2>Cluster ID: {adClusterData.ad_cluster_id} </h2>
+        <AddToUserClusterButton
+          archive_ids={adClusterData.archive_ids}
+          user_clusters={userClusters}
+          handleShowNeedLoginModal={handleShowNeedLoginModal}
+        />
 		<hr />
 		<AdDetailsContent
 		  details={adClusterData}
+		  userClusters={userClusters}
 		/>
+		<Modal
+		  show={showNeedLoginModal}
+		  onHide={handleCloseNeedLoginModal}
+		  dialogClassName="modal-90w"
+		  size="lg"
+		>
+		  <Modal.Header>
+		    <Modal.Title>Please Login To Use This Tool</Modal.Title>
+		  </Modal.Header>
+		  <Modal.Body>
+		    <h2>Please login</h2>
+		    <p>Either you have not logged in yet, or your session has expired.</p>
+		    <a href="/login">Click here to login or register</a>
+		  </Modal.Body>
+		</Modal>
 		</div>
 	);
 }
