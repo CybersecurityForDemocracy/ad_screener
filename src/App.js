@@ -8,6 +8,8 @@ import LoginForm from './Login.js';
 import SearchTool from './SearchTool.js';
 import SimilarAdsPage from './SimilarAdsPage.js';
 
+import withAuthentication from "./withAuthentication";
+
 import "./App.css";
 
 function App() {
@@ -23,4 +25,4 @@ function App() {
   );
 };
 
-export default App;
+export default withAuthentication(App);

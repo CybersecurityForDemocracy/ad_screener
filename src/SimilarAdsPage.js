@@ -8,12 +8,17 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Button from "react-bootstrap/Button";
 import ReactLoading from 'react-loading';
 
+import { auth } from "./firebase";
+import withAuthorization from "./withAuthorization";
+import Cookies from 'js-cookie';
+
 import "./Dashboard.css";
 import UserClusterAdUnit from "./UserClusterAdUnit.js";
 
 const getAdDetailsURL = "/ads/";
 const getSimilarAdsURL = "/get_similar_ads/"
 const errorImageSrc = 'https://storage.googleapis.com/facebook_ad_archive_screenshots/error.png';
+const id_token_cookie_name = 'id_token';
 
 const SimilarAdsDisplay = (params) => {
   const isGetAdsRequestPending = params.isGetAdsRequestPending;
@@ -121,6 +126,11 @@ function SimilarAdsPage() {
 		setSimilarityLevel(e);
 	}
 
+  const handleSignOut = function () {
+    Cookies.remove(id_token_cookie_name);
+    auth.signOut();
+  };
+
   if (!isReferenceAdDetailsLoaded) {
     return (<h1>Loading...</h1>);
   }
@@ -129,6 +139,7 @@ function SimilarAdsPage() {
 	  <div>
         <header className="App-header">
           <h1>Welcome to NYU's Misinformation Screener</h1>
+          <Button onClick={handleSignOut}>Sign Out</Button>
         </header>
         <div className="center-align">
           <Button href="/"> Back to dashboard </Button>
@@ -183,4 +194,5 @@ function SimilarAdsPage() {
 	);
 }
 
-export default SimilarAdsPage;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(SimilarAdsPage);
