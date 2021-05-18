@@ -1,3 +1,4 @@
+// Login form
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Cookies from 'js-cookie';

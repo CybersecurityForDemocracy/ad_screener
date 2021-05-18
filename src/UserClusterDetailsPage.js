@@ -1,3 +1,5 @@
+// Page displaying contents of a user-created cluster
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQueryParam, NumberParam } from 'use-query-params';
@@ -142,5 +144,6 @@ function UserClusterDetailsPage() {
 	);
 }
 
+// Display only for logged in users
 const authCondition = authUser => !!authUser;
 export default withAuthorization(authCondition)(UserClusterDetailsPage);

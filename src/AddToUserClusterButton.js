@@ -1,3 +1,4 @@
+// For adding individual ads or ad clusters to user-created clusters
 import React, { useState, useEffect } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -27,6 +28,7 @@ const AddToUserClusterButton = (params) => {
       .finally(() => {});
   };
 
+  // To display newly created cluster 
   const refresh = () => {
     getUserClusterData();
   }
@@ -37,6 +39,7 @@ const AddToUserClusterButton = (params) => {
 
   const handleInsert = (ad_cluster_id) => {
     let confirmation = false;
+    // Check if ad or ad cluster is being added
     if (params.archive_ids.length !== 1) {
       confirmation = window.confirm("Are you sure you want to add all the archive ids in this cluster to your cluster? To add select archive ids, go to the alternate creatives tab in Ad Details.") 
     }

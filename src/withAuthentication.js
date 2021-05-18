@@ -1,3 +1,4 @@
+// Firebase authentication - setting the authorized user context value
 import React from "react";
 import { auth } from "./firebase";
 

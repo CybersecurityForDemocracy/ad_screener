@@ -1,3 +1,4 @@
+// Firebase authentication - checking if user is authenticated
 import React from "react";
 import { withRouter } from "react-router-dom";
 

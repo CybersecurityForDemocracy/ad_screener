@@ -1,3 +1,4 @@
+// Standalone view of ad cluster
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQueryParam, StringParam } from 'use-query-params';
@@ -105,5 +106,6 @@ function AdDetailsPage() {
 	);
 }
 
+// Display only for logged in users
 const authCondition = authUser => !!authUser;
 export default withAuthorization(authCondition)(AdDetailsPage);

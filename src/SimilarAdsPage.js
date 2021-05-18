@@ -1,3 +1,4 @@
+// For looking up similar ads
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQueryParam, NumberParam } from 'use-query-params';
@@ -84,6 +85,7 @@ function SimilarAdsPage() {
 	};
 
 	const getSimilarAds = () => {
+    // Check if both feature and similarity level values are selected
 		if(similarityFeature === '---' || similarityLevel === '---') {
 			alert("Please select a similarity feature and level!")
 			return;
@@ -194,5 +196,6 @@ function SimilarAdsPage() {
 	);
 }
 
+// Display only for logged in users
 const authCondition = authUser => !!authUser;
 export default withAuthorization(authCondition)(SimilarAdsPage);

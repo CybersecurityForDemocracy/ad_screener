@@ -1,3 +1,5 @@
+// Configuration for firebase authenntication
+
 import firebase from "firebase/app";
 import "firebase/auth";
 

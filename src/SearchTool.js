@@ -1,3 +1,5 @@
+// Tool for searching individual ads and/or ad clusters
+
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -545,5 +547,6 @@ const AdScreener = (params) => {
   );
 }
 
+// Display only for logged in users
 const authCondition = authUser => !!authUser;
 export default withAuthorization(authCondition)(SearchTool);

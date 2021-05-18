@@ -25,4 +25,5 @@ function App() {
   );
 };
 
+//Firebase authentication
 export default withAuthentication(App);

@@ -1,3 +1,4 @@
+// Ad cluster details table displayed in modal and standalone view of cluster
 import React from "react";
 import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
@@ -191,4 +192,3 @@ const AdDetailsContent = (params) => {
 }
 
 export default AdDetailsContent
-

@@ -1,3 +1,4 @@
+// User dashboard displaying the user's clusters
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
@@ -130,5 +131,6 @@ function UserClustersDashboard() {
 	);
 }
 
+// Display only for logged in users
 const authCondition = authUser => !!authUser;
 export default withAuthorization(authCondition)(UserClustersDashboard);
