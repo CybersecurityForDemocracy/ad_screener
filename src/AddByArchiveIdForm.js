@@ -1,3 +1,4 @@
+//Add to user cluster with archive ID
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
@@ -8,6 +9,7 @@ import axios from "axios";
 
 const AddByArchiveIdForm = (params) => {
 	var archiveId = 0;
+	// To display success/error message
 	const [show, setShow] = useState(false);
 	const [message, setMessage] = useState("");
 	const [style, setStyle] = useState({});
