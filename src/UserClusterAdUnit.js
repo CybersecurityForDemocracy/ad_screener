@@ -1,4 +1,3 @@
-// For displaying the ads in a user-created cluster and ad units in similar ads page
 import React, { useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
@@ -33,7 +32,6 @@ const UserClusterAdUnit = (params) => {
 
   return (
     <div className="ad-unit">
-      // Allow delete only for owner of the cluster
       {params.canDelete ? 
         <ActionBar ad_cluster_id={params.ad_cluster_id} archive_id={params.ad.archive_id} refresh={params.refresh} mode="ad"/> : 
         <div></div>}
@@ -65,7 +63,6 @@ const UserClusterAdUnit = (params) => {
         key={params.ad.archive_id}
       />
       {" "}
-      // Allow adding to user cluster only in the similar ads page
       { params.showAddToClusterButton ? 
         <AddToUserClusterButton
           archive_ids={[params.ad.archive_id]}

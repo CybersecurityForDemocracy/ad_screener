@@ -1,5 +1,3 @@
-// For sharing and/or deleting clusters or ads within clusters
-
 import React, { useState } from "react";
 import axios from "axios";
 import { TrashFill, ShareFill, Clipboard } from 'react-bootstrap-icons';
@@ -13,8 +11,6 @@ import copy from "copy-to-clipboard";
 import { useLocation } from 'react-router-dom'
 
 const ActionBar = (params) => {
-	// Mode can be "cluster" - for deleting a user cluster
-	// or "ad" - to delete an ad from the cluster
 	const mode = params.mode;
 	const [modalMessage, setModalMessage] = useState("Are you sure you want to delete the " + mode + "?");
 	const [buttonText, setButtonText] = useState("Yes");
@@ -71,7 +67,6 @@ const ActionBar = (params) => {
 	  <div>
 		<Row className="action-bar">
           <TrashFill onClick={handleShowDeleteModal}/>
-          //Sharing link feature is only for user clusters
           {mode === "ad" ? <div></div> :  
             <OverlayTrigger trigger="click" placement="bottom" overlay={popover} rootClose>
               <ShareFill />

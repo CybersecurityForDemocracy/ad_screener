@@ -1,11 +1,9 @@
-// Date picker in search tool
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useQueryParam, StringParam } from 'use-query-params';
 
 const TimePeriodPicker = (params) => {
-  // Get start date and end date URL parameters
   const [startingDate, setStartingDate] = useQueryParam('Start Date', StringParam);
   const [endingDate, setEndingDate] = useQueryParam('End Date', StringParam);
   const updateStartTime = (date) => {

@@ -1,4 +1,3 @@
-// Not in use
 import React, { useRef } from "react";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";

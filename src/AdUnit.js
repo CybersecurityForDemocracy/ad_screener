@@ -1,4 +1,3 @@
-// For displaying each ad in ad search results
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";

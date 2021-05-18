@@ -1,5 +1,3 @@
-// Ad cluster details table displayed in modal
-
 import React from "react";
 import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
