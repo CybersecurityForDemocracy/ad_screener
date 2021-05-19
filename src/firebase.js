@@ -16,5 +16,14 @@ firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const provider_id = firebase.auth.EmailAuthProvider.PROVIDER_ID;
+const signInOptions = [
+  {
+    provider: provider_id,
+    disableSignUp: {
+      status: true,
+      adminEmail: 'admin@cybersecurityfordemocracy.org',
+    },
+  }
+];
 
-export { auth, provider_id };
+export { auth, signInOptions };
