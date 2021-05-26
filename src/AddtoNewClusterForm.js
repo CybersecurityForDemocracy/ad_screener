@@ -1,3 +1,4 @@
+// Form for creating a new cluster and adding an ad to it (In add to user cluster button)
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
@@ -14,7 +15,8 @@ const AddtoNewClusterForm = (params) => {
 	const [style, setStyle] = useState({});
 
 	const insertToCluster = (cluster_id) => {
-    	let confirmation = false; 
+    	let confirmation = false;
+    	// Check if adding individual ad or ad cluster 
     	if (params.archive_ids.length !== 1) {
       		confirmation = window.confirm("Are you sure you want to add all the archive ids in this cluster to your cluster? To add select archive ids, go to the alternate creatives tab in Ad Details.") 
     	}
