@@ -1,3 +1,5 @@
+// Page displaying contents of a user-created cluster
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQueryParam, NumberParam } from 'use-query-params';
@@ -8,9 +10,14 @@ import "./Dashboard.css"
 import UserClusterAdUnit from "./UserClusterAdUnit.js";
 import AddByArchiveIdForm from "./AddByArchiveIdForm.js";
 
+import { auth } from "./firebase";
+import withAuthorization from "./withAuthorization";
+import Cookies from 'js-cookie';
+
 const getClusterDetailsURL = "/user_clusters/";
 const checkClusterCreatorIdURL = "/owner";
 const getClusterNameURL = "/name";
+const id_token_cookie_name = 'id_token';
 
 function UserClusterDetailsPage() {
 	const [clusterIdParam, setClusterIdParam] = useQueryParam('cluster_id', NumberParam);
@@ -77,6 +84,11 @@ function UserClusterDetailsPage() {
 		getAdClusterData();
 	}
 
+	const handleSignOut = function () {
+		Cookies.remove(id_token_cookie_name);
+		auth.signOut();
+	};
+
 	if (!isAdClusterDataLoaded) {
 		return (<h1>Loading...</h1>);
 	}
@@ -85,6 +97,7 @@ function UserClusterDetailsPage() {
 	  <div>
         <header className="App-header">
           <h1>Welcome to NYU's Misinformation Screener</h1>
+          <Button onClick={handleSignOut}>Sign Out</Button>
         </header>
         <div className="dashboard-title">
           <h1>{clusterName}</h1>
@@ -131,5 +144,6 @@ function UserClusterDetailsPage() {
 	);
 }
 
-
-export default UserClusterDetailsPage;
+// Display only for logged in users
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(UserClusterDetailsPage);

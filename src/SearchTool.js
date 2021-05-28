@@ -1,3 +1,5 @@
+// Tool for searching individual ads and/or ad clusters
+
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -22,10 +24,15 @@ import ReverseImageSearchForm from "./ReverseImageSearchForm.js"
 
 import "./Dashboard.css"
 
+import { auth } from "./firebase";
+import withAuthorization from "./withAuthorization";
+import Cookies from 'js-cookie';
+
 const getAdClustersURL = "/ad-clusters";
 const getAdsURL = "/ads"
 const getFilterSelectorDataURL = "/filter-options";
 const advertiserSearchURL = "/search/pages_type_ahead";
+const id_token_cookie_name = 'id_token';
 
 function getSelectorValue(array,param){
   return (param===undefined) ? array[0] : array[array.findIndex(element => element.value === param)]
@@ -396,10 +403,16 @@ const AdScreener = (params) => {
     }
   }
 
+  const handleSignOut = function () {
+    Cookies.remove(id_token_cookie_name);
+    auth.signOut();
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Welcome to NYU's Misinformation Screener</h1>
+        <Button onClick={handleSignOut}>Sign Out</Button>
       </header>
       <div className="center-align">
         <Button href="/"> Back to dashboard </Button>
@@ -534,4 +547,6 @@ const AdScreener = (params) => {
   );
 }
 
-export default SearchTool;
+// Display only for logged in users
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(SearchTool);

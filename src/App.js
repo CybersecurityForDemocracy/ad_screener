@@ -4,14 +4,18 @@ import {Switch, Route} from 'react-router-dom';
 import UserClustersDashboard from './UserClustersDashboard.js';
 import UserClusterDetailsPage from './UserClusterDetailsPage.js';
 import AdDetailsPage from './AdDetailsPage.js';
+import LoginForm from './Login.js';
 import SearchTool from './SearchTool.js';
 import SimilarAdsPage from './SimilarAdsPage.js';
+
+import withAuthentication from "./withAuthentication";
 
 import "./App.css";
 
 function App() {
   return (
     <Switch> {/* The Switch decides which component to show based on the current URL.*/}
+      <Route exact path='/login' component={LoginForm}></Route>
       <Route path='/usercluster' component={UserClusterDetailsPage}></Route>
       <Route path='/similar_ads' component={SimilarAdsPage}></Route>
       <Route exact path='/' component={UserClustersDashboard}></Route>
@@ -21,4 +25,5 @@ function App() {
   );
 };
 
-export default App;
+//Firebase authentication
+export default withAuthentication(App);

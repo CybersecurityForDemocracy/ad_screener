@@ -1,3 +1,4 @@
+// For looking up similar ads
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQueryParam, NumberParam } from 'use-query-params';
@@ -8,12 +9,17 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Button from "react-bootstrap/Button";
 import ReactLoading from 'react-loading';
 
+import { auth } from "./firebase";
+import withAuthorization from "./withAuthorization";
+import Cookies from 'js-cookie';
+
 import "./Dashboard.css";
 import UserClusterAdUnit from "./UserClusterAdUnit.js";
 
 const getAdDetailsURL = "/ads/";
 const getSimilarAdsURL = "/get_similar_ads/"
 const errorImageSrc = 'https://storage.googleapis.com/facebook_ad_archive_screenshots/error.png';
+const id_token_cookie_name = 'id_token';
 
 const SimilarAdsDisplay = (params) => {
   const isGetAdsRequestPending = params.isGetAdsRequestPending;
@@ -79,6 +85,7 @@ function SimilarAdsPage() {
 	};
 
 	const getSimilarAds = () => {
+    // Check if both feature and similarity level values are selected
 		if(similarityFeature === '---' || similarityLevel === '---') {
 			alert("Please select a similarity feature and level!")
 			return;
@@ -121,6 +128,11 @@ function SimilarAdsPage() {
 		setSimilarityLevel(e);
 	}
 
+  const handleSignOut = function () {
+    Cookies.remove(id_token_cookie_name);
+    auth.signOut();
+  };
+
   if (!isReferenceAdDetailsLoaded) {
     return (<h1>Loading...</h1>);
   }
@@ -129,6 +141,7 @@ function SimilarAdsPage() {
 	  <div>
         <header className="App-header">
           <h1>Welcome to NYU's Misinformation Screener</h1>
+          <Button onClick={handleSignOut}>Sign Out</Button>
         </header>
         <div className="center-align">
           <Button href="/"> Back to dashboard </Button>
@@ -183,4 +196,6 @@ function SimilarAdsPage() {
 	);
 }
 
-export default SimilarAdsPage;
+// Display only for logged in users
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(SimilarAdsPage);

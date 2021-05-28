@@ -1,3 +1,4 @@
+// User dashboard displaying the user's clusters
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
@@ -6,17 +7,25 @@ import Button from "react-bootstrap/Button";
 import "./Dashboard.css"
 
 import CreateClusterForm from "./CreateClusterForm.js";
-import ActionBar from "./ActionBar.js"
+import ActionBar from "./ActionBar.js";
+import { auth } from "./firebase";
+import withAuthorization from "./withAuthorization";
+import Cookies from 'js-cookie';
 
 const getClusterURL = "/user_clusters";
+const id_token_cookie_name = 'id_token';
 
 function UserClustersDashboard() {
+
 	const [userClustersData, setUserClustersData] = useState([]);
 	const [isUserClustersDataLoaded, setIsUserClustersDataLoaded] = useState(false);
 	const [isUserClustersDataEmpty, setIsUserClustersDataEmpty] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const handleCloseCreateModal = () => {setShowCreateModal(false); refresh()};
   const handleShowCreateModal = () => setShowCreateModal(true);
+  const [showNeedLoginModal, setShowNeedLoginModal] = useState(false);
+  const handleShowNeedLoginModal = () => setShowNeedLoginModal(true);
+  const handleCloseNeedLoginModal = () => setShowNeedLoginModal(false);
 	
   const getAdClusterData = () => {
 		axios
@@ -29,10 +38,19 @@ function UserClustersDashboard() {
 		  })
 		  .catch((error) => {
 		    console.log(error);
+        if (error.response && error.response.status === 401) {
+          handleShowNeedLoginModal();
+          console.log(showNeedLoginModal);
+        }
 		  })
 		  .finally(() => {});
 	};
-	
+
+  const handleSignOut = function () {
+    Cookies.remove(id_token_cookie_name);
+    auth.signOut();
+  };
+
 	useEffect(() => {
 		getAdClusterData();
 	}, []);
@@ -41,7 +59,7 @@ function UserClustersDashboard() {
 		getAdClusterData();
 	}
 
-	if (!isUserClustersDataLoaded) {
+	if (!isUserClustersDataLoaded && !showNeedLoginModal) {
 		return (<h1>Loading...</h1>);
 	}
 
@@ -55,6 +73,7 @@ function UserClustersDashboard() {
       <div>
         <header className="App-header">
           <h1>Welcome to NYU's Misinformation Screener</h1>
+          <Button onClick={handleSignOut}>Sign Out</Button>
         </header>
         <h1 className="dashboard-title">Your clusters</h1>
         {isUserClustersDataEmpty ? <div className="center-align">You have not created any clusters yet</div> :
@@ -93,8 +112,25 @@ function UserClustersDashboard() {
             <CreateClusterForm/>
           </Modal.Body>
         </Modal>
+        <Modal
+          show={showNeedLoginModal}
+          onHide={handleCloseNeedLoginModal}
+          dialogClassName="modal-90w"
+          size="lg"
+        >
+          <Modal.Header>
+            <Modal.Title>Please Login To Use This Tool</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h2>Please login</h2>
+            <p>Either you have not logged in yet, or your session has expired.</p>
+            <a href="/login">Click here to login or register</a>
+          </Modal.Body>
+        </Modal>
       </div>
 	);
 }
 
-export default UserClustersDashboard;
+// Display only for logged in users
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(UserClustersDashboard);

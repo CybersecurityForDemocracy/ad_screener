@@ -1,11 +1,17 @@
+// Standalone view of ad cluster
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useQueryParam, StringParam } from 'use-query-params';
 import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 import AdDetailsContent from "./AdDetailsContent.js";
 import AddToUserClusterButton from "./AddToUserClusterButton.js"
+import { auth } from "./firebase";
+import withAuthorization from "./withAuthorization";
+import Cookies from 'js-cookie';
 
+const id_token_cookie_name = 'id_token';
 const getClusterURL = "/archive-id";
 const getUserClusterURL = "/get_user_clusters";
 
@@ -49,6 +55,11 @@ function AdDetailsPage() {
         .finally(() => {});
     };
 
+	const handleSignOut = function () {
+		Cookies.remove(id_token_cookie_name);
+		auth.signOut();
+	};
+
 	useEffect(() => {
 		getAdClusterData();
 		getUserClusterData();
@@ -64,34 +75,37 @@ function AdDetailsPage() {
 
 	return (
 		<div className="App-ad-cluster-data">
-		<h2>Cluster ID: {adClusterData.ad_cluster_id} </h2>
-        <AddToUserClusterButton
-          archive_ids={adClusterData.archive_ids}
-          user_clusters={userClusters}
-          handleShowNeedLoginModal={handleShowNeedLoginModal}
-        />
-		<hr />
-		<AdDetailsContent
-		  details={adClusterData}
-		  userClusters={userClusters}
-		/>
-		<Modal
-		  show={showNeedLoginModal}
-		  onHide={handleCloseNeedLoginModal}
-		  dialogClassName="modal-90w"
-		  size="lg"
-		>
-		  <Modal.Header>
-		    <Modal.Title>Please Login To Use This Tool</Modal.Title>
-		  </Modal.Header>
-		  <Modal.Body>
-		    <h2>Please login</h2>
-		    <p>Either you have not logged in yet, or your session has expired.</p>
-		    <a href="/login">Click here to login or register</a>
-		  </Modal.Body>
-		</Modal>
+			<Button onClick={handleSignOut}>Sign Out</Button>
+			<h2>Cluster ID: {adClusterData.ad_cluster_id} </h2>
+	        <AddToUserClusterButton
+	          archive_ids={adClusterData.archive_ids}
+	          user_clusters={userClusters}
+	          handleShowNeedLoginModal={handleShowNeedLoginModal}
+	        />
+			<hr />
+			<AdDetailsContent
+			  details={adClusterData}
+			  userClusters={userClusters}
+			/>
+			<Modal
+			  show={showNeedLoginModal}
+			  onHide={handleCloseNeedLoginModal}
+			  dialogClassName="modal-90w"
+			  size="lg"
+			>
+			  <Modal.Header>
+			    <Modal.Title>Please Login To Use This Tool</Modal.Title>
+			  </Modal.Header>
+			  <Modal.Body>
+			    <h2>Please login</h2>
+			    <p>Either you have not logged in yet, or your session has expired.</p>
+			    <a href="/login">Click here to login or register</a>
+			  </Modal.Body>
+			</Modal>
 		</div>
 	);
 }
 
-export default AdDetailsPage;
+// Display only for logged in users
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(AdDetailsPage);
