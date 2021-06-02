@@ -71,7 +71,7 @@ const ActionBar = (params) => {
 	  <div>
 		<Row className="action-bar">
           <TrashFill onClick={handleShowDeleteModal}/>
-          //Sharing link feature is only for user clusters
+          {/* Sharing link feature is only for user clusters */}
           {mode === "ad" ? <div></div> :  
             <OverlayTrigger trigger="click" placement="bottom" overlay={popover} rootClose>
               <ShareFill />
