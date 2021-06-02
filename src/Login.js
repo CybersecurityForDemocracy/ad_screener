@@ -31,11 +31,12 @@ auth.onAuthStateChanged(function (user) {
       axios
         .post('/authorize', {id_token: token})
         .then((response) => {
-          // console.log(`/authorize respone: ${JSON.stringify(response)}`);
         })
+        // TODO(macpd): handle these errors properly
         .catch((error) => {
           console.log(error);
-        });
+        })
+        .finally(() => {});
     });
   }
 }, function (error) {
