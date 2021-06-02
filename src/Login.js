@@ -38,6 +38,16 @@ auth.onAuthStateChanged(function (user) {
         })
         .finally(() => {});
     });
+  } else {
+      axios
+        .get('/logout')
+        .then((response) => {
+        })
+        // TODO(macpd): handle these errors properly
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {});
   }
 }, function (error) {
   console.log(error);
